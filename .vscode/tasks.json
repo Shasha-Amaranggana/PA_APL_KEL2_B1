@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "run cpp",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "main.cpp",
+        "data.cpp",
+        "help.cpp",
+        "menuAdmin.cpp",
+        "menuUser.cpp",
+        "-o",
+        "output/main.exe"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "run exe",
+      "type": "shell",
+      "command": "output/main.exe"
+    }
+  ]
+}

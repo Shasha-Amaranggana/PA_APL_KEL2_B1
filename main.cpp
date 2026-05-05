@@ -45,10 +45,13 @@ int registrasi(Akun *akun, int &jumlahUser) {
         tampilPesan(36, "Registrasi berhasil! Silakan login.");}
     return jumlahUser;}
 
+void SetColor(int color) {
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), color);
+}
+
     
 int main() {
     SetConsoleOutputCP(65001);
-
     string pilihMenu[] = {
         "   1 | Login", 
         "   2 | Register",
@@ -71,6 +74,7 @@ int main() {
     
     /* PROGRAM UTAMA
     ════════════════════════════════════════════════════*/
+    SetColor(11);
     while (true) {
         system("cls");
         judul_subjudul("Selamat Datang");

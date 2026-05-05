@@ -1,0 +1,10 @@
+# VS Code
+.vscode/
+
+# Build files
+*.o
+*.exe
+output/
+
+# Optional (kalau ada nanti)
+*.log

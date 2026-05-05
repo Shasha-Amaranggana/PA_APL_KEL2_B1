@@ -1,4 +1,6 @@
-#pragma once
+#ifndef HELP_H
+#define HELP_H
+
 #include <string>
 #include "data.h"
 using namespace std;
@@ -14,3 +16,5 @@ string inisialKode(string teks);
 string generateKode(Ebook *katalog, int jumlahBuku, string judul, string penulis, int tahun);
 int generateNo(Ebook *katalog, int &jumlahBuku);
 string ubahStringKecilSemua(string teks);
+
+#endif

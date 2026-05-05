@@ -1,4 +1,6 @@
-#pragma once
+#ifndef DATA_H
+#define DATA_H
+
 #include <iostream>
 #include "json.hpp"
 using namespace std;
@@ -23,12 +25,13 @@ struct EbookUser {
     string username;
     Ebook buku;};
 
-// load
 void loadAkun(Akun akun[], int &jumlahUser);
 void loadBuku(Ebook katalog[], int &jumlahBuku);
 void loadEbookUser(EbookUser ebookUser[], int &jumlahEbookUser);
 
-// save
+
 void saveAkun(Akun akun[], int jumlahUser);
 void saveBuku(Ebook katalog[], int jumlahBuku);
 void saveEbookUser(EbookUser ebookUser[], int jumlahEbookUser);
+
+#endif

@@ -36,3 +36,19 @@ void saveAkun(Akun akun[], int jumlahUser) {
     ofstream file("data/akun.json");
     file << data.dump(4);
 }
+
+void loadBuku(Ebook buku[], int &jumlahBuku) {
+    // isi sesuai kebutuhan kamu
+}
+
+void loadEbookUser(EbookUser ebookUser[], int &jumlah) {
+    // isi
+}
+
+void saveBuku(Ebook buku[], int jumlahBuku) {
+    // isi
+}
+
+void saveEbookUser(EbookUser ebookUser[], int jumlah) {
+    // isi
+}
