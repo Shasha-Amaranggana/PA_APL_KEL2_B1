@@ -2,10 +2,13 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "run cpp",
+      "label": "build cpp",
       "type": "shell",
       "command": "g++",
       "args": [
+        "-Wall",
+        "-Wextra",
+        "-g3",
         "main.cpp",
         "data.cpp",
         "help.cpp",
@@ -17,12 +20,8 @@
       "group": {
         "kind": "build",
         "isDefault": true
-      }
-    },
-    {
-      "label": "run exe",
-      "type": "shell",
-      "command": "output/main.exe"
+      },
+      "problemMatcher": ["$gcc"]
     }
   ]
 }
