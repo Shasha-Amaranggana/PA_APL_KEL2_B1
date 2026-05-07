@@ -770,7 +770,19 @@ void cariRiwayatPembelian() {}
 
 void lihatPesanan(string jenis) {}
 
-void lihatRiwayatPesanan() {}
+void lihatRiwayatPesanan() {
+    cout << "NO | ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS ORDER" << endl;
+    cout << "---+-----------------+------------------+--------------------------+----------+-----------------+-------------" << endl;
+    for (int i = 0; i < 10; i++) {
+        cout << left
+            << setw(3) << i + 1 << "| " << setw(16) << "tes tes dlu" << "| "
+            << setw(17) << "user123" << "| "
+            << setw(25) << "Contoh E-Book" << "| "
+            << setw(10) << 50000 << "| "
+            << setw(16) << "2024-01-01" << "| "
+            << setw(12) << "Dikirim"
+            << endl;}
+}
 
 void editStatusPesanan() {}
 
@@ -1302,7 +1314,7 @@ void menuUser(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector<
             ════════════════════════════════════════════════════*/
             else if (pilih == 5) {
                 system("cls"); judul_subjudul("Saldo dan Transaksi"); cout << "" << endl;
-                saldoDanTransaksi(akun, indeksLogin);
+                saldoDanTransaksi(akun, indeksLogin, transaksi);
                 system("pause");}
 
             /* g. MENU USER LOGOUT
