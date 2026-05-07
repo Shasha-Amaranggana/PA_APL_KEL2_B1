@@ -501,7 +501,12 @@ void lihatDaftarPelanggan(vector<Akun> &akun) {
                 << endl;}}
     cout << endl;}
 
-void editStatusPelanggan() {}
+void editStatusPelanggan(vector<Akun> &akun) {
+    if (akun.empty()) {
+        tampilPeringatan(28, "Tidak ada pelanggan terdaftar!");
+        return;
+    }
+} // belum selesai -dopa
 
 
 void lihatDaftarEbook(vector<Ebook> &ebook) {
@@ -768,9 +773,32 @@ void lihatDaftarPembelian(vector<Order> &order) {
 void cariRiwayatPembelian() {}
 
 
-void lihatPesanan(string jenis) {}
+void lihatPesanan(string jenis, vector<Order> &order) {
+    if(order.empty()) {
+        tampilPeringatan(28, "Belum ada Pesanan yang dibuat!");
+        return;
+    }
+    cout << "NO | ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS " << endl;
+    cout << "---+-----------------+------------------+--------------------------+----------+-----------------+-------------" << endl;
+    for (int i = 0; i < order.size(); i++) {
+        if (order[i].status_order == jenis) {
+            cout << left
+                << setw(3) << i + 1 << "| " << setw(16) << order[i].id_order << "| "
+                << setw(17) << order[i].id_user << "| "
+                << setw(25) << order[i].judul << "| "
+                << setw(10) << order[i].harga << "| "
+                << setw(14) << order[i].tanggal_pesan << "| "
+                << setw(11) << order[i].status_order
+                << endl;
+        }
+    }
+}
 
-void lihatRiwayatPesanan() {
+void lihatRiwayatPesanan(vector<Order> &order) {
+    if(order.empty()) {
+        tampilPeringatan(28, "Belum ada Pesanan yang dibuat!");
+        return;
+    }
     cout << "NO | ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS ORDER" << endl;
     cout << "---+-----------------+------------------+--------------------------+----------+-----------------+-------------" << endl;
     for (int i = 0; i < 10; i++) {
@@ -782,9 +810,14 @@ void lihatRiwayatPesanan() {
             << setw(16) << "2024-01-01" << "| "
             << setw(12) << "Dikirim"
             << endl;}
-}
+} // belum selesai -dopa
 
-void editStatusPesanan() {}
+void editStatusPesanan(vector<Order> &order) {
+    if(order.empty()) {
+        tampilPeringatan(28, "Belum ada Pesanan yang dibuat!");
+        return;
+    }
+} // belum selesai
 
 
 void lihatRiwayatTransaksi(vector<Transaksi> &transaksi) {}
@@ -808,7 +841,7 @@ void kelolaAkunPelanggan(vector<Akun> &akun) {
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
                 system("cls"); judul_subjudul("Edit Status Pelanggan"); cout << endl;
-                editStatusPelanggan();
+                editStatusPelanggan(akun);
                 system("pause");}
 
             /* b. KEMBALI
@@ -921,28 +954,28 @@ void pemesananAdmin(vector<Order> &order) {
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
                 system("cls"); judul_subjudul("Daftar Pesanan Belum Dibayar"); cout << endl;
-                lihatPesanan("BelumBayar");
+                lihatPesanan("BelumBayar", order);
                 system("pause");}
 
             /* b. DAFTAR PESANAN SUDAH DIBAYAR
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
                 system("cls"); judul_subjudul("Daftar Pesanan Sudah Dibayar"); cout << endl;
-                lihatPesanan("Dibayar");
+                lihatPesanan("Dibayar", order);
                 system("pause");}
 
             /* c. UBAH STATUS PESANAN
             ════════════════════════════════════════════════════*/
             else if (pilih == 2) {
                 system("cls"); judul_subjudul("Ubah Status Pesanan"); cout << endl;
-                editStatusPesanan();
+                editStatusPesanan(order);
                 system("pause");}
 
             /* d. RIWAYAT PESANAN LAINNYA
             ════════════════════════════════════════════════════*/
             else if (pilih == 3) {
                 system("cls"); judul_subjudul("Riwayat Pesanan Lainnya"); cout << endl;
-                lihatRiwayatPesanan();
+                lihatRiwayatPesanan(order);
                 system("pause");}
 
             /* e. KEMBALI
