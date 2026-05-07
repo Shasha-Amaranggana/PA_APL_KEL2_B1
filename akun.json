@@ -1,8 +1,46 @@
 [
-  {
-    "username": "Shasha",
-    "password": "063",
+  { 
+    "id_user": "A000",
+    "username": "123",
+    "password": "123",
     "role": "admin",
-    "saldo": 0
-  }
+    "status_akun": "aktif",
+    "email": "admin@email.com",
+    "alamat": "Samarinda",
+    "tanggal_daftar": 20260507,
+    "no_hp": "081111111111",
+    "saldo": 100000 },
+  { 
+    "id_user": "U001",
+    "username": "124",
+    "password": "124",
+    "role": "user",
+    "status_akun": "aktif",
+    "email": "user1@email.com",
+    "alamat": "Samarinda",
+    "tanggal_daftar": 20260507,
+    "no_hp": "082222222222",
+    "saldo": 100000 },
+  { 
+    "id_user": "U002",
+    "username": "125",
+    "password": "125",
+    "role": "user",
+    "status_akun": "aktif",
+    "email": "user2@email.com",
+    "alamat": "Samarinda",
+    "tanggal_daftar": 20260507,
+    "no_hp": "083333333333",
+    "saldo": 100000 },
+  { 
+    "id_user": "U003",
+    "username": "126",
+    "password": "126",
+    "role": "user",
+    "status_akun": "aktif",
+    "email": "user3@email.com",
+    "alamat": "Samarinda",
+    "tanggal_daftar": 20260507,
+    "no_hp": "084444444444",
+    "saldo": 100000 } 
 ]
