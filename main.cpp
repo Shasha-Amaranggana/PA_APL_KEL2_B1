@@ -1017,27 +1017,288 @@ void menuAdmin(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector
 
 /* FUNGSI MENU USER
 ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
-void lihatDataDiri() {}
+void lihatDataDiri(vector<Akun> &akun, int index_login) {
+    system("cls");
+    judul_subjudul("Informasi Data Diri");
+    cout << "\n    ID User        : " << akun[index_login].id_user
+        << "\n    Username       : " << akun[index_login].username
+        << "\n    Email          : " << akun[index_login].email
+        << "\n    No. HP         : " << akun[index_login].no_hp
+        << "\n    Alamat         : " << akun[index_login].alamat
+        << "\n    Saldo          : Rp" << akun[index_login].saldo
+        << "\n    Status Akun    : " << akun[index_login].status_akun << "\n\n";
+}
 
-void editDataDiri() {}
+void editDataDiri(vector<Akun> &akun, int index_login) {
+    lihatDataDiri(akun, index_login);
+    cout << "  [Tekan Enter jika tidak ingin mengubah data tertentu]\n\n";
 
-void tambahProdukkeKeranjang() {}
+    string tempEmail, tempNoHp, tempAlamat, tempPassword;
+    cin.ignore();
+    
+    cout << "    Email baru      : "; getline(cin, tempEmail);
+    cout << "    No HP baru      : "; getline(cin, tempNoHp);
+    cout << "    Alamat baru     : "; getline(cin, tempAlamat);
+    cout << "    Password baru   : "; getline(cin, tempPassword);
 
-void checkoutDariKatalog() {}
+    try {
+        if (!tempEmail.empty()) {
+            if (tempEmail.find("@gmail.com") == string::npos) throw "Format Email harus @gmail.com!";
+            akun[index_login].email = tempEmail;
+        }
+        if (!tempNoHp.empty()) {
+            regex hpRegex("^08\\d{8,12}$");
+            if (!regex_match(tempNoHp, hpRegex)) throw "Nomor HP tidak valid!";
+            akun[index_login].no_hp = tempNoHp;
+        }
+        if (!tempAlamat.empty()) akun[index_login].alamat = tempAlamat;
+        if (!tempPassword.empty()) {
+            regex passRegex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$");
+            if (!regex_match(tempPassword, passRegex)) throw "Password minimal 8 karakter, ada huruf besar, kecil & angka!";
+            akun[index_login].password = tempPassword;
+        }
 
-void lihatDaftarKeranjang() {}
+        saveAkun(akun);
+        tampilPesan(35, "Data Diri berhasil diperbarui!");
+    } catch (const char* e) {
+        tampilPeringatan(50, e);
+    }
+}
 
-void hapusEbookDariKeranjang() {}
+void tambahProdukkeKeranjang(vector<Ebook> &ebook, vector<Keranjang> &keranjang, string id_user) {
+    lihatDaftarEbook(ebook);
+    string kodeCari;
+    cout << "    Masukkan Kode E-Book yang ingin ditambahkan: ";
+    cin >> kodeCari;
 
-void checkoutDariKeranjang() {}
+    try {
+        int indexBuku = -1;
+        for (int i = 0; i < ebook.size(); i++) {
+            if (ebook[i].kode == kodeCari) {
+                indexBuku = i; break;
+            }
+        }
+        if (indexBuku == -1) throw "Kode E-Book tidak ditemukan!";
 
-void pesananBelumDibayar() {}
+        for (auto &k : keranjang) {
+            if (k.id_user == id_user && k.kode == kodeCari) throw "E-Book sudah ada di keranjang Anda!";
+        }
 
-void pesananDiproses() {}
+        Keranjang kBaru = {id_user, ebook[indexBuku].kode, ebook[indexBuku].judul, ebook[indexBuku].harga};
+        keranjang.push_back(kBaru);
+        saveKeranjang(keranjang);
+        
+        tampilPesan(40, "Berhasil ditambahkan ke Keranjang!");
+    } catch (const char* e) {
+        tampilPeringatan(40, e);
+    }
+}
 
-void pesananDikirim() {}
+void checkoutDariKatalog(vector<Ebook> &ebook, vector<Order> &order, string id_user) {
+    lihatDaftarEbook(ebook);
+    string kodeCari;
+    cout << "    Masukkan Kode E-Book yang ingin langsung dibeli: ";
+    cin >> kodeCari;
 
-void lihatPesananUser(string jenis) {}
+    try {
+        int indexBuku = -1;
+        for (int i = 0; i < ebook.size(); i++) {
+            if (ebook[i].kode == kodeCari) { indexBuku = i; break; }
+        }
+        if (indexBuku == -1) throw "Kode E-Book tidak ditemukan!";
+
+        time_t now = time(0); tm *ltm = localtime(&now);
+        int tgl = (1900 + ltm->tm_year) * 10000 + (1 + ltm->tm_mon) * 100 + ltm->tm_mday;
+        
+        Order oBaru;
+        oBaru.id_order = "ORD" + to_string(now);
+        oBaru.id_user = id_user;
+        oBaru.kode = ebook[indexBuku].kode;
+        oBaru.judul = ebook[indexBuku].judul;
+        oBaru.harga = ebook[indexBuku].harga;
+        oBaru.total_harga = ebook[indexBuku].harga;
+        oBaru.tanggal_pesan = tgl;
+        oBaru.status_order = "Menunggu Pembayaran";
+        oBaru.status_bayar = "Belum Lunas";
+        
+        order.push_back(oBaru);
+        saveOrder(order);
+        
+        tampilPesan(40, "Checkout berhasil! Masuk ke Pesanan.");
+    } catch (const char* e) {
+        tampilPeringatan(40, e);
+    }
+}
+
+void lihatDaftarKeranjang(vector<Keranjang> &keranjang, string id_user) {
+    cout << "NO | KODE           | JUDUL                     | HARGA    " << endl;
+    cout << "---+----------------+---------------------------+----------" << endl;
+    int no = 1, total = 0;
+    for (auto &k : keranjang) {
+        if (k.id_user == id_user) {
+            cout << left << setw(3) << no++ << "| " 
+                << setw(15) << k.kode << "| "
+                << setw(26) << k.judul << "| " 
+                << k.harga << endl;
+            total += k.harga;
+        }
+    }
+    cout << "------------------------------------------------+----------\n";
+    cout << "                                    TOTAL HARGA | Rp" << total << "\n\n";
+}
+
+void hapusEbookDariKeranjang(vector<Keranjang> &keranjang, string id_user) {
+    lihatDaftarKeranjang(keranjang, id_user);
+    string kodeHapus;
+    cout << "    Masukkan KODE E-Book yang ingin dihapus: ";
+    cin >> kodeHapus;
+
+    bool terhapus = false;
+    for (auto it = keranjang.begin(); it != keranjang.end(); ) {
+        if (it->id_user == id_user && it->kode == kodeHapus) {
+            it = keranjang.erase(it); // Menghapus elemen dari vector
+            terhapus = true;
+            break; 
+        } else {
+            ++it;
+        }
+    }
+
+    if (terhapus) {
+        saveKeranjang(keranjang);
+        tampilPesan(30, "Item berhasil dihapus.");
+    } else {
+        tampilPeringatan(40, "Kode tidak ditemukan di keranjang!");
+    }
+}
+
+void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, string id_user) {
+    time_t now = time(0); tm *ltm = localtime(&now);
+    int tgl = (1900 + ltm->tm_year) * 10000 + (1 + ltm->tm_mon) * 100 + ltm->tm_mday;
+    bool adaItem = false;
+
+    for (int i = keranjang.size() - 1; i >= 0; i--) {
+        if (keranjang[i].id_user == id_user) {
+            Order o;
+            o.id_order = "ORD" + to_string(now) + to_string(i);
+            o.id_user = id_user;
+            o.kode = keranjang[i].kode;
+            o.judul = keranjang[i].judul;
+            o.harga = keranjang[i].harga;
+            o.total_harga = keranjang[i].harga;
+            o.tanggal_pesan = tgl;
+            o.status_order = "Menunggu Pembayaran";
+            o.status_bayar = "Belum Lunas";
+            
+            order.push_back(o);
+            keranjang.erase(keranjang.begin() + i); // Hapus dari keranjang
+            adaItem = true;
+        }
+    }
+
+    if (adaItem) {
+        saveKeranjang(keranjang);
+        saveOrder(order);
+        tampilPesan(40, "Semua item di Keranjang berhasil di Checkout!");
+    } else {
+        tampilPeringatan(35, "Keranjang Anda kosong!");
+    }
+}
+
+void pesananBelumDibayar(vector<Order> &order, vector<Akun> &akun, vector<Library> &lib, int index_login) {
+    string id_user = akun[index_login].id_user;
+    lihatPesananUser("Menunggu Pembayaran", order, id_user);
+    
+    char pil;
+    cout << "Apakah Anda ingin melakukan pembayaran pesanan? (y/n): ";
+    cin >> pil;
+
+    if (tolower(pil) == 'y') {
+        string id_bayar;
+        cout << "Masukkan ID ORDER: "; cin >> id_bayar;
+
+        for (int i = 0; i < order.size(); i++) {
+            if (order[i].id_user == id_user && order[i].id_order == id_bayar && order[i].status_order == "Menunggu Pembayaran") {
+                if (akun[index_login].saldo >= order[i].total_harga) {
+                    // Potong saldo & ubah status (Modul 4: pointer/reference array struct termodifikasi)
+                    akun[index_login].saldo -= order[i].total_harga;
+                    order[i].status_order = "Diproses Admin";
+                    order[i].status_bayar = "Lunas";
+
+                    saveAkun(akun);
+                    saveOrder(order);
+                    tampilPesan(35, "Pembayaran Berhasil!");
+                } else {
+                    tampilPeringatan(30, "Saldo Anda tidak mencukupi!");
+                }
+                return;
+            }
+        }
+        tampilPeringatan(30, "ID Order tidak ditemukan / sudah dibayar!");
+    }
+}
+
+void pesananDiproses(vector<Order> &order, string id_user) {
+    // Hanya sekadar menampilkan pesanan yang statusnya "Diproses Admin"
+    lihatPesananUser("Diproses Admin", order, id_user);
+    system("pause");
+}
+
+void pesananDikirim(vector<Order> &order, vector<Library> &lib, string id_user, string username) {
+    // Menampilkan pesanan yang statusnya "Dikirim"
+    lihatPesananUser("Dikirim", order, id_user);
+    
+    char pil;
+    cout << "Apakah ada pesanan yang sudah diterima/selesai? (y/n): ";
+    cin >> pil;
+
+    if (tolower(pil) == 'y') {
+        string id_selesai;
+        cout << "Masukkan ID ORDER: "; cin >> id_selesai;
+
+        for (int i = 0; i < order.size(); i++) {
+            if (order[i].id_user == id_user && order[i].id_order == id_selesai && order[i].status_order == "Dikirim") {
+                order[i].status_order = "Selesai";
+                
+                // Masukkan e-book ke Library user
+                Library lBaru;
+                lBaru.id_user = id_user;
+                lBaru.username = username;
+                // Hanya mengcopy data dasar yang dibutuhkan library
+                lBaru.buku.kode = order[i].kode;
+                lBaru.buku.judul = order[i].judul; 
+                lib.push_back(lBaru);
+
+                saveOrder(order);
+                saveLibrary(lib);
+                tampilPesan(45, "Pesanan Selesai! E-Book ditambahkan ke Library.");
+                return;
+            }
+        }
+        tampilPeringatan(35, "ID Order tidak valid.");
+    }
+}
+
+/* FUNGSI KELOLA PESANAN USER
+══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
+void lihatPesananUser(string jenis, vector<Order> &order, string id_user) {
+    cout << "ID ORDER         | KODE       | JUDUL                     | TOTAL HARGA | STATUS" << endl;
+    cout << "-----------------+------------+---------------------------+-------------+-------------------" << endl;
+    
+    bool ada = false;
+    for (auto &o : order) {
+        if (o.id_user == id_user && o.status_order == jenis) {
+            cout << left << setw(17) << o.id_order << "| "
+                << setw(11) << o.kode << "| "
+                << setw(26) << o.judul << "| "
+                << setw(12) << o.total_harga << "| "
+                << o.status_order << endl;
+            ada = true;
+        }
+    }
+    if (!ada) cout << "              Tidak ada pesanan di kategori ini.\n";
+    cout << endl;
+}
 
 void editSaldo() {}
 
@@ -1050,7 +1311,7 @@ void kelolaAkunDiri() {
     
     while (true) {
         system("cls"); judul_subjudul("Kelola Akun Diri"); cout << endl;
-        lihatDataDiri();
+        kelolaAkunDiri();
         for (int i = 0; i < 2; i++) {
             if (i == pilih) cout << "> " << *(pilihMenuUser + i) << endl;
             else cout << "  " << *(pilihMenuUser + i) << endl;}
@@ -1061,7 +1322,7 @@ void kelolaAkunDiri() {
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
                 system("cls"); judul_subjudul("Edit Data Diri"); cout << endl;
-                editDataDiri();
+                kelolaAkunDiri();
                 system("pause");}
 
             /* b. KEMBALI
@@ -1091,14 +1352,14 @@ void belanjaUser(vector<Ebook> &ebook) {
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
                 system("cls"); judul_subjudul("Tambah Ke Keranjang"); cout << endl;
-                tambahProdukkeKeranjang();
+                tambahProdukkeKeranjang(ebook, keranjang, akunindex_login].id_user);
                 system("pause");}
 
             /* b. PESAN SEKARANG
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
                 system("cls"); judul_subjudul("Pesan Sekarang"); cout << endl;
-                checkoutDariKatalog();
+                checkoutDariKatalog(ebook, order, akun[index_login].id_user);
                 system("pause");}
 
             /* c. URUT E-BOOK
@@ -1138,14 +1399,14 @@ void keranjangUser() {
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
                 system("cls"); judul_subjudul("Hapus E-Book dari Keranjang"); cout << endl;
-                hapusEbookDariKeranjang();
+                hapusEbookDariKeranjang(keranjang, akun[index_login].id_user);
                 system("pause");}
 
             /* b. PESAN KERANJANG
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
                 system("cls"); judul_subjudul("Pesan Keranjang"); cout << endl;
-                checkoutDariKeranjang();
+                checkoutDariKeranjang(ebook, order, akun[index_login].id_user);
                 system("pause");}
 
             /* c. KEMBALI
@@ -1175,21 +1436,21 @@ void pesananUser() {
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
                 system("cls"); judul_subjudul("Daftar Pesanan Belum Dibayar"); cout << endl;
-                pesananBelumDibayar();
+                pesananBelumDibayar(order, akun, lib, index_login);
                 system("pause");}
 
             /* b. DAFTAR PESANAN DIPROSES
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
                 system("cls"); judul_subjudul("Daftar Pesanan Diproses"); cout << endl;
-                pesananDiproses();
+                pesananDiproses(order, akun, lib, index_login);
                 system("pause");}
 
             /* c. DAFTAR PESANAN DIKIRIM
             ════════════════════════════════════════════════════*/
             else if (pilih == 2) {
                 system("cls"); judul_subjudul("Daftar Pesanan Dikirim"); cout << endl;
-                pesananDikirim();
+                pesananDikirim(order, lib, akun[index_login].id_user, akun[index_login].username);
                 system("pause");}
 
             /* d. DAFTAR PESANAN SELESAI
