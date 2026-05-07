@@ -4,8 +4,44 @@
     "kode": "MC2015001",
     "judul": "Magnus Chase 1",
     "penulis": "Rick Riordan",
-    "tahun": 2015,
     "genre": "Fantasi",
+    "tahun": 2015,
     "harga": 70000
+  },
+  {
+    "no": 2,
+    "kode": "TWC2014001",
+    "judul": "The Walled City",
+    "penulis": "Ryan Graudin",
+    "genre": "Drama",
+    "tahun": 2014,
+    "harga": 50000
+  },
+  {
+    "no": 3,
+    "kode": "CLS2012001",
+    "judul": "City of Lost Souls",
+    "penulis": "Cassandra Clare",
+    "genre": "Fantasi",
+    "tahun": 2012,
+    "harga": 60000
+  },
+  {
+    "no": 4,
+    "kode": "TOA22017001",
+    "judul": "The Trials of Apollo 2",
+    "penulis": "Rick Riordan",
+    "genre": "Fantasi",
+    "tahun": 2017,
+    "harga": 50000
+  },
+  {
+    "no": 5,
+    "kode": "TOA32018001",
+    "judul": "The Trials of Apollo 3",
+    "penulis": "Rick Riordan",
+    "genre": "Fantasi",
+    "tahun": 2018,
+    "harga": 50000
   }
 ]
