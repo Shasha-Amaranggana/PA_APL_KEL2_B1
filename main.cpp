@@ -441,7 +441,7 @@ int tambahEbook(vector<Ebook> &katalog) {
     catch (const char* e) {
         cin.clear(); cin.ignore(1000, '\n');
         tampilPeringatan(50, e);
-        return;}
+        return 0;}
     cout << "     Genre   : "; getline(cin, baru.genre);
     try {
         cout << "     Harga   : "; cin >> baru.harga;
@@ -451,7 +451,7 @@ int tambahEbook(vector<Ebook> &katalog) {
         cin.clear();
         cin.ignore(1000, '\n');
         tampilPeringatan(54, e);
-        return;}
+        return 0;}
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     baru.no = generateNo(katalog);
     baru.kode = generateKode(katalog, baru.judul, baru.penulis, baru.tahun);
@@ -472,7 +472,19 @@ void urutEbook() {}
 
 void cariEbook() {}
 
-void lihatDaftarPembelian() {}
+void lihatDaftarPembelian(vector<Order> &order) {
+        cout << "NO | ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN" << endl;
+        cout << "---+-----------------+------------------+--------------------------+----------+--------------" << endl;
+        for (int i = 0; i < order.size(); i++) {
+            cout << left
+                << setw(3) << i + 1 << "| " << setw(16) << order[i].id_order << "| "
+                << setw(17) << order[i].id_user << "| "
+                << setw(25) << order[i].judul << "| "
+                << setw(10) << order[i].harga << "| "
+                << setw(14) << order[i].tanggal_pesan
+                << endl;}
+        cout << endl;
+}
 
 void cariRiwayatPembelian() {}
 
@@ -580,7 +592,7 @@ void pembelianAdmin(vector<Order> &order) {
         for (int i = 0; i < 2; i++) {
             if (i == pilih) cout << "> " << *(pilihMenuAdmin + i) << endl;
             else cout << "  " << *(pilihMenuAdmin + i) << endl;}
-        lihatDaftarPembelian();
+        lihatDaftarPembelian(order);
         int hasil = scrollMenu(pilih, 2);
         if (hasil == -1) {
     
