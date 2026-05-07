@@ -283,6 +283,21 @@ int scrollMenu(int &pilih, int jumlahMenu) {
         return -1;}
     return pilih;} 
 
+int scrollBuku(vector<Ebook> &katalog, string judulMenu) {
+    int pilih = 0;
+
+    while(true){
+        system("cls"); judul_subjudul(judulMenu);
+        cout << "" << endl;
+        for(int i = 0; i < katalog.size(); i++){
+            if(i == pilih)
+                cout << "> " << katalog[i].judul << endl;
+            else
+                cout << "  " << katalog[i].judul << endl;}
+        int hasil = scrollMenu(pilih, katalog.size());
+        if(hasil == -1)
+            return pilih;}}   
+
 
 string inisialKode(string teks) {
     string hasil = "";
@@ -326,6 +341,81 @@ string ubahStringKecilSemua(string teks) {
         teks[i] = tolower(teks[i]);}
     return teks;}
 
+
+void bubbleSortEbook(vector<Ebook> &ebook, int kategori, bool ascending) {
+    for (int i = 0; i < ebook.size() - 1; i++) {
+        for (int j = 0; j < ebook.size() - i - 1; j++) {
+            bool tukar = false;
+
+            // JUDUL
+            if (kategori == 0) {
+                if (ascending) tukar = ebook[j].judul > ebook[j + 1].judul;
+                else tukar = ebook[j].judul < ebook[j + 1].judul;}
+
+            // PENULIS
+            else if (kategori == 1) {
+                if (ascending) tukar = ebook[j].penulis > ebook[j + 1].penulis;
+                else tukar = ebook[j].penulis < ebook[j + 1].penulis;}
+
+            // GENRE
+            else if (kategori == 2) {
+                if (ascending)  tukar = ebook[j].genre > ebook[j + 1].genre;
+                else tukar = ebook[j].genre < ebook[j + 1].genre;}
+
+            // TAHUN
+            else if (kategori == 3) {
+                if (ascending) tukar = ebook[j].tahun > ebook[j + 1].tahun;
+                else tukar = ebook[j].tahun < ebook[j + 1].tahun;}
+
+            // HARGA
+            else if (kategori == 4) {
+                if (ascending) tukar = ebook[j].harga > ebook[j + 1].harga;
+                else tukar = ebook[j].harga < ebook[j + 1].harga;}
+
+            // KODE
+            else if (kategori == 5) {
+                if (ascending) tukar = ebook[j].kode > ebook[j + 1].kode;
+                else tukar = ebook[j].kode < ebook[j + 1].kode;}
+
+            if (tukar) {
+                swap(ebook[j], ebook[j + 1]);}}}}
+
+int linearSearchEbook(vector<Ebook> &ebook, vector<Ebook> &hasil, int jenis, string keyword = "", int min = 0, int max = 0) {
+    hasil.clear();
+    string key = ubahStringKecilSemua(keyword);
+    for (int i = 0; i < ebook.size(); i++) {
+
+        // JUDUL
+        if (jenis == 1) {
+            if (ubahStringKecilSemua(ebook[i].judul).find(key) != string::npos) {
+                hasil.push_back(ebook[i]);}}
+
+        // PENULIS
+        else if (jenis == 2) {
+            if (ubahStringKecilSemua(ebook[i].penulis).find(key) != string::npos) {
+                hasil.push_back(ebook[i]);}}
+
+        // GENRE
+        else if (jenis == 3) {
+            if (ubahStringKecilSemua(ebook[i].genre).find(key) != string::npos) {
+                hasil.push_back(ebook[i]);}}
+
+        // TAHUN
+        else if (jenis == 4) {
+            if (ebook[i].tahun >= min && ebook[i].tahun <= max) {
+                hasil.push_back(ebook[i]);}}
+
+        // HARGA
+        else if (jenis == 5) {
+            if (ebook[i].harga >= min && ebook[i].harga <= max) {
+                hasil.push_back(ebook[i]);}}
+
+        // KODE
+        else if (jenis == 6) {
+            if (ubahStringKecilSemua(ebook[i].kode).find(key) != string::npos) {
+                hasil.push_back(ebook[i]);}}}
+
+    return hasil.size();}
 
 
 
@@ -413,6 +503,7 @@ void lihatDaftarPelanggan(vector<Akun> &akun) {
 
 void editStatusPelanggan() {}
 
+
 void lihatDaftarEbook(vector<Ebook> &ebook) {
     if (ebook.empty()) {
         tampilPesan(28, "Katalog E-book belum terisi.");
@@ -428,7 +519,7 @@ void lihatDaftarEbook(vector<Ebook> &ebook) {
             << endl;}
     cout << endl;}
 
-int tambahEbook(vector<Ebook> &katalog) {
+int tambahEbook(vector<Ebook> &ebook) {
     Ebook baru;
 
     cout << "     Judul   : "; getline(cin, baru.judul);
@@ -453,10 +544,10 @@ int tambahEbook(vector<Ebook> &katalog) {
         tampilPeringatan(54, e);
         return 0;}
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    baru.no = generateNo(katalog);
-    baru.kode = generateKode(katalog, baru.judul, baru.penulis, baru.tahun);
+    baru.no = generateNo(ebook);
+    baru.kode = generateKode(ebook, baru.judul, baru.penulis, baru.tahun);
     
-    katalog.push_back(baru);
+    ebook.push_back(baru);
 
     cout << "\n     NO    : " << baru.no << endl;
     cout << "     Kode  : " << baru.kode << endl;
@@ -464,13 +555,201 @@ int tambahEbook(vector<Ebook> &katalog) {
 
     return 1;}
 
-void editEbook() {}
+int editEbook(vector<Ebook> &ebook) {
+    string tindakan[] = {
+        "   1 | Simpan Perubahan",
+        "   2 | Batal Edit"};
+    int pilih = 0;
 
-void hapusEbook() {}
+    if (ebook.empty()) {
+        tampilPeringatan(28, "Katalog E-book belum terisi.");
+        return 0;}
+    int index = scrollBuku(ebook, "Edit E-Book");
+    Ebook temp = ebook[index];
 
-void urutEbook() {}
+    cout << "     Judul lama   : " << ebook[index].judul << endl;
+    cout << "     Penulis lama : " << ebook[index].penulis << endl;
+    cout << "     Tahun lama   : " << ebook[index].tahun << endl;
+    cout << "     Genre lama   : " << ebook[index].genre << endl;
+    cout << "     Harga lama   : " << ebook[index].harga << endl;
 
-void cariEbook() {}
+    cout << "\n     Judul baru   : "; getline(cin, temp.judul);
+    cout << "     Penulis baru : "; getline(cin, temp.penulis);
+    try {
+        cout << "     Tahun baru   : "; cin >> temp.tahun;
+        if (cin.fail() || temp.tahun <= 0) {
+            throw "Tahun harus angka dan > 0!";}
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');}
+    catch (const char* e) {
+        cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        tampilPeringatan(45, e);
+        return 0;}
+    cout << "     Genre baru   : "; getline(cin, temp.genre);
+    try {
+        cout << "     Harga baru   : "; cin >> temp.harga;
+        if (cin.fail() || temp.harga <= 0) {
+            throw "Harga harus angka dan > 0!";}
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');}
+    catch (const char* e) {
+        cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        tampilPeringatan(45, e);
+        return 0;}
+    temp.kode = generateKode(ebook, temp.judul, temp.penulis, temp.tahun);
+    
+    cout << "\n     Simpan perubahan? " << temp.no << endl;
+    while(true){
+        for(int i = 0; i < 2; i++){
+            if(i == pilih) cout << "> " << tindakan[i] << endl;
+            else cout << "  " << tindakan[i] << endl;}
+        int hasil = scrollMenu(pilih, 2);
+        if(hasil == -1) {
+            if (pilih == 0) {
+                ebook[index] = temp;
+                tampilPesan(35, "E-book berhasil diupdate!");
+                return 1;}
+            else {
+                tampilPeringatan(32, "Perubahan dibatalkan!");
+                return 0;}}}}
+
+int hapusEbook(vector<Ebook> &ebook) {
+    string tindakan[] = {
+        "   1 | Simpan Perubahan",
+        "   2 | Batal Edit"};
+    int pilih = 0;
+
+    if (ebook.empty()) {
+        tampilPeringatan(28, "Katalog E-book belum terisi.");
+        return 0;}
+    int index = scrollBuku(ebook, "Hapus E-Book");
+
+    cout << "     Judul lama   : " << ebook[index].judul << endl;
+    cout << "     Penulis lama : " << ebook[index].penulis << endl;
+    cout << "     Tahun lama   : " << ebook[index].tahun << endl;
+    cout << "     Genre lama   : " << ebook[index].genre << endl;
+    cout << "     Harga lama   : " << ebook[index].harga << endl;
+
+    cout << "\n     Hapus E-Book? " << ebook[index].no << endl;
+    while(true){
+        for(int i = 0; i < 2; i++){
+            if(i == pilih) cout << "> " << tindakan[i] << endl;
+            else cout << "  " << tindakan[i] << endl;}
+        int hasil = scrollMenu(pilih, 2);
+        if(hasil == -1) {
+            if (pilih == 0) {
+                ebook.erase(ebook.begin() + index);
+                tampilPesan(35, "E-book berhasil dihapus!");
+                return 1;}
+            else {
+                tampilPeringatan(32, "Perubahan dibatalkan!");
+                return 0;}}}}
+
+
+void urutEbook(vector<Ebook> &ebook) {
+    string menuUrut[] = {
+        "   1 | Judul",
+        "   2 | Penulis",
+        "   3 | Genre",
+        "   4 | Tahun",
+        "   5 | Harga",
+        "   6 | Kode",
+        "   7 | Kembali"};
+    string jenisUrut[] = {
+        "   1 | Ascending",
+        "   2 | Descending"};
+    int pilih = 0;
+    int pilihJenis = 0;
+
+    while (true) {
+        system("cls"); judul_subjudul("Urutkan Katalog E-Book"); cout << endl;
+        for (int i = 0; i < 7; i++) {
+            if (i == pilih) cout << "> " << menuUrut[i] << endl;
+            else cout << "  " << menuUrut[i] << endl;}
+        lihatDaftarEbook(ebook);
+        int hasil = scrollMenu(pilih, 7);
+
+        if (hasil == -1) {
+
+            // KEMBALI
+            if (pilih == 6) {
+                break;}
+
+            vector<Ebook> hasil;
+            // URUTKAN ASCENDING OR DESCEMDING
+            while(true) {
+                system("cls"); judul_subjudul("Pilihan Jenis Pengurutan"); cout << endl;
+                for (int i = 0; i < 2; i++) {
+                    if (i == pilihJenis) cout << "> " << jenisUrut[i] << endl;
+                    else cout << "  " << jenisUrut[i] << endl;}
+                int hasilJenis = scrollMenu(pilihJenis, 2);
+
+                if (hasilJenis == -1) {
+                    bool ascending = (pilihJenis == 0);
+                    vector<Ebook> temp = ebook;
+                    bubbleSortEbook(temp, pilih, ascending);
+
+                    system("cls"); judul_subjudul("Hasil Pengurutan"); cout << endl;
+                    lihatDaftarEbook(temp);
+                    system("pause");
+                    break;}}}}}
+
+void cariEbook(vector<Ebook> &ebook) {
+    string menuCari[] = {
+        "   1 | Judul",
+        "   2 | Penulis",
+        "   3 | Genre",
+        "   4 | Tahun",
+        "   5 | Harga",
+        "   6 | Kode",
+        "   7 | Kembali"};
+    int pilih = 0;
+
+    while (true) {
+        system("cls"); judul_subjudul("Cari E-Book Di Katalog"); cout << endl;
+        for (int i = 0; i < 7; i++) {
+            if (i == pilih) cout << "> " << menuCari[i] << endl;
+            else cout << "  " << menuCari[i] << endl;}
+        lihatDaftarEbook(ebook);
+        int hasil = scrollMenu(pilih, 7);
+        if (hasil == -1) {
+
+            // KEMBALI
+            if (pilih == 6) {
+                break;}
+
+            vector<Ebook> hasil;
+            // CARI JUDUL, PENULIS, GENRE, KODE
+            if (pilih == 0 || pilih == 1 || pilih == 2 || pilih == 5) {
+                system("cls"); judul_subjudul("Cari E-Book"); cout << endl;
+                string keyword;
+                cout << "     Masukkan keyword : "; getline(cin, keyword);
+                linearSearchEbook(ebook, hasil, pilih + 1, keyword);}
+
+            // CARI TAHUN, HARGA
+            else {
+                system("cls"); judul_subjudul("Cari E-Book"); cout << endl;
+                int min, max;
+                try {
+                    cout << "     Minimum : "; cin >> min;
+                    if (cin.fail() || min < 0) {
+                        throw "Minimum harus angka!";}
+                    cout << "     Maksimum : "; cin >> max;
+                    if (cin.fail() || max < 0) {
+                        throw "Maksimum harus angka!";}
+                    if (min > max) {
+                        throw "Minimum tidak boleh lebih besar!";}
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');}
+                catch (const char* e) {
+                    cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    tampilPeringatan(40, e);
+                    system("pause");
+                    continue;}
+                linearSearchEbook(ebook, hasil, pilih + 1, "", min, max);}
+
+            system("cls"); judul_subjudul("Hasil Pencarian"); cout << endl;
+            if (!hasil.empty()) {lihatDaftarEbook(hasil);}
+            else {tampilPeringatan(25, "Data tidak ditemukan!");}
+            system("pause");}}}
+
 
 void lihatDaftarPembelian(vector<Order> &order) {
         cout << "NO | ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN" << endl;
@@ -487,6 +766,7 @@ void lihatDaftarPembelian(vector<Order> &order) {
 }
 
 void cariRiwayatPembelian() {}
+
 
 void lihatPesanan(string jenis) {}
 
@@ -554,26 +834,26 @@ void penjualanAdmin(vector<Ebook> &ebook) {
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
                 system("cls"); judul_subjudul("Edit E-Book"); cout << endl;
-                editEbook();
+                editEbook(ebook);
                 system("pause");}
 
             /* c. HAPUS E-BOOK
             ════════════════════════════════════════════════════*/
             else if (pilih == 2) {
                 system("cls"); judul_subjudul("Hapus E-Book"); cout << endl;
-                hapusEbook();
+                hapusEbook(ebook);
                 system("pause");}
 
             /* d. URUT E-BOOK
             ════════════════════════════════════════════════════*/
             else if (pilih == 3) {
-                urutEbook();
+                urutEbook(ebook);
                 system("pause");}
 
             /* e. CARI E-BOOK
             ════════════════════════════════════════════════════*/
             else if (pilih == 4) {
-                cariEbook();
+                cariEbook(ebook);
                 system("pause");}
 
             /* f. KEMBALI
@@ -725,6 +1005,31 @@ void menuAdmin(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector
 
 /* FUNGSI MENU USER
 ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
+void lihatDataDiri() {}
+
+void editDataDiri() {}
+
+void tambahProdukkeKeranjang() {}
+
+void checkoutDariKatalog() {}
+
+void lihatDaftarKeranjang() {}
+
+void hapusEbookDariKeranjang() {}
+
+void checkoutDariKeranjang() {}
+
+void pesananBelumDibayar() {}
+
+void pesananDiproses() {}
+
+void pesananDikirim() {}
+
+void lihatPesananUser(string jenis) {}
+
+void editSaldo() {}
+
+
 void kelolaAkunDiri() {
     string pilihMenuUser[] = {
         "   1 | Edit Data Diri",
@@ -752,7 +1057,7 @@ void kelolaAkunDiri() {
             else {
                 break;}}}}
 
-void belanjaUser() {
+void belanjaUser(vector<Ebook> &ebook) {
     string pilihMenuUser[] = {
         "   1 | Tambah Ke Keranjang",
         "   2 | Pesan Sekarang",
@@ -787,13 +1092,13 @@ void belanjaUser() {
             /* c. URUT E-BOOK
             ════════════════════════════════════════════════════*/
             else if (pilih == 2) {
-                urutEbook();
+                urutEbook(ebook);
                 system("pause");}
 
             /* d. CARI E-BOOK
             ════════════════════════════════════════════════════*/
             else if (pilih == 3) {
-                cariEbook();
+                cariEbook(ebook);
                 system("pause");}
 
             /* e. KEMBALI
@@ -896,7 +1201,7 @@ void pesananUser() {
 
 void lihatLibraryUser() {}
 
-void saldoDanTransaksi(vector<Akun> &akun, int indeksLogin) {
+void saldoDanTransaksi(vector<Akun> &akun, int indeksLogin, vector<Transaksi> &transaksi) {
     string pilihMenuUser[] = {
         "   1 | TopUP",
         "   2 | Riwayat Transaksi",
@@ -926,7 +1231,7 @@ void saldoDanTransaksi(vector<Akun> &akun, int indeksLogin) {
             ════════════════════════════════════════════════════*/
             else if (pilih == 2) {
                 system("cls"); judul_subjudul("Riwayat Transaksi"); cout << endl;
-                lihatRiwayatTransaksi();
+                lihatRiwayatTransaksi(transaksi);
                 system("pause");}
 
             /* c. KEMBALI
@@ -969,7 +1274,7 @@ void menuUser(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector<
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
                 system("cls"); judul_subjudul("Belanja Sekarang"); cout << endl;
-                belanjaUser();
+                belanjaUser(ebook);
                 system("pause");}
 
             /* c. MENU USER KERANJANG BELANJA
