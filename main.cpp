@@ -289,7 +289,7 @@ int scrollBuku(vector<Ebook> &katalog, string judulMenu) {
     while(true){
         system("cls"); judul_subjudul(judulMenu);
         cout << "" << endl;
-        for(int i = 0; i < katalog.size(); i++){
+        for(size_t i = 0; i < katalog.size(); i++){
             if(i == pilih)
                 cout << "> " << katalog[i].judul << endl;
             else
@@ -314,7 +314,7 @@ string generateKode(vector<Ebook> &katalog, string judul, string penulis, int ta
     int nomor = 1;
     string nomorStr, inisialJudul = inisialKode(judul), inisialPenulis = inisialKode(penulis);
 
-    for (int i = 0; i < katalog.size(); i++) {
+    for (size_t i = 0; i < katalog.size(); i++) {
         if (katalog[i].judul == judul &&
             katalog[i].penulis == penulis &&
             katalog[i].tahun == tahun) {
@@ -325,9 +325,9 @@ string generateKode(vector<Ebook> &katalog, string judul, string penulis, int ta
     return inisialJudul + inisialPenulis + to_string(tahun) + nomorStr;}
 
 int generateNo(vector<Ebook> &katalog) {
-    for (int i = 1; i <= katalog.size() + 1; i++) {
+    for (size_t i = 1; i <= katalog.size() + 1; i++) {
         bool ada = false;
-        for (int j = 0; j < katalog.size(); j++) {
+        for (size_t j = 0; j < katalog.size(); j++) {
             if (katalog[j].no == i) {
                 ada = true;
                 break;}}
@@ -343,8 +343,8 @@ string ubahStringKecilSemua(string teks) {
 
 
 void bubbleSortEbook(vector<Ebook> &ebook, int kategori, bool ascending) {
-    for (int i = 0; i < ebook.size() - 1; i++) {
-        for (int j = 0; j < ebook.size() - i - 1; j++) {
+    for (size_t i = 0; i < ebook.size() - 1; i++) {
+        for (size_t j = 0; j < ebook.size() - i - 1; j++) {
             bool tukar = false;
 
             // JUDUL
@@ -383,7 +383,7 @@ void bubbleSortEbook(vector<Ebook> &ebook, int kategori, bool ascending) {
 int linearSearchEbook(vector<Ebook> &ebook, vector<Ebook> &hasil, int jenis, string keyword = "", int min = 0, int max = 0) {
     hasil.clear();
     string key = ubahStringKecilSemua(keyword);
-    for (int i = 0; i < ebook.size(); i++) {
+    for (size_t i = 0; i < ebook.size(); i++) {
 
         // JUDUL
         if (jenis == 1) {
@@ -426,7 +426,7 @@ int login(vector<Akun> &akun) {
 
     cout << "\n     Username: "; cin >> jawabNama;
     cout << "     Password: "; cin >> jawabPassword;
-    for (int i = 0; i < akun.size(); i++) {
+    for (size_t i = 0; i < akun.size(); i++) {
         if (akun[i].username == jawabNama && akun[i].password == jawabPassword) {
             tampilPesan(38, "Login berhasil! Selamat datang, " + jawabNama);
             system("pause"); return i;}}
@@ -490,7 +490,7 @@ void registrasi(vector<Akun> &akun) {
 void lihatDaftarPelanggan(vector<Akun> &akun) {
     cout << "NO | USERNAME         | EMAIL                | NO HP          | ALAMAT              | STATUS AKUN" << endl;
     cout << "---+------------------+----------------------+-----------------+---------------------+-------------" << endl;
-    for (int i = 0; i < akun.size(); i++) {
+    for (size_t i = 0; i < akun.size(); i++) {
         if (akun[i].role == "user") {
             cout << left
                 << setw(3) << i + 1 << "| " << setw(17) << akun[i].username << "| "
@@ -515,7 +515,7 @@ void lihatDaftarEbook(vector<Ebook> &ebook) {
         return;}
     cout << "NO | KODE           | JUDUL                    | PENULIS             | TAHUN   | GENRE     | HARGA    " << endl;
     cout << "---+----------------+--------------------------+---------------------+---------+-----------+----------" << endl;
-    for (int i = 0; i < ebook.size(); i++) {
+    for (size_t i = 0; i < ebook.size(); i++) {
         cout << left
             << setw(3) << ebook[i].no << "| "<< setw(15) << ebook[i].kode << "| "
             << setw(25) << ebook[i].judul << "| "
@@ -759,7 +759,7 @@ void cariEbook(vector<Ebook> &ebook) {
 void lihatDaftarPembelian(vector<Order> &order) {
         cout << "NO | ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN" << endl;
         cout << "---+-----------------+------------------+--------------------------+----------+--------------" << endl;
-        for (int i = 0; i < order.size(); i++) {
+        for (size_t i = 0; i < order.size(); i++) {
             cout << left
                 << setw(3) << i + 1 << "| " << setw(16) << order[i].id_order << "| "
                 << setw(17) << order[i].id_user << "| "
@@ -780,7 +780,7 @@ void lihatPesanan(string jenis, vector<Order> &order) {
     }
     cout << "NO | ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS " << endl;
     cout << "---+-----------------+------------------+--------------------------+----------+-----------------+-------------" << endl;
-    for (int i = 0; i < order.size(); i++) {
+    for (size_t i = 0; i < order.size(); i++) {
         if (order[i].status_order == jenis) {
             cout << left
                 << setw(3) << i + 1 << "| " << setw(16) << order[i].id_order << "| "
@@ -801,7 +801,7 @@ void lihatRiwayatPesanan(vector<Order> &order) {
     }
     cout << "NO | ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS ORDER" << endl;
     cout << "---+-----------------+------------------+--------------------------+----------+-----------------+-------------" << endl;
-    for (int i = 0; i < 10; i++) {
+    for (size_t i = 0; i < 10; i++) {
         cout << left
             << setw(3) << i + 1 << "| " << setw(16) << "tes tes dlu" << "| "
             << setw(17) << "user123" << "| "
@@ -1098,6 +1098,7 @@ void editDataDiri(vector<Akun> &akun, int index_login) {
     }
 }
 
+
 void tambahProdukkeKeranjang(vector<Ebook> &ebook, vector<Keranjang> &keranjang, string id_user) {
     lihatDaftarEbook(ebook);
     string kodeCari;
@@ -1106,7 +1107,7 @@ void tambahProdukkeKeranjang(vector<Ebook> &ebook, vector<Keranjang> &keranjang,
 
     try {
         int indexBuku = -1;
-        for (int i = 0; i < ebook.size(); i++) {
+        for (size_t i = 0; i < ebook.size(); i++) {
             if (ebook[i].kode == kodeCari) {
                 indexBuku = i; break;
             }
@@ -1135,7 +1136,7 @@ void checkoutDariKatalog(vector<Ebook> &ebook, vector<Order> &order, string id_u
 
     try {
         int indexBuku = -1;
-        for (int i = 0; i < ebook.size(); i++) {
+        for (size_t i = 0; i < ebook.size(); i++) {
             if (ebook[i].kode == kodeCari) { indexBuku = i; break; }
         }
         if (indexBuku == -1) throw "Kode E-Book tidak ditemukan!";
@@ -1312,26 +1313,6 @@ void pesananDikirim(vector<Order> &order, vector<Library> &lib, string id_user, 
     }
 }
 
-/* FUNGSI KELOLA PESANAN USER
-══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
-void lihatPesananUser(string jenis, vector<Order> &order, string id_user) {
-    cout << "ID ORDER         | KODE       | JUDUL                     | TOTAL HARGA | STATUS" << endl;
-    cout << "-----------------+------------+---------------------------+-------------+-------------------" << endl;
-    
-    bool ada = false;
-    for (auto &o : order) {
-        if (o.id_user == id_user && o.status_order == jenis) {
-            cout << left << setw(17) << o.id_order << "| "
-                << setw(11) << o.kode << "| "
-                << setw(26) << o.judul << "| "
-                << setw(12) << o.total_harga << "| "
-                << o.status_order << endl;
-            ada = true;
-        }
-    }
-    if (!ada) cout << "              Tidak ada pesanan di kategori ini.\n";
-    cout << endl;
-}
 
 void editSaldo() {}
 
