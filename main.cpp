@@ -512,9 +512,71 @@ void lihatDaftarPelanggan(vector<Akun> &akun) {
 
 void editStatusPelanggan(vector<Akun> &akun) {
     if (akun.empty()) {
-        tampilPeringatan(28, "Tidak ada pelanggan terdaftar!");
+        tampilPeringatan(28, "Belum ada pelanggan yang terdaftar!");
         return;
     }
+    string cari;
+    int pilihan;
+    bool ditemukan = false;
+
+    system("cls");
+
+    cout << "=== EDIT STATUS PELANGGAN ===\n";
+    cout << "Masukkan ID User / Username : ";
+    cin >> cari;
+
+    for (auto &a : akun) {
+
+        if (a.id_user == cari || a.username == cari) {
+            ditemukan = true;
+
+            cout << "\nData Ditemukan\n";
+            cout << "ID User          : " << a.id_user << endl;
+            cout << "Username         : " << a.username << endl;
+            cout << "Status Sekarang  : " << a.status_akun << endl;
+
+            cout << "\nPilihan Status\n";
+            cout << "1. Aktifkan\n";
+            cout << "2. Nonaktifkan\n";
+            cout << "Pilih : ";
+            cin >> pilihan;
+
+            if (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+                cout << "\nInput harus angka!\n";
+                system("pause");
+                return;
+            }
+
+            if (pilihan == 1) {
+                a.status_akun = "Aktif";
+
+                cout << "\nAkun berhasil diaktifkan!\n";
+            }
+
+            else if (pilihan == 2) {
+                a.status_akun = "Nonaktif";
+
+                cout << "\nAkun berhasil dinonaktifkan!\n";
+            }
+
+            else {
+                cout << "\nPilihan tidak valid!\n";
+                system("pause");
+                return;
+            }
+
+            saveAkun(akun);
+            break;
+        }
+    }
+
+    if (!ditemukan) {
+        cout << "\nAkun tidak ditemukan!\n";
+    }
+    system("pause");
 } // belum selesai -dopa
 
 
@@ -774,12 +836,38 @@ void lihatDaftarPembelian(vector<Order> &order) {
                 << setw(17) << order[i].id_user << "| "
                 << setw(25) << order[i].judul << "| "
                 << setw(10) << order[i].harga << "| "
-                << setw(14) << order[i].tanggal_pesan
-                << endl;}
+                << setw(14) << order[i].tanggal_pesan << endl;
+            }
         cout << endl;
 }
 
-void cariRiwayatPembelian() {}
+void cariRiwayatPembelian(vector<Order> &order) {
+    string cari;
+    bool ditemukan = false;
+
+    system("cls");
+
+    cout << "\n=== CARI RIWAYAT PEMBELIAN ===\n";
+    cout << "Masukkan ID Order: ";
+    cin >> cari;
+
+    for (int i = 0; i < order.size(); i++) {
+        if (order[i].id_order == cari) {
+            ditemukan = true;
+            cout << "\nData Ditemukan\n";
+            cout << "ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS ORDER  | STATUS BAYAR" << endl;
+            cout << "---+-----------------+------------------+--------------------------+----------+----------------+----------------+" << endl;
+            cout << left
+                << setw(3) << order[i].id_order << "| "
+                << setw(17) << order[i].id_user << "| "
+                << setw(25) << order[i].judul << "| "
+                << setw(10) << order[i].harga << "| "
+                << setw(14) << order[i].tanggal_pesan << "| "
+                << setw(14) << order[i].status_order << "| "
+                << setw(14) << order[i].status_bayar << endl;
+        }
+    }
+}
 
 
 void lihatPesanan(string jenis, vector<Order> &order) {
@@ -805,8 +893,8 @@ void lihatPesanan(string jenis, vector<Order> &order) {
 
 void lihatRiwayatPesanan(vector<Order> &order) {
     if(order.empty()) {
-        tampilPeringatan(28, "Belum ada Pesanan yang dibuat!");
-        return;
+        tampilPeringatan(28, "Belum ada riwayat pesanan!");
+        return; 
     }
     cout << "NO | ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS ORDER" << endl;
     cout << "---+-----------------+------------------+--------------------------+----------+-----------------+-------------" << endl;
@@ -826,7 +914,63 @@ void editStatusPesanan(vector<Order> &order) {
         tampilPeringatan(28, "Belum ada Pesanan yang dibuat!");
         return;
     }
-} // belum selesai
+    string cari;
+    int pilihan;
+    bool ditemukan = false;
+    system("cls");
+    cout << "\nEDIT STATUS PESANAN\n"; 
+    cout << "Masukkan ID Order :";
+    cin >> cari;
+
+    for (auto &a : order) {
+
+        if (a.id_order == cari) {
+            ditemukan = true;
+
+            cout << "\nData Ditemukan\n";
+            cout << "ID Order          : " << a.id_order << endl;
+            cout << "Judul      : " << a.judul << endl;
+            cout << "Tanggal Pesan         : " << a.tanggal_pesan << endl;
+            cout << "Status Pesanan  : " << a.status_order << endl;
+
+            cout << "\nPilihan Status\n";
+            cout << "1. Kirim\n";
+            cout << "2. Batalkan Pesanan\n";
+            cout << "Pilih : ";
+            cin >> pilihan;
+
+            if (cin.fail()) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+                cout << "\nInput harus angka!\n";
+                system("pause");
+                return;
+            }
+            if (pilihan == 1) {
+                a.status_order = "Dikirim";
+
+                cout << "\nPesanan berhasil dikirim!!\n";
+            }
+
+            else if (pilihan == 2) {
+                a.status_order = "Dibatalkan";
+
+                cout << "\nPesanan dibatalkan!!\n";
+            }
+
+            else {
+                cout << "\nPilihan tidak valid!\n";
+                system("pause");
+                return;
+            }
+        }
+    } // belum selesai 
+    if (!ditemukan) {
+        cout << "\nAkun tidak ditemukan!\n";
+    }
+    system("pause");
+}
 
 
 void lihatRiwayatTransaksi(vector<Transaksi> &transaksi) {
@@ -939,7 +1083,7 @@ void pembelianAdmin(vector<Order> &order) {
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
                 system("cls"); judul_subjudul("Cari Riwayat Pembelian"); cout << endl;
-                cariRiwayatPembelian();
+                cariRiwayatPembelian(order);
                 system("pause");}
 
             /* b. KEMBALI
