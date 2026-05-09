@@ -1,1 +1,17 @@
-[]
+[
+    {
+        "id_order": "O0001",
+        "id_user": "U003",
+        "kode": "TOA32018001",
+        "judul": "The Trials of Apollo 3",
+        "harga": 50000,
+        "total_harga": 50000,
+        "tanggal_pesan": 20260510,
+        "tanggal_kirim": 20260511,
+        "tanggal_sampai": 20260513,
+        "status_order": "Diterima",
+        "status_bayar": "Sudah",
+        "batal_oleh": "-",
+        "alasan": "-"
+    }
+]
