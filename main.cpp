@@ -293,6 +293,10 @@ void tampilPeringatan(int nilai, string pesan) {
     cout << setw((140 + 40) / 2) << "----------------------------------------" << endl;
     cout << RESET << endl;}
 
+void clsScroll(int x, int y) {
+    COORD c = {SHORT(x), SHORT(y)};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);}
+
 int scrollMenu(int &pilih, int jumlahMenu) {
     int tombol = getch();
     if (tombol == 224 || tombol == 0) {
@@ -307,22 +311,39 @@ int scrollMenu(int &pilih, int jumlahMenu) {
 
 int scrollBuku(vector<Ebook> &katalog, string judulMenu) {
     int pilih = 0;
-
     while(true){
-        system("cls"); judul_subjudul(judulMenu);
+        clsScroll(0,0); judul_subjudul(judulMenu);
         cout << "" << endl;
         for(size_t i = 0; i < katalog.size(); i++){
             if(i == pilih)
-                cout << "> " << katalog[i].judul << endl;
+                cout << "                                                    > " << katalog[i].judul << endl;
             else
-                cout << "  " << katalog[i].judul << endl;}
+                cout << "                                                    " << katalog[i].judul << endl;}
         int hasil = scrollMenu(pilih, katalog.size());
         if(hasil == -1)
-            return pilih;}}   
+            return pilih;}}
 
-void clsScroll(int x, int y) {
-    COORD c = {SHORT(x), SHORT(y)};
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);}
+int scrollAkun(vector<Akun> &akun, string judulMenu) {
+    int pilih = 0;
+    bool refresh = true;
+
+    vector<int> indexUser;
+    for (size_t i = 0; i < akun.size(); i++) {
+        if (akun[i].role == "user") indexUser.push_back(i);}
+    while (true) {
+        if (refresh) {
+            system("cls"); refresh = false;}
+        clsScroll(0,0); judul_subjudul(judulMenu);
+        cout << endl;
+        for (size_t i = 0; i < indexUser.size(); i++) {
+            if (i == pilih)
+                {cout << "                                                    " << BG_PUTIH << HITAM << BOLD << akun[indexUser[i]].username << RESET << endl;}
+            else {
+                cout << DIM << "                                                    " << akun[indexUser[i]].username << RESET << endl;}}
+        int hasil = scrollMenu(pilih, indexUser.size());
+        if (hasil == -1) {
+            refresh = true;
+            return indexUser[pilih];}}}
 
 
 string inisialKode(string teks) {
@@ -466,11 +487,11 @@ void registrasi(vector<Akun> &akun) {
     string username, password, email, no_hp, alamat;
 
     cout << KUNING
-         << "\n                          ☞   Username min 5 karakter, mengandung huruf/angka, tidak mengandung simbol/karakter"
-         << "\n                              spesial kecuali spasi/underscroe"
-         << "\n                          ☞   Password min 8 karakter, mengandung huruf besar & kecil & angka, simbol diperbolehkan"
-         << "\n                          ☞   Email harus valid dan berakhiran '@gmail.com'"
-         << "\n                          ☞   No. HP harus valid, berawalan '08', min 10 angka" << RESET << endl;
+         << "\n                        ☞   Username min 5 karakter, mengandung huruf/angka, tidak mengandung simbol/karakter"
+         << "\n                            spesial kecuali spasi/underscroe"
+         << "\n                        ☞   Password min 8 karakter, mengandung huruf besar & kecil & angka, simbol diperbolehkan"
+         << "\n                        ☞   Email harus valid dan berakhiran '@gmail.com'"
+         << "\n                        ☞   No. HP harus valid, berawalan '08', min 10 angka" << RESET << endl;
     cout << "\n                                                ┌──────────────────────────────────────────┐"
          << "\n                                                   Username: "; cin >> username;
     cout << "                                                └──────────────────────────────────────────┘";
@@ -506,7 +527,7 @@ void registrasi(vector<Akun> &akun) {
             tampilPeringatan(20, "Username sudah ada!"); return;}
         if (a.email == email) {
             tampilPeringatan(22, "Email sudah digunakan!"); return;}}
-    string newID = "U" + to_string(1000 + akun.size());
+    string newID = "U" + to_string(0000 + akun.size());
     time_t now = time(0);
     tm *ltm = localtime(&now);
     int tanggal =
@@ -533,91 +554,115 @@ void registrasi(vector<Akun> &akun) {
 
 /* FUNGSI MENU ADMIN
 ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
+void lihatDataDiri(vector<Akun> &akun, int index_login) {
+    string spasi = string(50, ' '), passwordSensor = string(akun[index_login].password.length(), '*');
+    string field[10] = {
+        "ID USER", "USERNAME", "PASSWORD", "ROLE", "STATUS AKUN", "EMAIL", "ALAMAT", "NO HP", "TANGGAL DAFTAR", "SALDO"};
+    string data[10] = {
+        akun[index_login].id_user,
+        akun[index_login].username,
+        passwordSensor,
+        akun[index_login].role,
+        akun[index_login].status_akun,
+        akun[index_login].email,
+        akun[index_login].alamat,
+        akun[index_login].no_hp,
+        to_string(akun[index_login].tanggal_daftar),
+        "Rp" + to_string(akun[index_login].saldo)};
+
+    system("cls"); judul_subjudul("INFORMASI DATA DIRI");
+
+    cout << CYAN << BOLD;
+    cout << spasi << "┌────────────────────┬───────────────────────────────────────┐" << endl;
+    cout << spasi <<"│ FIELD              │ DATA                                  │" << endl;
+    cout << spasi << "├────────────────────┼───────────────────────────────────────┤" << endl;
+    cout << RESET;
+
+    for (int i = 0; i < 10; i++) {
+        cout << spasi;
+        if (i % 2 == 0) cout << "\033[48;5;235m";
+        cout << "│ " << left << setw(19) << field[i]
+             << "│ " << setw(38) << data[i]
+             << "│" << RESET << endl;}
+    cout << CYAN;
+    cout << spasi << "└────────────────────┴───────────────────────────────────────┘" << endl;
+    cout << RESET << endl;}
+
 void lihatDaftarPelanggan(vector<Akun> &akun) {
     cout << CYAN << BOLD;
-    cout << "┌────┬─────────────────┬────────────────────────┬─────────────────┬──────────────────────┬──────────────┐" << endl;
-    cout << "│ NO │ USERNAME        │ EMAIL                  │ NO HP           │ ALAMAT               │ STATUS AKUN  │" << endl;
-    cout << "├────┼─────────────────┼────────────────────────┼─────────────────┼──────────────────────┼──────────────┤" << endl;
+    cout << "      ┌────┬──────────┬───────────────────┬───────────────────────────────┬──────────────────┬──────────────────────┬───────────────┐" << endl;
+    cout << "      │ NO │ ID USER  │ USERNAME          │ EMAIL                         │ NO HP            │ ALAMAT               │ STATUS AKUN   │" << endl;
+    cout << "      ├────┼──────────┼───────────────────┼───────────────────────────────┼──────────────────┼──────────────────────┼───────────────┤" << endl;
     cout << RESET;
+    int no = 1;
     for (size_t i = 0; i < akun.size(); i++) {
         if (akun[i].role == "user") {
-            cout << left
-                << setw(3) << i + 1 << "| " << setw(17) << akun[i].username << "| "
-                << setw(20) << akun[i].email << "| "
-                << setw(16) << akun[i].no_hp << "| "
-                << setw(21) << akun[i].alamat << "| "
-                << setw(12) << akun[i].status_akun
-                << endl;}}
-    cout << endl;}
+            cout << "      ";
+            if (no % 2 == 0) cout << "\033[48;5;235m";
+            cout << "│ " << left << setw(3) << no++
+                << "│ " << setw(9) << akun[i].id_user
+                << "│ " << setw(18) << akun[i].username
+                << "│ " << setw(30) << akun[i].email
+                << "│ " << setw(17) << akun[i].no_hp
+                << "│ " << setw(21) << akun[i].alamat << "│ ";
+            if (akun[i].status_akun == "aktif" || akun[i].status_akun == "Aktif")
+                cout << HIJAU << BOLD << setw(14) << akun[i].status_akun << RESET;
+            else
+                cout << MERAH << BOLD << setw(14) << akun[i].status_akun << RESET;
+            cout << "│" << RESET << endl;}}
+    cout << CYAN;
+    cout << "      └────┴──────────┴───────────────────┴───────────────────────────────┴──────────────────┴──────────────────────┴───────────────┘" << endl;
+    cout << RESET << endl;}
 
 void editStatusPelanggan(vector<Akun> &akun) {
+    string tindakan[] = {
+        "   1 | Aktifkan",
+        "   2 | Nonaktifkan",
+        "   3 | Batalkan"};
+
     if (akun.empty()) {
         tampilPeringatan(28, "Belum ada pelanggan yang terdaftar!");
-        return;
-    }
-    string cari;
-    int pilihan;
-    bool ditemukan = false;
+        return;}
+    int pilihan = scrollAkun(akun, "EDIT STATUS AKUN PELANGGAN");
 
-    system("cls");
+    int pilih = 0;
+    bool refresh = true;
+    while (true) {
+        if (refresh) {
+            system("cls"); refresh = false;}
+        clsScroll(0,0); judul_subjudul("EDIT STATUS AKUN PELANGGAN");
+        cout << endl;
+        lihatDataDiri(akun, pilihan);
+        for (int i = 0; i < 3; i++) {
+            if (i == pilih)
+                cout << "                                                    " << BG_PUTIH << HITAM << BOLD << tindakan[i] << RESET << endl;
+            else cout << DIM << "                                                    " << tindakan[i] << RESET << endl;}
+        int hasil = scrollMenu(pilih, 3);
+        if (hasil == -1) {
+            refresh = true;
 
-    cout << "=== EDIT STATUS PELANGGAN ===\n";
-    cout << "Masukkan ID User / Username : ";
-    cin >> cari;
+            // AKTIFKAN
+            if (pilih == 0) {
+                if (akun[pilihan].status_akun == "Aktif" || akun[pilihan].status_akun == "aktif") {
+                    tampilPeringatan(30, "Akun sudah aktif!");}
+                else {
+                    akun[pilihan].status_akun = "Aktif";
+                    saveAkun(akun);
+                    tampilPesan(30, "Akun berhasil diaktifkan!");}
+                break;}
 
-    for (auto &a : akun) {
-
-        if (a.id_user == cari || a.username == cari) {
-            ditemukan = true;
-
-            cout << "\nData Ditemukan\n";
-            cout << "ID User          : " << a.id_user << endl;
-            cout << "Username         : " << a.username << endl;
-            cout << "Status Sekarang  : " << a.status_akun << endl;
-
-            cout << "\nPilihan Status\n";
-            cout << "1. Aktifkan\n";
-            cout << "2. Nonaktifkan\n";
-            cout << "Pilih : ";
-            cin >> pilihan;
-
-            if (cin.fail()) {
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
-                cout << "\nInput harus angka!\n";
-                system("pause");
-                return;
-            }
-
-            if (pilihan == 1) {
-                a.status_akun = "Aktif";
-
-                cout << "\nAkun berhasil diaktifkan!\n";
-            }
-
-            else if (pilihan == 2) {
-                a.status_akun = "Nonaktif";
-
-                cout << "\nAkun berhasil dinonaktifkan!\n";
-            }
-
+            // NONAKTIFKAN
+            else if (pilih == 1){
+                if (akun[pilihan].status_akun == "Nonaktif" || akun[pilihan].status_akun == "nonaktif") {
+                    tampilPeringatan(30, "Akun sudah nonaktif!");}
+                else {
+                    akun[pilihan].status_akun = "Nonaktif";
+                    saveAkun(akun);
+                    tampilPesan(30, "Akun berhasil dinonaktifkan!");}
+                break;}
+            
             else {
-                cout << "\nPilihan tidak valid!\n";
-                system("pause");
-                return;
-            }
-
-            saveAkun(akun);
-            break;
-        }
-    }
-
-    if (!ditemukan) {
-        cout << "\nAkun tidak ditemukan!\n";
-    }
-    system("pause");
-} // belum selesai -dopa
+                break;}}}}
 
 
 void lihatDaftarEbook(vector<Ebook> &ebook) {
@@ -1022,8 +1067,8 @@ void lihatRiwayatTransaksi(vector<Transaksi> &transaksi) {
 
 void kelolaAkunPelanggan(vector<Akun> &akun) {
     string pilihMenuAdmin[] = {
-        "『  Ubah Status Akun Pelanggan   』",
-        "『  Kembali                      』"}; 
+        "『   Ubah Status Akun Pelanggan   』",
+        "『   Kembali                      』"}; 
     int pilih = 0;
     bool refresh = true;
     
@@ -1032,8 +1077,8 @@ void kelolaAkunPelanggan(vector<Akun> &akun) {
             system("cls"); refresh = false;}
         clsScroll(0,0); judul_subjudul("MENU KELOLA AKUN PELANGGAN"); cout << endl;
         for (int i = 0; i < 2; i++) {
-            if (i == pilih) cout << "                                " << BG_PUTIH << BG_PUTIH << HITAM << BOLD << *(pilihMenuAdmin + i) << RESET << endl;
-            else cout << DIM << "                                " << *(pilihMenuAdmin + i) << RESET << endl;}
+            if (i == pilih) cout << "                                 " << BG_PUTIH << BG_PUTIH << HITAM << BOLD << *(pilihMenuAdmin + i) << RESET << endl;
+            else cout << DIM << "                                 " << *(pilihMenuAdmin + i) << RESET << endl;}
         cout << endl; lihatDaftarPelanggan(akun);
         int hasil = scrollMenu(pilih, 2);
         if (hasil == -1) {
@@ -1042,7 +1087,6 @@ void kelolaAkunPelanggan(vector<Akun> &akun) {
             /* a. EDIT STATUS AKUN PELANGGAN
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
-                system("cls"); judul_subjudul("Edit Status Pelanggan"); cout << endl;
                 editStatusPelanggan(akun);
                 system("pause");}
 
@@ -1256,18 +1300,6 @@ void menuAdmin(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector
 
 /* FUNGSI MENU USER
 ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
-void lihatDataDiri(vector<Akun> &akun, int index_login) {
-    system("cls");
-    judul_subjudul("Informasi Data Diri");
-    cout << "\n    ID User        : " << akun[index_login].id_user
-        << "\n    Username       : " << akun[index_login].username
-        << "\n    Email          : " << akun[index_login].email
-        << "\n    No. HP         : " << akun[index_login].no_hp
-        << "\n    Alamat         : " << akun[index_login].alamat
-        << "\n    Saldo          : Rp" << akun[index_login].saldo
-        << "\n    Status Akun    : " << akun[index_login].status_akun << "\n\n";
-}
-
 void editDataDiri(vector<Akun> &akun, int index_login) {
     lihatDataDiri(akun, index_login);
     cout << "  [Tekan Enter jika tidak ingin mengubah data tertentu]\n\n";
