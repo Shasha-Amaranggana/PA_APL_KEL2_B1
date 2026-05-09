@@ -15,6 +15,27 @@ using namespace std;
 
 
 
+/* WARNA CIAMIK CUKK
+══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
+#define RESET   "\033[0m"
+#define BOLD    "\033[1m"
+#define DIM     "\033[2m"
+#define UNDER   "\033[4m"
+#define HITAM   "\033[30m"
+#define MERAH   "\033[31m"
+#define HIJAU   "\033[32m"
+#define KUNING  "\033[33m"
+#define BIRU    "\033[34m"
+#define MAGENTA "\033[35m"
+#define CYAN    "\033[36m"
+#define PUTIH   "\033[37m"
+#define BG_BIRU    "\033[44m"
+#define BG_HIJAU   "\033[42m"
+#define BG_MERAH   "\033[41m"
+#define BG_PUTIH   "\033[47m"
+
+
+
 /* STRUCT ADMIN DAN CRUD
 ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
 struct Akun {
@@ -249,27 +270,28 @@ void saveKeranjang(vector<Keranjang> &ker) {
 /* PROSEDUR DAN FUNGSI BANTU
 ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
 void judul_subjudul(string subjudul) {
-    int spasiKiri = (80 - subjudul.length()) / 2;
-    cout << "╔════════════════════════════════════════════════════════════════════╗" << endl;
-    cout << "║                    ☕📓   E-BOOKIE STORE   📓☕                   ║" << endl;
-    cout << "╚════════════════════════════════════════════════════════════════════╝" << endl;
-    cout << "      ══════════════════════════════════════════════════════════      " << endl;
+    int spasiKiri = (140 - subjudul.length()) / 2;
+    cout << "+=========+=========+=========+=========+=========+=========+========++========+=========+=========+=========+=========+=========+=========+" << endl;
+    cout << BIRU << BOLD << "╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗" << endl;
+    cout << "║" << KUNING << BOLD << "                                                       ☕📓   E-BOOKIE STORE   📓☕                                                       " << BIRU << BOLD << "║" << endl;
+    cout << "╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝" << endl;
+    cout << CYAN << BOLD << "                             ══════════════════════════════════════════════════════════════════════════════════" << endl;
     cout << string(spasiKiri, ' ') << subjudul << endl;
-    cout << "      ══════════════════════════════════════════════════════════      " << endl;}
+    cout << "                             ══════════════════════════════════════════════════════════════════════════════════" << RESET << endl;}
 
 void tampilPesan(int nilai, string pesan) {
-    cout << "\033[1;32m" << endl;
-    cout << setw((80 + 26) / 2) << "=========================" << endl;
-    cout << setw((80 + nilai) / 2) << pesan << endl;
-    cout << setw((80 + 26) / 2) << "=========================" << endl;
-    cout << "\033[0m" << endl;}
+    cout << HIJAU << BOLD << endl;
+    cout << setw((140 + 32) / 2) << "================================" << endl;
+    cout << setw((140 + nilai) / 2) << pesan << endl;
+    cout << setw((140 + 32) / 2) << "================================" << endl;
+    cout << RESET << endl;}
 
 void tampilPeringatan(int nilai, string pesan) {
-    cout << "\033[1;31m" << endl;
-    cout << setw((80 + 34) / 2) << "---------------------------------" << endl;
-    cout << setw((80 + nilai) / 2) << pesan << endl;
-    cout << setw((80 + 34) / 2) << "---------------------------------" << endl;
-    cout << "\033[0m" << endl;}
+    cout << KUNING << BOLD << endl;
+    cout << setw((140 + 40) / 2) << "----------------------------------------" << endl;
+    cout << setw((140 + nilai) / 2) << pesan << endl;
+    cout << setw((140 + 40) / 2) << "----------------------------------------" << endl;
+    cout << RESET << endl;}
 
 int scrollMenu(int &pilih, int jumlahMenu) {
     int tombol = getch();
@@ -298,6 +320,10 @@ int scrollBuku(vector<Ebook> &katalog, string judulMenu) {
         if(hasil == -1)
             return pilih;}}   
 
+void clsScroll(int x, int y) {
+    COORD c = {SHORT(x), SHORT(y)};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);}
+
 
 string inisialKode(string teks) {
     string hasil = "";
@@ -325,7 +351,7 @@ string generateKode(vector<Ebook> &katalog, string judul, string penulis, int ta
     return inisialJudul + inisialPenulis + to_string(tahun) + nomorStr;}
 
 int generateNo(vector<Ebook> &katalog) {
-    for (size_t i = 1; i <= katalog.size() + 1; i++) {
+    for (int i = 1; i <= static_cast<int>(katalog.size() + 1); i++) {
         bool ada = false;
         for (size_t j = 0; j < katalog.size(); j++) {
             if (katalog[j].no == i) {
@@ -424,51 +450,62 @@ int linearSearchEbook(vector<Ebook> &ebook, vector<Ebook> &hasil, int jenis, str
 int login(vector<Akun> &akun) {
     string jawabNama, jawabPassword;
 
-    cout << "\n     Username: "; cin >> jawabNama;
-    cout << "     Password: "; cin >> jawabPassword;
-    cout << "\nDEBUG\n";
-
+    cout << "\n                                                ┌──────────────────────────────────────────┐" << endl;
+    cout << "                                                  Username: "; cin >> jawabNama;
+    cout << "                                                └──────────────────────────────────────────┘" << endl;
+    cout << "                                                ┌──────────────────────────────────────────┐" << endl;
+    cout << "                                                  Password: "; cin >> jawabPassword;
+    cout << "                                                └──────────────────────────────────────────┘" << endl;
     for (size_t i = 0; i < akun.size(); i++) {
-
-        cout << akun[i].username
-            << " | "
-            << akun[i].password
-            << endl;
-    }
-    for (size_t i = 0; i < akun.size(); i++) {
-        if (akun[i].username == jawabNama && akun[i].password == jawabPassword) {
-            tampilPesan(38, "Login berhasil! Selamat datang, " + jawabNama);
+        if(akun[i].username == jawabNama && akun[i].password == jawabPassword) {
+            tampilPesan(35, "Login berhasil! Selamat datang, " + jawabNama);
             system("pause"); return i;}}
     return -1;}
 
 void registrasi(vector<Akun> &akun) {
     string username, password, email, no_hp, alamat;
-    
-    cout << "\n     Username: "; cin >> username;
-    cout << "     Password: "; cin >> password;
-    cout << "     Email: "; cin >> email;
-    cout << "     No HP: "; cin >> no_hp;
-    cout << "     Alamat: "; cin >> alamat;
+
+    cout << KUNING
+         << "\n                          ☞   Username min 5 karakter, mengandung huruf/angka, tidak mengandung simbol/karakter"
+         << "\n                              spesial kecuali spasi/underscroe"
+         << "\n                          ☞   Password min 8 karakter, mengandung huruf besar & kecil & angka, simbol diperbolehkan"
+         << "\n                          ☞   Email harus valid dan berakhiran '@gmail.com'"
+         << "\n                          ☞   No. HP harus valid, berawalan '08', min 10 angka" << RESET << endl;
+    cout << "\n                                                ┌──────────────────────────────────────────┐"
+         << "\n                                                   Username: "; cin >> username;
+    cout << "                                                └──────────────────────────────────────────┘";
+    cout << "\n                                                ┌──────────────────────────────────────────┐"
+         << "\n                                                   Password: "; cin >> password;
+    cout << "                                                └──────────────────────────────────────────┘";
+    cout << "\n                                                ┌──────────────────────────────────────────┐"
+         << "\n                                                   Email: "; cin >> email;
+    cout << "                                                └──────────────────────────────────────────┘";
+    cout << "\n                                                ┌──────────────────────────────────────────┐"
+         << "\n                                                   No. HP: "; cin >> no_hp;
+    cout << "                                                └──────────────────────────────────────────┘";
+    cout << "\n                                                ┌──────────────────────────────────────────┐"
+         << "\n                                                   Alamat: "; cin >> alamat;
+    cout << "                                                └──────────────────────────────────────────┘";
 
     if (username.empty() || password.empty() || email.empty() || no_hp.empty() || alamat.empty()) {
-        tampilPeringatan(30, "Semua kolom harus diisi!"); return;}
+        tampilPeringatan(24, "Semua kolom harus diisi!"); return;}
     regex userRegex("^[a-zA-Z0-9_ ]{5,}$");
     regex passRegex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$");
     regex hpRegex("^08\\d{8,12}$");
     if (!regex_match(username, userRegex)) {
-        tampilPeringatan(40, "Username tidak valid!"); return;}
+        tampilPeringatan(22, "Username tidak valid!"); return;}
     if (!regex_match(password, passRegex)) {
-        tampilPeringatan(45, "Password harus 8 karakter + huruf besar, kecil, angka!"); return;}
+        tampilPeringatan(54, "Password harus 8 karakter + huruf besar, kecil, angka!"); return;}
     if (!regex_match(no_hp, hpRegex)) {
-        tampilPeringatan(35, "No HP tidak valid!"); return;}
+        tampilPeringatan(18, "No HP tidak valid!"); return;}
     if (email.find("@gmail.com") == string::npos) {
-        tampilPeringatan(40, "Email harus @gmail.com!");return;}
+        tampilPeringatan(24, "Email harus @gmail.com!");return;}
 
     for (auto &a : akun) {
         if (a.username == username) {
-            tampilPeringatan(30, "Username sudah ada!"); return;}
+            tampilPeringatan(20, "Username sudah ada!"); return;}
         if (a.email == email) {
-            tampilPeringatan(30, "Email sudah digunakan!"); return;}}
+            tampilPeringatan(22, "Email sudah digunakan!"); return;}}
     string newID = "U" + to_string(1000 + akun.size());
     time_t now = time(0);
     tm *ltm = localtime(&now);
@@ -489,7 +526,7 @@ void registrasi(vector<Akun> &akun) {
     baru.saldo = 0;
 
     akun.push_back(baru);
-    tampilPesan(36, "Registrasi berhasil!");
+    tampilPesan(20, "Registrasi berhasil!");
 }
 
 
@@ -497,8 +534,11 @@ void registrasi(vector<Akun> &akun) {
 /* FUNGSI MENU ADMIN
 ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
 void lihatDaftarPelanggan(vector<Akun> &akun) {
-    cout << "NO | USERNAME         | EMAIL                | NO HP          | ALAMAT              | STATUS AKUN" << endl;
-    cout << "---+------------------+----------------------+-----------------+---------------------+-------------" << endl;
+    cout << CYAN << BOLD;
+    cout << "┌────┬─────────────────┬────────────────────────┬─────────────────┬──────────────────────┬──────────────┐" << endl;
+    cout << "│ NO │ USERNAME        │ EMAIL                  │ NO HP           │ ALAMAT               │ STATUS AKUN  │" << endl;
+    cout << "├────┼─────────────────┼────────────────────────┼─────────────────┼──────────────────────┼──────────────┤" << endl;
+    cout << RESET;
     for (size_t i = 0; i < akun.size(); i++) {
         if (akun[i].role == "user") {
             cout << left
@@ -851,7 +891,7 @@ void cariRiwayatPembelian(vector<Order> &order) {
     cout << "Masukkan ID Order: ";
     cin >> cari;
 
-    for (int i = 0; i < order.size(); i++) {
+    for (size_t i = 0; i < order.size(); i++) {
         if (order[i].id_order == cari) {
             ditemukan = true;
             cout << "\nData Ditemukan\n";
@@ -982,18 +1022,22 @@ void lihatRiwayatTransaksi(vector<Transaksi> &transaksi) {
 
 void kelolaAkunPelanggan(vector<Akun> &akun) {
     string pilihMenuAdmin[] = {
-        "   1 | Ubah Status Akun Pelanggan",
-        "   2 | Kembali",    };
+        "『  Ubah Status Akun Pelanggan   』",
+        "『  Kembali                      』"}; 
     int pilih = 0;
+    bool refresh = true;
     
     while (true) {
-        system("cls"); judul_subjudul("Menu Kelola Akun Pelanggan"); cout << endl;
+        if (refresh) {
+            system("cls"); refresh = false;}
+        clsScroll(0,0); judul_subjudul("MENU KELOLA AKUN PELANGGAN"); cout << endl;
         for (int i = 0; i < 2; i++) {
-            if (i == pilih) cout << "> " << *(pilihMenuAdmin + i) << endl;
-            else cout << "  " << *(pilihMenuAdmin + i) << endl;}
-        lihatDaftarPelanggan(akun);
+            if (i == pilih) cout << "                                " << BG_PUTIH << BG_PUTIH << HITAM << BOLD << *(pilihMenuAdmin + i) << RESET << endl;
+            else cout << DIM << "                                " << *(pilihMenuAdmin + i) << RESET << endl;}
+        cout << endl; lihatDaftarPelanggan(akun);
         int hasil = scrollMenu(pilih, 2);
         if (hasil == -1) {
+            refresh = true;
     
             /* a. EDIT STATUS AKUN PELANGGAN
             ════════════════════════════════════════════════════*/
@@ -1144,63 +1188,67 @@ void pemesananAdmin(vector<Order> &order) {
 
 void menuAdmin(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector<Order> &order, vector<Transaksi> &transaksi) {
     string pilihMenuAdmin[] = {
-        "   1 | Kelola Akun Pelanggan",
-        "   2 | Penjualan",
-        "   3 | Pembelian",
-        "   4 | Pemesanan",
-        "   5 | Riwayat Transaksi",
-        "   6 | Logout",    };
+        "『     Kelola Akun Pelanggan      』", 
+        "『           Penjualan            』",
+        "『           Pembelian            』",
+        "『           Pemesanan            』",
+        "『       Riwayat Transaksi        』",
+        "『             Logout             』"}; 
     int pilih = 0;
+    bool refresh = true;
     
     while (true) {
-        system("cls"); judul_subjudul("Halo, Admin " + akun[indeksLogin].username);
-        cout << setw((70 + 22) / 2) << "=====================" << endl;
-        cout << setw((70 + 2) / 2) << "Saldo: " << akun[indeksLogin].saldo << endl;
-        cout << setw((70 + 22) / 2) << "=====================" << endl;
-        cout << "" << endl;
+        if (refresh) {
+            system("cls"); refresh = false;}
+        clsScroll(0,0); judul_subjudul("HALO, ADMIN " + akun[indeksLogin].username);
+        cout << HIJAU << BOLD << "                                                        ┌──────────────────────────┐" << RESET << endl;
+        cout << "                                                          " << HIJAU << BOLD << BG_HIJAU << "  Saldo: " << akun[indeksLogin].saldo << " " << RESET << endl;
+        cout << HIJAU << BOLD << "                                                        └──────────────────────────┘" << RESET << endl;
+        cout << endl;
         for (int i = 0; i < 6; i++) {
-            if (i == pilih) cout << "> " << *(pilihMenuAdmin + i) << endl;
-            else cout << "  " << *(pilihMenuAdmin + i) << endl;}
+            if (i == pilih) cout << "                                                    " << BG_PUTIH << BG_PUTIH << HITAM << BOLD << *(pilihMenuAdmin + i) << RESET << endl;
+            else cout << DIM << "                                                    " << *(pilihMenuAdmin + i) << RESET << endl;}
         int hasil = scrollMenu(pilih, 6);
         if (hasil == -1) {
+            refresh = true;
     
-            /* a. MENU ADMIN KELOLA AKUN PELANGGAN
+            /* 1. MENU ADMIN KELOLA AKUN PELANGGAN
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
                 kelolaAkunPelanggan(akun);
                 system("pause");}
 
-            /* b. MENU ADMIN PENJUALAN
+            /* 2. MENU ADMIN PENJUALAN
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
                 penjualanAdmin(ebook);
                 system("pause");}
 
-            /* c. MENU ADMIN PEMBELIAN
+            /* 3. MENU ADMIN PEMBELIAN
             ════════════════════════════════════════════════════*/
             else if (pilih == 2) {
                 system("cls"); judul_subjudul("Menu Pembelian"); cout << endl;
                 pembelianAdmin(order);
                 system("pause");}
 
-            /* d. MENU ADMIN PEMESANAN
+            /* 4. MENU ADMIN PEMESANAN
             ════════════════════════════════════════════════════*/
             else if (pilih == 3) {
                 system("cls"); judul_subjudul("Menu Pemesanan"); cout << "" << endl;
                 pemesananAdmin(order);
                 system("pause");}
 
-            /* e. MENU ADMIN RIWAYAT TRANSAKSI
+            /* 4. MENU ADMIN RIWAYAT TRANSAKSI
             ════════════════════════════════════════════════════*/
             else if (pilih == 4) {
                 system("cls"); judul_subjudul("Riwayat Transaksi"); cout << "" << endl;
                 lihatRiwayatTransaksi(transaksi);
                 system("pause");}
 
-            /* f. MENU ADMIN LOGOUT
+            /* 5. MENU ADMIN LOGOUT
             ════════════════════════════════════════════════════*/
             else {
-                tampilPesan(18, "Logout berhasil!");
+                tampilPesan(16, "Logout berhasil!");
                 system("pause");
                 break;}}}}
 
@@ -1554,7 +1602,7 @@ void kelolaAkunDiri(vector<Akun> &akun, int index_login) {
             else {
                 break;}}}}
 
-void belanjaUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Order> &order, vector<Akun> &akun, int index_login, vector<Library> &lib) {
+void belanjaUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Order> &order, vector<Akun> &akun, int index_login) {
     string pilihMenuUser[] = {
         "   1 | Tambah Ke Keranjang",
         "   2 | Pesan Sekarang",
@@ -1603,7 +1651,7 @@ void belanjaUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Orde
             else {
                 break;}}}}
 
-void keranjangUser(vector<Keranjang> &keranjang, vector<Akun> &akun, int index_login, vector<Ebook> &ebook, vector<Order> &order, vector<Library> &lib) {
+void keranjangUser(vector<Keranjang> &keranjang, vector<Akun> &akun, vector<Order> &order, int index_login) {
     string pilihMenuUser[] = {
         "   1 | Hapus E-Book dari Keranjang",
         "   2 | Pesan Keranjang",
@@ -1798,14 +1846,14 @@ void menuUser(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector<
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
                 system("cls"); judul_subjudul("Belanja Sekarang"); cout << endl;
-                belanjaUser(ebook, keranjang, order, akun, indeksLogin, library);
+                belanjaUser(ebook, keranjang, order, akun, indeksLogin);
                 system("pause");}
 
             /* c. MENU USER KERANJANG BELANJA
             ════════════════════════════════════════════════════*/
             else if (pilih == 2) {
                 system("cls"); judul_subjudul("Keranjang Belanja"); cout << endl;
-                keranjangUser(keranjang, akun, indeksLogin, ebook, order, library);
+                keranjangUser(keranjang, akun, order, indeksLogin);
                 system("pause");}
 
             /* d. MENU USER PESANAN USER
@@ -1856,67 +1904,53 @@ int main() {
 
     SetConsoleOutputCP(65001);
     string pilihMenu[] = {
-        "   1 | Login", 
-        "   2 | Register",
-        "   3 | Keluar"}; 
+        "『             Log In             』", 
+        "『            Register            』",
+        "『             Keluar             』"}; 
     int pilih = 0, salah = 0;
+    bool refresh = true;
 
     /* PROGRAM UTAMA
     ════════════════════════════════════════════════════*/
     while (true) {
-        system("cls"); judul_subjudul("Selamat Datang");
+        if (refresh) {
+            system("cls"); refresh = false;}
+        clsScroll(0,0); judul_subjudul("SELAMAT DATANG DI TOKO E-BOOK KAMI");
+        cout << endl;
         for (int i = 0; i < 3; i++) {
-            if (i == pilih) cout << "> " << *(pilihMenu + i) << endl;
-            else cout << "  " << *(pilihMenu + i) << endl;}
+            if (i == pilih) cout << "                                                    " << BG_PUTIH << HITAM << BOLD << *(pilihMenu + i) << RESET << endl;
+            else cout << DIM << "                                                    " << *(pilihMenu + i) << RESET << endl;}
         int hasil = scrollMenu(pilih, 3);
         if (hasil == -1) {
+            refresh = true;
 
-            /* A. LOGIN
+            /* 1. LOGIN
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
-                system("cls"); judul_subjudul("Login Akun Anda");
+                system("cls"); judul_subjudul("LOG IN AKUN ANDA");
                 int indeksLogin = login(akun);
                 if (indeksLogin != -1) {
-
                     salah = 0;
-
-                    // MENU ADMIN
+                    // A. MENU ADMIN
                     if (akun[indeksLogin].role == "admin") {
-                        menuAdmin(akun, indeksLogin, ebook, order, transaksi);
-                    }
-
-                    // MENU USER
+                        menuAdmin(akun, indeksLogin, ebook, order, transaksi);}
+                    // B. MENU USER
                     else {
-                        menuUser(akun, indeksLogin, ebook, library, order, transaksi, keranjang);
-                    }
-
-                }
-
+                        menuUser(akun, indeksLogin, ebook, library, order, transaksi, keranjang);}}
                 else {
-
-                    tampilPeringatan(56,
-                        "Username atau Password salah atau akun belum terdaftar!");
-
+                    tampilPeringatan(56, "Username atau Password salah atau akun belum terdaftar!");
                     salah++;
-
-                    tampilPeringatan(26,
-                        "Kesempatan anda tersisa " + to_string(3 - salah));
-
+                    tampilPeringatan(26, "Kesempatan anda tersisa " + to_string(3 - salah));
                     if (salah == 3) {
-
-                        tampilPesan(52,
-                            "Anda telah salah 3 kali. Silakan datang lain kali.");
-
-                        break;
-                    }
-
+                        tampilPesan(52, "Anda telah salah 3 kali. Silakan datang lain kali.");
+                        break;}
                     system("pause");
                 }}
 
             /* 2. REGISTRASI
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
-                system("cls"); judul_subjudul("Registrasi Akun Anda");
+                system("cls"); judul_subjudul("REGISTRASI AKUN ANDA");
                 registrasi(akun); saveAkun(akun);
                 system("pause");}
 
