@@ -46,17 +46,5 @@
         "status_akun": "aktif",
         "tanggal_daftar": 20260507,
         "username": "126"
-    },
-    {
-        "alamat": "Samarinda",
-        "email": "dindaashasha@gmail.com",
-        "id_user": "U1004",
-        "no_hp": "081212121212",
-        "password": "Shasha123",
-        "role": "user",
-        "saldo": 0,
-        "status_akun": "aktif",
-        "tanggal_daftar": 20260509,
-        "username": "Shasha123"
     }
 ]
