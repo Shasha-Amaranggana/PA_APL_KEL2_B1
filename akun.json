@@ -19,7 +19,7 @@
         "password": "124",
         "role": "user",
         "saldo": 100000,
-        "status_akun": "aktif",
+        "status_akun": "Aktif",
         "tanggal_daftar": 20260507,
         "username": "124"
     },
@@ -31,7 +31,7 @@
         "password": "125",
         "role": "user",
         "saldo": 100000,
-        "status_akun": "aktif",
+        "status_akun": "Aktif",
         "tanggal_daftar": 20260507,
         "username": "125"
     },
@@ -43,7 +43,7 @@
         "password": "126",
         "role": "user",
         "saldo": 100000,
-        "status_akun": "aktif",
+        "status_akun": "Aktif",
         "tanggal_daftar": 20260507,
         "username": "126"
     }
