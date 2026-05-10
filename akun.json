@@ -4,12 +4,12 @@
         "email": "admin@email.com",
         "id_user": "A000",
         "no_hp": "081111111111",
-        "password": "123",
+        "password": "Shasha123",
         "role": "admin",
         "saldo": 100000,
-        "status_akun": "Nonaktif",
+        "status_akun": "Aktif",
         "tanggal_daftar": 20260507,
-        "username": "123"
+        "username": "Shasha123"
     },
     {
         "alamat": "Samarinda",
@@ -46,5 +46,17 @@
         "status_akun": "Aktif",
         "tanggal_daftar": 20260507,
         "username": "126"
+    },
+    {
+        "alamat": "Samarinda",
+        "email": "dindashasha@gmail.com",
+        "id_user": "U4",
+        "no_hp": "081348861965",
+        "password": "Shasha344",
+        "role": "user",
+        "saldo": 4000,
+        "status_akun": "Aktif",
+        "tanggal_daftar": 20260510,
+        "username": "Shasha34"
     }
 ]
