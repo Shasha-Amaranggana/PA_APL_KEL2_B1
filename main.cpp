@@ -1180,16 +1180,15 @@ void cariRiwayatPembelian(vector<Order> &order) {
         if (order[i].id_order == cari) {
             ditemukan = true;
             cout << "\nData Ditemukan\n";
-            cout << "ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS ORDER  | STATUS BAYAR" << endl;
-            cout << "---+-----------------+------------------+--------------------------+----------+----------------+----------------+" << endl;
+            cout << "ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS ORDER " << endl;
+            cout << "---+-----------------+------------------+--------------------------+----------+----------------+" << endl;
             cout << left
                 << setw(3) << order[i].id_order << "| "
                 << setw(17) << order[i].id_user << "| "
                 << setw(25) << order[i].judul << "| "
                 << setw(10) << order[i].harga << "| "
                 << setw(14) << order[i].tanggal_pesan << "| "
-                << setw(14) << order[i].status_order << "| "
-                << setw(14) << order[i].status_bayar << endl;
+                << setw(14) << order[i].status_order << endl;
         }
     }
 }
@@ -1217,22 +1216,45 @@ void lihatPesanan(string jenis, vector<Order> &order) {
 }
 
 void lihatRiwayatPesanan(vector<Order> &order) {
-    if(order.empty()) {
-        tampilPeringatan(28, "Belum ada riwayat pesanan!");
-        return; 
-    }
-    cout << "NO | ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS ORDER" << endl;
-    cout << "---+-----------------+------------------+--------------------------+----------+-----------------+-------------" << endl;
+
+    bool ada = false;
+    int no = 1;
+
+    system("cls");
+
+    cout << "===================== RIWAYAT PESANAN =====================\n\n";
+
     for (size_t i = 0; i < order.size(); i++) {
-        cout << left
-            << setw(3) << i + 1 << "| " << setw(16) << "tes tes dlu" << "| "
-            << setw(17) << "user123" << "| "
-            << setw(25) << "Contoh E-Book" << "| "
-            << setw(10) << 50000 << "| "
-            << setw(16) << "2024-01-01" << "| "
-            << setw(12) << "Dikirim"
-            << endl;}
-} // belum selesai -dopa
+
+        if (order[i].status_order == "Dikirim" ||
+            order[i].status_order == "Dibatalkan") {
+
+            ada = true;
+
+            cout << "============================================================\n";
+
+            cout << "No               : " << no++ << endl;
+            cout << "ID Order         : " << order[i].id_order << endl;
+            cout << "Username         : " << order[i].id_user << endl;
+            cout << "Judul            : " << order[i].judul << endl;
+            cout << "Status           : " << order[i].status_order << endl;
+
+            if (order[i].status_order == "Dibatalkan") {
+
+                cout << "Dibatalkan Oleh  : " << order[i].batal_oleh << endl;
+                cout << "Alasan           : " << order[i].alasan << endl;
+            }
+
+            cout << "============================================================\n\n";
+        }
+    }
+
+    if (!ada) {
+        cout << "Belum ada riwayat pesanan!\n";
+    }
+
+    system("pause");
+}
 
 void editStatusPesanan(vector<Order> &order) {
     if(order.empty()) {
