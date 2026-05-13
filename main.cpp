@@ -342,11 +342,12 @@ int scrollBuku(vector<Ebook> &ebook, string judulMenu) {
             system("cls"); refresh = false;}
         clsScroll(0,0); judul_subjudul(judulMenu);
         cout << endl;
+        cout << spasi(34) << BOLD << KUNING << "Pilih E-book:" << RESET; cout << endl;
         for (size_t i = 0; i < indexEbook.size(); i++) {
             if (i == pilih) 
                 {cout << spasi(34) << "➠    " << BG_PUTIH << HITAM << BOLD  << setw(4) << ebook[indexEbook[i]].no << "│ " << setw(40) << ebook[indexEbook[i]].judul << "│ " << setw(18) << ebook[indexEbook[i]].kode << RESET << endl;}
             else {
-                cout << DIM << spasi(34) << setw(4) << ebook[indexEbook[i]].no << "│ " << setw(40) << ebook[indexEbook[i]].judul << "│ " << setw(18) << ebook[indexEbook[i]].kode << RESET << endl;}}
+                cout << DIM << spasi(34) << "     " << setw(4) << ebook[indexEbook[i]].no << "│ " << setw(40) << ebook[indexEbook[i]].judul << "│ " << setw(18) << ebook[indexEbook[i]].kode << RESET << endl;}}
         int hasil = scrollMenu(pilih, indexEbook.size());
         if (hasil == -1) {
             refresh = true;
@@ -364,16 +365,17 @@ int scrollAkun(vector<Akun> &akun, string judulMenu) {
             system("cls"); refresh = false;}
         clsScroll(0,0); judul_subjudul(judulMenu);
         cout << endl;
+        cout << spasi(34) << BOLD << KUNING << "Pilih akun pelanggan:" << RESET; cout << endl;
         for (size_t i = 0; i < indexUser.size(); i++) {
             if (i == pilih)
                 {cout << spasi(34) << "➠    " << BG_PUTIH << HITAM << BOLD  << setw(9) << akun[indexUser[i]].id_user <<  "│ " << setw(18) << akun[indexUser[i]].username << RESET << endl;}
             else {
-                cout << DIM << spasi(34) << setw(9) << akun[indexUser[i]].id_user <<  "│ " << setw(18) << akun[indexUser[i]].username << RESET << endl;}}
+                cout << DIM << spasi(34) << "     " << setw(9) << akun[indexUser[i]].id_user <<  "│ " << setw(18) << akun[indexUser[i]].username << RESET << endl;}}
         int hasil = scrollMenu(pilih, indexUser.size());
         if (hasil == -1) {
             refresh = true;
             return indexUser[pilih];}}}
-
+ 
 
 string inisialKode(string teks) {
     string hasil = "";
@@ -514,10 +516,10 @@ int login(vector<Akun> &akun, int percobaan = 0) {
 
     cout << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << "Username: "; cin >> jawabNama;
+    cout << spasi(47) << BOLD << "Username: " << RESET; cin >> jawabNama;
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << "Password: "; cin >> jawabPassword;
+    cout << spasi(47) << BOLD << "Password: " << RESET; cin >> jawabPassword;
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
 
     for (size_t i = 0; i < akun.size(); i++) {
@@ -548,19 +550,19 @@ void registrasi(vector<Akun> &akun) {
     cout << spasi(30) << "☞    Email harus valid dan berakhiran '@gmail.com'" << endl;
     cout << spasi(30) << "☞    No. HP harus valid, berawalan '08', min 10 angka" << RESET << endl << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << "Username: "; cin >> username;
+    cout << spasi(47) << BOLD << "Username: " << RESET; cin >> username;
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << "Password: "; cin >> password;
+    cout << spasi(47) << BOLD "Password: " << RESET; cin >> password;
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << "Email: "; cin >> email;
+    cout << spasi(47) << BOLD "Email: " << RESET; cin >> email;
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << "No. HP: "; cin >> no_hp;
+    cout << spasi(47) << BOLD "No. HP: " << RESET; cin >> no_hp;
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << "Alamat: "; cin >> alamat;
+    cout << spasi(47) << BOLD "Alamat: " << RESET; cin >> alamat;
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
 
     if (username.empty() || password.empty() || email.empty() || no_hp.empty() || alamat.empty()) {
@@ -626,26 +628,30 @@ void lihatDataDiri(vector<Akun> &akun, int index_login) {
         "Rp" + to_string(akun[index_login].saldo)};
 
     cout << CYAN << BOLD;
-    cout << spasi(40) << "┌────────────────────┬───────────────────────────────────────┐" << endl;
-    cout << spasi(40) << "│ FIELD              │ DATA                                  │" << endl;
-    cout << spasi(40) << "├────────────────────┼───────────────────────────────────────┤" << endl;
+    cout << spasi(40) << "┌──────────────────────────────────────────────────────────┐" << endl;
+    cout << spasi(40) << "│                  DETAIL AKUN PELANGGAN                   │" << endl;
+    cout << spasi(40) << "├────────────────────┬─────────────────────────────────────┤" << endl;
+    cout << spasi(40) << "│ FIELD              │ DATA                                │" << endl;
+    cout << spasi(40) << "├────────────────────┼─────────────────────────────────────┤" << endl;
     cout << RESET;
 
     for (int i = 0; i < 10; i++) {
         cout << spasi(40);
         if (i % 2 == 0) cout << "\033[48;5;235m";
         cout << "│ " << left << setw(19) << field[i]
-            << "│ " << setw(38) << data[i]
+            << "│ " << setw(36) << data[i]
             << "│" << RESET << endl;}
     cout << CYAN;
-    cout << spasi(40) << "└────────────────────┴───────────────────────────────────────┘" << endl;
+    cout << spasi(40) << "└────────────────────┴─────────────────────────────────────┘" << endl;
     cout << RESET << endl;}
 
 void lihatDaftarPelanggan(vector<Akun> &akun) {
     cout << CYAN << BOLD;
-    cout << spasi(6) << "┌────┬──────────┬───────────────────┬───────────────────────────────┬──────────────────┬──────────────────────┬───────────────┐" << endl;
-    cout << spasi(6) << "│ NO │ ID USER  │ USERNAME          │ EMAIL                         │ NO HP            │ ALAMAT               │ STATUS AKUN   │" << endl;
-    cout << spasi(6) << "├────┼──────────┼───────────────────┼───────────────────────────────┼──────────────────┼──────────────────────┼───────────────┤" << endl;
+    cout << spasi(6) << "┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐" << endl;
+    cout << spasi(6) << "│                                                     DAFTAR AKUN PELANGGAN                                                    │" << endl;
+    cout << spasi(6) << "├────┬──────────┬────────────────────┬───────────────────────────────┬──────────────────┬─────┬────────────────┬───────────────┤" << endl;
+    cout << spasi(6) << "│ NO │ ID USER  │ USERNAME           │ EMAIL                         │ NO HP            │ ALAMAT               │ STATUS AKUN   │" << endl;
+    cout << spasi(6) << "├────┼──────────┼────────────────────┼───────────────────────────────┼──────────────────┼──────────────────────┼───────────────┤" << endl;
     cout << RESET;
     int no = 1;
     for (size_t i = 0; i < akun.size(); i++) {
@@ -654,7 +660,7 @@ void lihatDaftarPelanggan(vector<Akun> &akun) {
             if (no % 2 == 0) cout << "\033[48;5;235m";
             cout << "│ " << left << setw(3) << no++
                 << "│ " << setw(9) << akun[i].id_user
-                << "│ " << setw(18) << akun[i].username
+                << "│ " << setw(19) << akun[i].username
                 << "│ " << setw(30) << akun[i].email
                 << "│ " << setw(17) << akun[i].no_hp
                 << "│ " << setw(21) << akun[i].alamat << "│ ";
@@ -664,7 +670,7 @@ void lihatDaftarPelanggan(vector<Akun> &akun) {
                 cout << MERAH << BOLD << setw(14) << akun[i].status_akun << RESET;
             cout << "│" << RESET << endl;}}
     cout << CYAN;
-    cout << spasi(6) << "└────┴──────────┴───────────────────┴───────────────────────────────┴──────────────────┴──────────────────────┴───────────────┘" << endl;
+    cout << spasi(6) << "└────┴──────────┴────────────────────┴───────────────────────────────┴──────────────────┴──────────────────────┴───────────────┘" << endl;
     cout << RESET << endl;}
 
 void editStatusPelanggan(vector<Akun> &akun) {
@@ -683,10 +689,12 @@ void editStatusPelanggan(vector<Akun> &akun) {
         clsScroll(0,0); judul_subjudul("EDIT STATUS AKUN PELANGGAN");
         cout << endl;
         lihatDataDiri(akun, pilihan);
+        cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
+        cout << endl << spasi(34) << BOLD << KUNING << "Ubah status akun pelanggan?" << RESET; cout << endl;
         for (int i = 0; i < 3; i++) {
             if (i == pilih)
-                cout << spasi(34) << BG_PUTIH << HITAM << BOLD << tindakan[i] << RESET << endl;
-            else cout << DIM << spasi(34) << tindakan[i] << RESET << endl;}
+                cout << spasi(39) << BG_PUTIH << HITAM << BOLD << tindakan[i] << RESET << endl;
+            else cout << DIM << spasi(39) << tindakan[i] << RESET << endl;}
         int hasil = scrollMenu(pilih, 3);
         if (hasil == -1) {
             refresh = true;
@@ -730,7 +738,9 @@ void lihatDataEbook(vector<Ebook> &ebook, int index_ebook) {
         to_string(ebook[index_ebook].harga)};
 
     cout << CYAN << BOLD;
-    cout << spasi(40) << "┌─────────┬────────────────────────────────────────────────┐" << endl;
+    cout << spasi(40) << "┌──────────────────────────────────────────────────────────┐" << endl;
+    cout << spasi(40) << "│                      DETAIL E-BOOK                       │" << endl;
+    cout << spasi(40) << "├─────────┬────────────────────────────────────────────────┤" << endl;
     cout << spasi(40) << "│ FIELD   │ DATA                                           │" << endl;
     cout << spasi(40) << "├─────────┼────────────────────────────────────────────────┤" << endl;
     cout << RESET;
@@ -750,7 +760,9 @@ void lihatDaftarEbook(vector<Ebook> &ebook) {
         tampilPesan(28, "Katalog E-book belum terisi.");
         return;}
     cout << CYAN << BOLD;
-    cout << " ┌──────┬───────────────────┬────────────────────────────────────────┬────────────────────────┬───────┬─────────────────┬───────────────┐" << endl;
+    cout << " ┌──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐" << endl;
+    cout << " │                                                         DAFTAR E-BOOK KATALOG                                                        │" << endl;
+    cout << " ├──────┬───────────────────┬────────────────────────────────────────┬────────────────────────┬───────┬─────────────────┬───────────────┤" << endl;
     cout << " │ NO   │ KODE              │ JUDUL                                  │ PENULIS                │ TAHUN │ GENRE           │ HARGA         │" << endl;
     cout << " ├──────┼───────────────────┼────────────────────────────────────────┼────────────────────────┼───────┼─────────────────┼───────────────┤" << endl;
     cout << RESET;
@@ -776,23 +788,31 @@ int tambahEbook(vector<Ebook> &ebook) {
         "Romance", "Fantasy", "Horror", "Mystery", "Thriller", "Sci-Fi", "Adventure", "Action", "Drama", "Comedy",
         "Historical", "Crime", "Psychological", "Slice of Life", "School", "Supernatural", "Family", "Friendship",
         "Religious", "Biography"};
+    string tindakan[] = {
+        "【 1 | Simpan      】",
+        "【 2 | Batalkan      】"};
 
+    system("cls"); judul_subjudul("TAMBAH E-BOOK"); cout << endl;
     cin.ignore(1000, '\n'); cout << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << "Judul   : "; getline(cin, baru.judul);
+    cout << spasi(47) << BOLD << "Judul   : " << RESET; getline(cin, baru.judul);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
-    cout << spasi(46) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(45) << "Penulis : "; getline(cin, baru.penulis);
-    cout << spasi(46) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << "Tahun   : "; cin >> input;
+    cout << spasi(47) << BOLD << "Penulis : " << RESET; getline(cin, baru.penulis);
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Tahun   : " << RESET; cin >> input;
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     for (char c : input) {
         if (!isdigit(c)) {
             tampilPeringatan(26, "Tahun harus berupa angka!");
             return 0;}}
-    baru.tahun = stoi(input);
-    if (baru.tahun <= 1000 || baru.tahun >= 3000) {
+    try {
+        baru.tahun = stoi(input);}
+    catch (...) {
+        tampilPeringatan(20, "Angka terlalu besar!");
+        return 0;}
+    if (baru.tahun < 1000 || baru.tahun > 3000) {
         tampilPeringatan(46, "Tahun harus berada di rentang tahun 1000-3000!");
         return 0;}
 
@@ -801,71 +821,108 @@ int tambahEbook(vector<Ebook> &ebook) {
     while (true) {
         if (refresh) {
             system("cls"); refresh = false;}
-        clsScroll(0,0); judul_subjudul("EDIT STATUS AKUN PELANGGAN");
+        clsScroll(0,0); judul_subjudul("TAMBAH E-BOOK");
         cout << endl;
         cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-        cout << spasi(47) << "Judul   : " << baru.judul;
+        cout << spasi(47) << BOLD << "Judul   : " << RESET << baru.judul << endl;
         cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
         cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-        cout << spasi(47) << "Penulis : " << baru.penulis;
+        cout << spasi(47) << BOLD << "Penulis : " << RESET << baru.penulis << endl;
         cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
         cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-        cout << spasi(47) << "Tahun   : " << baru.tahun;
+        cout << spasi(47) << BOLD << "Tahun   : " << RESET << baru.tahun << endl;
         cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
         cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-        cout << spasi(47) << "Genre   : ";
-        cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+        cout << spasi(47) << BOLD << "Genre   : " << RESET;
         cout << endl;
         for (int i = 0; i < 20; i++) {
             if (i == pilih)
-                cout << spasi(51) << "➠    " << BG_PUTIH << HITAM << BOLD << genre[i] << RESET << endl;
-            else cout << DIM << spasi(51) << "➠    " << genre[i] << RESET << endl;}
+                cout << spasi(52) << "➠    " << BG_PUTIH << HITAM << BOLD << genre[i] << RESET << endl;
+            else cout << DIM << spasi(52) << "➠    " << genre[i] << RESET << endl;}
         int hasil = scrollMenu(pilih, 20);
         if (hasil == -1) {
             refresh = true;
             baru.genre = genre[pilih];
             break;}}
 
-    system("cls"); judul_subjudul("EDIT STATUS AKUN PELANGGAN");
+    system("cls"); judul_subjudul("TAMBAH E-BOOK");
     cout << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Judul   : " << RESET << baru.judul << endl;
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Penulis : " << RESET << baru.penulis << endl;
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Tahun   : " << RESET << baru.tahun << endl;
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Genre   : " << RESET << baru.genre << endl;
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Harga   : " << RESET; cin >> input;
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    for (char c : input) {
+        if (!isdigit(c)) {
+            tampilPeringatan(26, "Harga harus berupa angka!");
+            return 0;}}
+    try {
+        baru.harga = stoi(input);}
+    catch (...) {
+        tampilPeringatan(20, "Angka terlalu besar!");
+        return 0;}
+    if (baru.harga < 0 || baru.harga > 10000000) {
+        tampilPeringatan(50, "Harga harus berada di rentang tahun 0-10.000.000!");
+        return 0;}
+
+    int pilihTindakan = 0;
+    bool refreshTindakan = true;
+    while (true) {
+        if (refreshTindakan) {
+            system("cls"); refreshTindakan = false;}
+        clsScroll(0,0); judul_subjudul("TAMBAH E-BOOK");
         cout << endl;
         cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-        cout << spasi(47) << "Judul   : " << baru.judul;
+        cout << spasi(47) << BOLD << "Judul   : " << RESET << baru.judul << endl;
         cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
         cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-        cout << spasi(47) << "Penulis : " << baru.penulis;
+        cout << spasi(47) << BOLD << "Penulis : " << RESET << baru.penulis << endl;
         cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
         cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-        cout << spasi(47) << "Tahun   : " << baru.tahun;
+        cout << spasi(47) << BOLD << "Tahun   : " << RESET << baru.tahun << endl;
         cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
         cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-        cout << spasi(47) << "Genre   : " << baru.genre;
+        cout << spasi(47) << BOLD << "Genre   : " << RESET << baru.genre << endl;
         cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
         cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-        cout << spasi(47) << "Harga   : "; cin >> input;
+        cout << spasi(47) << BOLD << "Harga   : " << RESET << baru.harga << endl;
         cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
-        for (char c : input) {
-            if (!isdigit(c)) {
-                tampilPeringatan(26, "Harga harus berupa angka!");
-                return 0;}}
-        try {
-            baru.harga = stoi(input);}
-        catch (...) {
-            tampilPeringatan(50, "Angka terlalu besar!");
-            return 0;}
-        if (baru.harga <= 0 || baru.harga >= 10000000) {
-            tampilPeringatan(50, "Harga harus berada di rentang tahun 0-10.000.000!");
-            return 0;}
+        cout << endl;
+        cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
+        cout << endl << spasi(34) << BOLD << KUNING << "Simpan E-Book?" << RESET; cout << endl;
+        for (int i = 0; i < 2; i++) {
+            if (i == pilihTindakan)
+                cout << spasi(39) << BG_PUTIH << HITAM << BOLD << tindakan[i] << RESET << endl;
+            else cout << DIM << spasi(39) << tindakan[i] << RESET << endl;}
+        int hasil = scrollMenu(pilihTindakan, 2);
+        if (hasil == -1) {
+            refreshTindakan = true;
 
-    baru.no = generateNo(ebook);
-    baru.kode = generateKode(ebook, baru.judul, baru.penulis, baru.tahun);
-    ebook.push_back(baru);
-    bubbleSortEbook(ebook, 6, true);
+            // SIMPAN
+            if (pilihTindakan == 0) {
+                baru.no = generateNo(ebook);
+                baru.kode = generateKode(ebook, baru.judul, baru.penulis, baru.tahun);
+                ebook.push_back(baru);
+                bubbleSortEbook(ebook, 6, true);
+                cout << endl; tampilPesan(28, "E-book berhasil ditambahkan!");}
 
-    cout << endl; tampilPesan(28, "E-book berhasil ditambahkan!");
+            else {
+                tampilPeringatan(22, "Penambahan dibatalkan!");
+                break;}}}
     return 1;}
 
 int editEbook(vector<Ebook> &ebook) {
+    string input;
     string genre[] = {
         "Romance", "Fantasy", "Horror", "Mystery", "Thriller", "Sci-Fi", "Adventure", "Action", "Drama", "Comedy",
         "Historical", "Crime", "Psychological", "Slice of Life", "School", "Supernatural", "Family", "Friendship",
@@ -883,18 +940,27 @@ int editEbook(vector<Ebook> &ebook) {
     lihatDataEbook(ebook, pilihan); cout << endl;
 
     Ebook temp = ebook[pilihan];
-    cin.ignore(1000, '\n');
-    cout << "\n                                         ┌────────────────────────────────────────────────────┐"
-        << "\n                                              Judul Baru   : "; getline(cin, temp.judul);
-    cout << "                                           └────────────────────────────────────────────────────┘";
-    cout << "\n                                         ┌────────────────────────────────────────────────────┐"
-        << "\n                                              Penulis Baru : "; getline(cin, temp.penulis);
-    cout << "                                           └────────────────────────────────────────────────────┘";
-    cout << "\n                                         ┌────────────────────────────────────────────────────┐"
-        << "\n                                              Tahun Baru   : "; cin >> temp.tahun;
-    cout << "                                           └────────────────────────────────────────────────────┘";
-    if (cin.fail() || temp.tahun <= 0) {
-        tampilPeringatan(52, "Tahun harus berupa angka, tidak boleh minus atau 0!");
+    cin.ignore(1000, '\n'); cout << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Judul Baru   : " << RESET; getline(cin, temp.judul);
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Penulis Baru : " << RESET; getline(cin, temp.penulis);
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Tahun Baru   : " << RESET; cin >> input;
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    for (char c : input) {
+        if (!isdigit(c)) {
+            tampilPeringatan(26, "Tahun harus berupa angka!");
+            return 0;}}
+    try {
+        temp.tahun = stoi(input);}
+    catch (...) {
+        tampilPeringatan(20, "Angka terlalu besar!");
+        return 0;}
+    if (temp.tahun < 1000 || temp.tahun > 3000) {
+        tampilPeringatan(46, "Tahun harus berada di rentang tahun 1000-3000!");
         return 0;}
 
     int pilih = 0;
@@ -904,23 +970,23 @@ int editEbook(vector<Ebook> &ebook) {
             system("cls"); refresh = false;}
         clsScroll(0,0); judul_subjudul("EDIT DETAIL E-BOOK");
         lihatDataEbook(ebook, pilihan); cout << endl;
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Judul Baru   : " << temp.judul;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Penulis Baru : " << temp.penulis;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Tahun Baru   : " << temp.tahun;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Genre Baru   : ";
-        cout << "                                           └────────────────────────────────────────────────────────┘";
+        cout << endl;
+        cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+        cout << spasi(47) << BOLD << "Judul Baru   : " << RESET << temp.judul << endl;
+        cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+        cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+        cout << spasi(47) << BOLD << "Penulis Baru : " << RESET << temp.penulis << endl;
+        cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+        cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+        cout << spasi(47) << BOLD << "Tahun Baru   : " << RESET << temp.tahun << endl;
+        cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+        cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+        cout << spasi(47) << BOLD << "Genre Baru   : " << RESET;
         cout << endl;
         for (int i = 0; i < 20; i++) {
             if (i == pilih)
-                cout << spasi(51) << "➠    " << BG_PUTIH << HITAM << BOLD << genre[i] << RESET << endl;
-            else cout << DIM << spasi(51) << "➠    " << genre[i] << RESET << endl;}
+                cout << spasi(52) << "➠    " << BG_PUTIH << HITAM << BOLD << genre[i] << RESET << endl;
+            else cout << DIM << spasi(52) << "➠    " << genre[i] << RESET << endl;}
         int hasil = scrollMenu(pilih, 20);
         if (hasil == -1) {
             refresh = true;
@@ -929,23 +995,33 @@ int editEbook(vector<Ebook> &ebook) {
 
     system("cls"); judul_subjudul("EDIT DETAIL E-BOOK");
     lihatDataEbook(ebook, pilihan); cout << endl;
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Judul Baru   : " << temp.judul;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Penulis Baru : " << temp.penulis;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Tahun Baru   : " << temp.tahun;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Genre Baru   : " << temp.genre;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Harga Baru   : "; cin >> temp.harga;
-        cout << "                                           └────────────────────────────────────────────────────────┘";
-    if (cin.fail() || temp.harga <= 0) {
-        tampilPeringatan(52, "Harga harus berupa angka, tidak boleh minus atau 0!");
+    cout << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Judul Baru   : " << RESET << temp.judul << endl;
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Penulis Baru : " << RESET << temp.penulis << endl;
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Tahun Baru   : " << RESET << temp.tahun << endl;
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Genre Baru   : " << RESET << temp.genre << endl;
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+    cout << spasi(47) << BOLD << "Harga Baru   : " << RESET; cin >> input;
+    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    for (char c : input) {
+        if (!isdigit(c)) {
+            tampilPeringatan(26, "Harga harus berupa angka!");
+            return 0;}}
+    try {
+        temp.harga = stoi(input);}
+    catch (...) {
+        tampilPeringatan(20, "Angka terlalu besar!");
+        return 0;}
+    if (temp.harga < 0 || temp.harga > 10000000) {
+        tampilPeringatan(50, "Harga harus berada di rentang tahun 0-10.000.000!");
         return 0;}
 
     int pilihTindakan = 0;
@@ -955,26 +1031,29 @@ int editEbook(vector<Ebook> &ebook) {
             system("cls"); refreshTindakan = false;}
         clsScroll(0,0); judul_subjudul("EDIT DETAIL E-BOOK");
         lihatDataEbook(ebook, pilihan); cout << endl;
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Judul Baru   : " << temp.judul;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Penulis Baru : " << temp.penulis;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Tahun Baru   : " << temp.tahun;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Genre Baru   : " << temp.genre;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n                                         ┌────────────────────────────────────────────────────────┐"
-            << "\n                                            Harga Baru   : " << temp.harga;
-        cout << "\n                                         └────────────────────────────────────────────────────────┘";
-        cout << "\n\n                                         Simpan perubahan?"; cout << endl;
+        cout << endl;
+        cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+        cout << spasi(47) << BOLD << "Judul Baru   : " << RESET << temp.judul << endl;
+        cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+        cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+        cout << spasi(47) << BOLD << "Penulis Baru : " << RESET << temp.penulis << endl;
+        cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+        cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+        cout << spasi(47) << BOLD << "Tahun Baru   : " << RESET << temp.tahun << endl;
+        cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+        cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+        cout << spasi(47) << BOLD << "Genre Baru   : " << RESET << temp.genre << endl;
+        cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+        cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+        cout << spasi(47) << BOLD << "Harga Baru   : " << RESET << temp.harga << endl;
+        cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+        cout << endl;
+        cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
+        cout << endl << spasi(34) << BOLD << KUNING << "Simpan perubahan?" << RESET; cout << endl;
         for (int i = 0; i < 2; i++) {
             if (i == pilihTindakan)
-                cout << spasi(45) << BG_PUTIH << HITAM << BOLD << tindakan[i] << RESET << endl;
-            else cout << DIM << spasi(45) << tindakan[i] << RESET << endl;}
+                cout << spasi(39) << BG_PUTIH << HITAM << BOLD << tindakan[i] << RESET << endl;
+            else cout << DIM << spasi(39) << tindakan[i] << RESET << endl;}
         int hasil = scrollMenu(pilihTindakan, 2);
         if (hasil == -1) {
             refreshTindakan = true;
@@ -1406,7 +1485,6 @@ void penjualanAdmin(vector<Ebook> &ebook) {
             /* a. TAMBAH E-BOOK
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
-                system("cls"); judul_subjudul("E-BOOK BARU"); cout << endl;
                 tambahEbook(ebook); saveEbook(ebook);
                 system("pause");}
 
