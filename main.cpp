@@ -73,7 +73,7 @@ struct Keranjang {
 /* FUNGSI LOAD & SAVE JSON
 ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
 void loadAkun(vector<Akun> &akun) {
-    ifstream file("../akun.json");
+    ifstream file("akun.json");
     if (!file.is_open()) return;
     json j; file >> j;
     for (auto &item : j) {
@@ -91,7 +91,7 @@ void loadAkun(vector<Akun> &akun) {
         akun.push_back(a);}}
 
 void loadEbook(vector<Ebook> &ebook) {
-    ifstream file("../ebook.json");
+    ifstream file("ebook.json");
     if (!file.is_open()) return;
     json j; file >> j;
     for (auto &item : j) {
@@ -106,7 +106,7 @@ void loadEbook(vector<Ebook> &ebook) {
         ebook.push_back(e);}}
 
 void loadLibrary(vector<Library> &lib) {
-    ifstream file("../library.json");
+    ifstream file("library.json");
     if (!file.is_open()) return;
     json j; file >> j;
     for (auto &item : j) {
@@ -123,7 +123,7 @@ void loadLibrary(vector<Library> &lib) {
         lib.push_back(l);}}
 
 void loadOrder(vector<Order> &order) {
-    ifstream file("../orders.json");
+    ifstream file("orders.json");
     if (!file.is_open()) return;
     json j; file >> j;
     for (auto &item : j) {
@@ -144,7 +144,7 @@ void loadOrder(vector<Order> &order) {
         order.push_back(o);}}
 
 void loadTransaksi(vector<Transaksi> &trans) {
-    ifstream file("../transaksi.json");
+    ifstream file("transaksi.json");
     if (!file.is_open()) return;
     json j; file >> j;
     for (auto &item : j) {
@@ -157,7 +157,7 @@ void loadTransaksi(vector<Transaksi> &trans) {
         trans.push_back(t);}}
 
 void loadKeranjang(vector<Keranjang> &ker) {
-    ifstream file("../keranjang.json");
+    ifstream file("keranjang.json");
     if (!file.is_open()) return;
     json j; file >> j;
     for (auto &item : j) {
@@ -183,7 +183,7 @@ void saveAkun(vector<Akun> &akun) {
             {"tanggal_daftar", a.tanggal_daftar},
             {"saldo", a.saldo}
         });}
-    ofstream file("../akun.json");
+    ofstream file("akun.json");
     file << setw(4) << j;}
 
 void saveEbook(vector<Ebook> &ebook) {
@@ -198,7 +198,7 @@ void saveEbook(vector<Ebook> &ebook) {
             {"tahun", e.tahun},
             {"harga", e.harga}
         });}
-    ofstream file("../ebook.json");
+    ofstream file("ebook.json");
     file << setw(4) << j;}
 
 void saveLibrary(vector<Library> &lib) {
@@ -216,7 +216,7 @@ void saveLibrary(vector<Library> &lib) {
                 {"tahun", l.buku.tahun},
                 {"harga", l.buku.harga}
             }}});}
-    ofstream file("../library.json");
+    ofstream file("library.json");
     file << setw(4) << j;}
 
 void saveOrder(vector<Order> &order) {
@@ -237,7 +237,7 @@ void saveOrder(vector<Order> &order) {
             {"batal_oleh", o.batal_oleh},
             {"alasan", o.alasan}
         });}
-    ofstream file("../orders.json");
+    ofstream file("orders.json");
     file << setw(4) << j;}
 
 void saveTransaksi(vector<Transaksi> &trans) {
@@ -250,7 +250,7 @@ void saveTransaksi(vector<Transaksi> &trans) {
             {"nominal", t.nominal},
             {"tanggal_transaksi", t.tanggal_transaksi}
         });}
-    ofstream file("../transaksi.json");
+    ofstream file("transaksi.json");
     file << setw(4) << j;}
 
 void saveKeranjang(vector<Keranjang> &ker) {
@@ -262,7 +262,7 @@ void saveKeranjang(vector<Keranjang> &ker) {
             {"judul", k.judul},
             {"harga", k.harga}
         });}
-    ofstream file("../keranjang.json");
+    ofstream file("keranjang.json");
     file << setw(4) << j;}
 
 
