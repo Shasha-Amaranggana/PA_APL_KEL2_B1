@@ -1390,7 +1390,7 @@ void lihatRiwayatPesanan(vector<Order> &order) {
     system("pause");
 }
 
-void editStatusPesanan(vector<Order> &order) {
+void editStatusPesanan(vector<Order> &order, vector<Akun> &akun) {
     string tindakan[] = {
         "【 1 | Kirim         】",
         "【 2 | Cancel        】",
@@ -1398,11 +1398,12 @@ void editStatusPesanan(vector<Order> &order) {
     
     if (order.empty()) {
         tampilPeringatan(28, "Belum ada Pesanan yang dibuat!");
-        return;}
+        return;
+    }
+
     int pilihan = scrollOrder(akun, "EDIT STATUS AKUN PELANGGAN");
 
     string cari;
-    int pilihan;
     bool ditemukan = false;
     system("cls");
 
@@ -1462,7 +1463,6 @@ void editStatusPesanan(vector<Order> &order) {
             }
 
             else {
-
                 cout << "\nPilihan tidak valid!\n";
                 system("pause");
                 return;
@@ -1479,7 +1479,6 @@ void editStatusPesanan(vector<Order> &order) {
 
     system("pause");
 }
-
 
 void lihatRiwayatTransaksi(vector<Transaksi> &transaksi) {
     if(transaksi.empty()) {
