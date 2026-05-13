@@ -58,5 +58,17 @@
         "status_akun": "Aktif",
         "tanggal_daftar": 20260510,
         "username": "Shasha34"
+    },
+    {
+        "alamat": "sksk",
+        "email": "gu@gmail.com",
+        "id_user": "U5",
+        "no_hp": "081348861965",
+        "password": "Halohaloo90",
+        "role": "user",
+        "saldo": 0,
+        "status_akun": "Aktif",
+        "tanggal_daftar": 20260513,
+        "username": "Halohaloo90"
     }
 ]
