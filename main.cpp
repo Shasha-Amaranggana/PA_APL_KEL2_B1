@@ -376,30 +376,6 @@ int scrollAkun(vector<Akun> &akun, string judulMenu) {
             refresh = true;
             return indexUser[pilih];}}}
 
-int scrollAkun(vector<Order> &order, string judulMenu) {
-    int pilih = 0;
-    bool refresh = true;
-
-    vector<int> indexUser;
-    for (size_t i = 0; i < order.size(); i++) {
-        if (akun[i].role == "user") indexUser.push_back(i);}
-    while (true) {
-        if (refresh) {
-            system("cls"); refresh = false;}
-        clsScroll(0,0); judul_subjudul(judulMenu);
-        cout << endl;
-        cout << spasi(34) << BOLD << KUNING << "Pilih akun pelanggan:" << RESET; cout << endl;
-        for (size_t i = 0; i < indexUser.size(); i++) {
-            if (i == pilih)
-                {cout << spasi(34) << "➠    " << BG_PUTIH << HITAM << BOLD  << setw(9) << akun[indexUser[i]].id_user <<  "│ " << setw(18) << akun[indexUser[i]].username << RESET << endl;}
-            else {
-                cout << DIM << spasi(34) << "     " << setw(9) << akun[indexUser[i]].id_user <<  "│ " << setw(18) << akun[indexUser[i]].username << RESET << endl;}}
-        int hasil = scrollMenu(pilih, indexUser.size());
-        if (hasil == -1) {
-            refresh = true;
-            return indexUser[pilih];}}}
- 
-
 string inisialKode(string teks) {
     string hasil = "";
     bool ambil = true;
