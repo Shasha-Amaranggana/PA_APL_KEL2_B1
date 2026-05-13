@@ -1275,7 +1275,7 @@ void cariRiwayatPembelian(vector<Order> &order) {
         if (order[i].id_order == cari) {
             ditemukan = true;
             cout << "\nData Ditemukan\n";
-            cout << "ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS ORDER " << endl;
+            cout << "ID ORDER       | ID USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS ORDER " << endl;
             cout << "---+-----------------+------------------+--------------------------+----------+----------------+" << endl;
             cout << left
                 << setw(3) << order[i].id_order << "| "
@@ -1285,6 +1285,9 @@ void cariRiwayatPembelian(vector<Order> &order) {
                 << setw(14) << order[i].tanggal_pesan << "| "
                 << setw(14) << order[i].status_order << endl;
         }
+    }
+    if (!ditemukan) {
+        tampilPeringatan(28, "ID Order tidak ditemukan!");
     }
 }
 
@@ -1297,7 +1300,7 @@ void lihatPesanan(string jenis, vector<Order> &order) {
     cout << "NO | ID ORDER       | USERNAME         | JUDUL                    | HARGA    | TANGGAL PESAN  | STATUS " << endl;
     cout << "---+-----------------+------------------+--------------------------+----------+-----------------+-------------" << endl;
     for (size_t i = 0; i < order.size(); i++) {
-        if (order[i].status_order == jenis) {
+        if (order[i].status_bayar == jenis) {
             cout << left
                 << setw(3) << i + 1 << "| " << setw(16) << order[i].id_order << "| "
                 << setw(17) << order[i].id_user << "| "
@@ -1345,14 +1348,15 @@ void lihatRiwayatPesanan(vector<Order> &order) {
     }
 
     if (!ada) {
-        cout << "Belum ada riwayat pesanan!\n";
+        tampilPeringatan(28, "Belum ada riwayat pesanan!");
     }
 
     system("pause");
 }
 
 void editStatusPesanan(vector<Order> &order) {
-    if(order.empty()) {
+
+    if (order.empty()) {
         tampilPeringatan(28, "Belum ada Pesanan yang dibuat!");
         return;
     }
@@ -1360,8 +1364,9 @@ void editStatusPesanan(vector<Order> &order) {
     int pilihan;
     bool ditemukan = false;
     system("cls");
-    cout << "\nEDIT STATUS PESANAN\n"; 
-    cout << "Masukkan ID Order :";
+
+    cout << "\nEDIT STATUS PESANAN\n";
+    cout << "Masukkan ID Order : ";
     cin >> cari;
 
     for (auto &a : order) {
@@ -1370,10 +1375,11 @@ void editStatusPesanan(vector<Order> &order) {
             ditemukan = true;
 
             cout << "\nData Ditemukan\n";
-            cout << "ID Order          : " << a.id_order << endl;
-            cout << "Judul      : " << a.judul << endl;
-            cout << "Tanggal Pesan         : " << a.tanggal_pesan << endl;
-            cout << "Status Pesanan  : " << a.status_order << endl;
+            cout << "ID Order           : " << a.id_order << endl;
+            cout << "Judul              : " << a.judul << endl;
+            cout << "Tanggal Pesan      : " << a.tanggal_pesan << endl;
+            cout << "Status Pesanan     : " << a.status_order << endl;
+            cout << "Status Bayar       : " << a.status_bayar << endl;
 
             cout << "\nPilihan Status\n";
             cout << "1. Kirim\n";
@@ -1389,28 +1395,47 @@ void editStatusPesanan(vector<Order> &order) {
                 system("pause");
                 return;
             }
+
             if (pilihan == 1) {
+                if (a.status_bayar == "Belum Lunas") {
+                    cout << "\nPesanan belum lunas, tidak bisa dikirim!\n";
+                    system("pause");
+                    return;
+                }
+
                 a.status_order = "Dikirim";
 
-                cout << "\nPesanan berhasil dikirim!!\n";
+                cout << "\nPesanan berhasil dikirim!\n";
             }
 
             else if (pilihan == 2) {
+                cin.ignore();
                 a.status_order = "Dibatalkan";
+                a.status_bayar = "Dikembalikan";
+                a.batal_oleh = "Admin";
 
-                cout << "\nPesanan dibatalkan!!\n";
+                cout << "Masukkan alasan pembatalan : ";
+                getline(cin, a.alasan);
+
+                cout << "\nPesanan berhasil dibatalkan!\n";
             }
 
             else {
+
                 cout << "\nPilihan tidak valid!\n";
                 system("pause");
                 return;
             }
+
+            saveOrder(order);
+            break;
         }
-    } // belum selesai 
-    if (!ditemukan) {
-        cout << "\nAkun tidak ditemukan!\n";
     }
+
+    if (!ditemukan) {
+        tampilPeringatan(28, "ID Order tidak ditemukan!");
+    }
+
     system("pause");
 }
 
@@ -1539,7 +1564,8 @@ void pembelianAdmin(vector<Order> &order) {
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
                 system("cls"); judul_subjudul("Cari Riwayat Pembelian"); cout << endl;
-                cariRiwayatPembelian(order);}
+                cariRiwayatPembelian(order);
+                system("pause");}
 
             /* b. KEMBALI
             ════════════════════════════════════════════════════*/
@@ -1567,14 +1593,14 @@ void pemesananAdmin(vector<Order> &order) {
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
                 system("cls"); judul_subjudul("Daftar Pesanan Belum Dibayar"); cout << endl;
-                lihatPesanan("BelumBayar", order);
+                lihatPesanan("Belum Lunas", order);
                 system("pause");}
 
             /* b. DAFTAR PESANAN SUDAH DIBAYAR
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
                 system("cls"); judul_subjudul("Daftar Pesanan Sudah Dibayar"); cout << endl;
-                lihatPesanan("Dibayar", order);
+                lihatPesanan("Lunas", order);
                 system("pause");}
 
             /* c. UBAH STATUS PESANAN
