@@ -4,12 +4,12 @@
         "email": "admin@email.com",
         "id_user": "A000",
         "no_hp": "081111111111",
-        "password": "Shasha123",
+        "password": "1",
         "role": "admin",
         "saldo": 100000,
         "status_akun": "Aktif",
         "tanggal_daftar": 20260507,
-        "username": "Shasha123"
+        "username": "1"
     },
     {
         "alamat": "Samarinda",
