@@ -1743,7 +1743,6 @@ void editDataDiri(vector<Akun> &akun, int index_login) {
     cout << "    Password baru   : "; getline(cin, tempPassword);
 
     try {
-        // FIX LOGIC: Cek apakah semua inputan kosong
         if (tempNoHp.empty() && tempAlamat.empty() && tempPassword.empty()) {
             tampilPeringatan(35, "Tidak ada data yang diubah.");
             return; // Keluar dari fungsi agar tidak perlu saveAkun()
@@ -1929,7 +1928,6 @@ void checkoutDariKatalog(vector<Ebook> &ebook, vector<Order> &order, vector<Akun
             if (hasilBayar == -1) {
                 refreshBayar = true;
 
-                // BATAL
                 if (pilihBayar == 2) {
                     tampilPeringatan("Pemesanan dibatalkan.");
                     return;
@@ -1952,7 +1950,6 @@ void checkoutDariKatalog(vector<Ebook> &ebook, vector<Order> &order, vector<Akun
                 oBaru.batal_oleh     = "";
                 oBaru.alasan         = "";
 
-                // BAYAR SEKARANG
                 if (pilihBayar == 0) {
                     if (akun[index_login].saldo < ebook[indexBuku].harga) {
                         tampilPeringatan("Saldo tidak mencukupi! Gunakan bayar nanti.");
@@ -1969,7 +1966,7 @@ void checkoutDariKatalog(vector<Ebook> &ebook, vector<Order> &order, vector<Akun
                     tampilPesan("Pembayaran berhasil! Pesanan sedang diproses admin.");
                     break;
                 }
-                // BAYAR NANTI
+
                 else {
                     oBaru.status_order = "Menunggu Pembayaran";
                     oBaru.status_bayar = "Belum Lunas";
@@ -2064,104 +2061,41 @@ void hapusEbookDariKeranjang(vector<Keranjang> &keranjang, string id_user) {
 }
 
 void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, vector<Akun> &akun, int index_login) {
-    if (keranjang.empty()) {
-        tampilPeringatan(40, "Keranjang Anda kosong!");
-        return;
-    }
-    
-    cout << "  Opsi Checkout:\n";
-    cout << "  1. Checkout SEMUA Barang\n";
-    cout << "  2. Pilih SATU Barang (Input Kode)\n";
-    cout << "  Masukkan pilihan (Enter untuk batal): ";
-    
-    string pilihan;
-    cin.ignore(); getline(cin, pilihan);
-    if (pilihan.empty()) return;
-
-    vector<Keranjang> itemDipesan;
-    
-    if (pilihan == "1") {
-        itemDipesan = keranjang;
-    } else if (pilihan == "2") {
-        string kode;
-        cout << "  Masukkan Kode E-book: "; getline(cin, kode);
-        for (auto &k : keranjang) {
-            if (k.kode == kode) {
-                itemDipesan.push_back(k);
-                break;
-            }
-        }
-    }
-
-    if (itemDipesan.empty()) {
-        tampilPeringatan(40, "Item tidak ditemukan!");
-        return;
-    }
-
-    for (auto &item : itemDipesan) {
-        Order o;
-        o.id_order = "ORD-" + to_string(time(0)) + item.kode;
-        o.id_user = akun[index_login].id_user;
-        o.kode = item.kode;
-        o.judul = item.judul;
-        o.harga = item.harga;
-        o.total_harga = item.harga;
-        o.waktu_order = time(0);
-
-        if (akun[index_login].saldo >= item.harga) {
-            // Jika saldo cukup, langsung lunas
-            akun[index_login].saldo -= item.harga;
-            o.status_order = "Diproses Admin";
-            o.status_bayar = "Lunas";
-        } else {
-            o.status_order = "Menunggu Pembayaran";
-            o.status_bayar = "Belum Lunas";
-        }
-
-        order.push_back(o);
-        
-        for (auto it = keranjang.begin(); it != keranjang.end(); ) {
-            if (it->kode == item.kode && it->id_user == o.id_user) {
-                it = keranjang.erase(it);
-            } else {
-                ++it;
-            }
-        }
-    }
-
-    saveOrder(order);
-    saveAkun(akun);
-    saveKeranjang(keranjang);
-    tampilPesan(40, "Pesanan berhasil dibuat! Cek 'Daftar Pesanan'.");
-}
-
-void pesananBelumDibayar(vector<Order> &order, vector<Akun> &akun, int index_login) {
-    string opsiMenu[] = {
-        "『   Bayar Pesanan         』",
-        "『   Batalkan Pesanan      』",
-        "『   Kembali               』"
-    };
     int pilihMenu = 0;
     bool refreshMenu = true;
 
     while (true) {
+        int jumlahKeranjang = 0;
+        for (const auto& k : keranjang) {
+            if (k.id_user == akun[index_login].id_user) jumlahKeranjang++;
+        }
+
+        if (jumlahKeranjang == 0) {
+            if (refreshMenu) system("cls");
+            tampilPeringatan(40, "Keranjang Anda kosong!");
+            system("pause > nul");
+            break;
+        }
+
         if (refreshMenu) { 
             system("cls"); 
-            validasiWaktuPesanan(order);
-            lihatPesananUser("Menunggu Pembayaran", order, akun[index_login].id_user);
-            cout << endl;
             refreshMenu = false; 
         }
         
-        clsScroll(0,0); 
-        cout << "  Pilih Aksi:\n\n";
+        clsScroll(0,0);
         
+        lihatDaftarKeranjang(keranjang, akun[index_login].id_user);
+
+        string opsiMenu[] = {
+            "『   Checkout Barang       』",
+            "『   Hapus dari Keranjang  』",
+            "『   Kembali               』"
+        };
+
+        cout << "\n  Opsi Keranjang:\n\n";
         for (int i = 0; i < 3; i++) {
-            if (i == pilihMenu) {
-                cout << spasi(20) << BG_PUTIH << HITAM << BOLD << opsiMenu[i] << RESET << endl;
-            } else {
-                cout << DIM << spasi(20) << opsiMenu[i] << RESET << endl;
-            }
+            if (i == pilihMenu) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << opsiMenu[i] << RESET << endl;
+            else cout << DIM << spasi(20) << opsiMenu[i] << RESET << endl;
         }
 
         int hasilMenu = scrollMenu(pilihMenu, 3);
@@ -2174,21 +2108,177 @@ void pesananBelumDibayar(vector<Order> &order, vector<Akun> &akun, int index_log
             }
             
             else if (pilihMenu == 0) {
-                string inputOrder;
-                cout << "\n  Masukkan ID ORDER yang ingin dibayar (Tekan Enter untuk batal): ";
-                getline(cin, inputOrder);
+                string kodeCari;
+                cout << "\n  Masukkan Kode (Ketik 'ALL' untuk beli semua, atau Enter untuk batal): ";
+                getline(cin, kodeCari);
 
+                if (kodeCari.empty()) continue;
+
+                vector<Keranjang> itemDipesan;
+                
+                if (kodeCari == "ALL" || kodeCari == "all") {
+                    for (const auto& k : keranjang) {
+                        if (k.id_user == akun[index_login].id_user) itemDipesan.push_back(k);
+                    }
+                } else {
+                    for (const auto& k : keranjang) {
+                        if (k.id_user == akun[index_login].id_user && k.kode == kodeCari) {
+                            itemDipesan.push_back(k);
+                            break;
+                        }
+                    }
+                }
+
+                if (itemDipesan.empty()) {
+                    tampilPeringatan(40, "Item tidak ditemukan di keranjang!");
+                    system("pause > nul");
+                    continue;
+                }
+
+                time_t now = time(0); 
+                tm *ltm = localtime(&now);
+                int tgl = (1900 + ltm->tm_year) * 10000 + (1 + ltm->tm_mon) * 100 + ltm->tm_mday;
+
+                for (auto &item : itemDipesan) {
+                    Order o;
+                    o.id_order       = "ORD-" + to_string(time(0)) + item.kode;
+                    o.id_user        = akun[index_login].id_user;
+                    o.kode           = item.kode;
+                    o.judul          = item.judul;
+                    o.harga          = item.harga;
+                    o.total_harga    = item.harga;
+                    o.tanggal_pesan  = tgl;
+                    o.tanggal_kirim  = 0;
+                    o.tanggal_sampai = 0;
+                    o.batal_oleh     = "";
+                    o.alasan         = "";
+
+                    if (akun[index_login].saldo >= item.harga) {
+                        akun[index_login].saldo -= item.harga;
+                        o.status_order = "Diproses Admin";
+                        o.status_bayar = "Lunas";
+                    } else {
+                        o.status_order = "Menunggu Pembayaran";
+                        o.status_bayar = "Belum Lunas";
+                    }
+
+                    order.push_back(o);
+                    
+                    for (auto it = keranjang.begin(); it != keranjang.end(); ) {
+                        if (it->kode == item.kode && it->id_user == o.id_user) {
+                            it = keranjang.erase(it);
+                        } else {
+                            ++it;
+                        }
+                    }
+                }
+
+                saveOrder(order);
+                saveAkun(akun);
+                saveKeranjang(keranjang);
+                tampilPesan(40, "Checkout berhasil diproses! Silakan cek menu Pesanan.");
+                system("pause > nul");
+            }
+
+            else if (pilihMenu == 1) {
+                string kodeHapus;
+                cout << "\n  Masukkan Kode E-Book yang ingin dihapus (Enter untuk batal): ";
+                getline(cin, kodeHapus);
+
+                if (kodeHapus.empty()) continue;
+
+                bool terhapus = false;
+                for (auto it = keranjang.begin(); it != keranjang.end(); ) {
+                    if (it->kode == kodeHapus && it->id_user == akun[index_login].id_user) {
+                        it = keranjang.erase(it);
+                        terhapus = true;
+                        break; 
+                    } else {
+                        ++it;
+                    }
+                }
+
+                if (terhapus) {
+                    saveKeranjang(keranjang);
+                    tampilPesan(40, "Item berhasil dihapus dari keranjang!");
+                } else {
+                    tampilPeringatan(40, "Kode E-Book tidak ditemukan.");
+                }
+                system("pause > nul");
+            }
+        }
+    }
+}
+
+    saveOrder(order);
+    saveAkun(akun);
+    saveKeranjang(keranjang);
+    tampilPesan(40, "Pesanan berhasil dibuat! Cek 'Daftar Pesanan'.");
+}
+
+void pesananBelumDibayar(vector<Order> &order, vector<Akun> &akun, int index_login) {
+    int pilihMenu = 0;
+    bool refreshMenu = true;
+
+    while (true) {
+        if (refreshMenu) { 
+            system("cls"); 
+            refreshMenu = false; 
+        }
+        
+        clsScroll(0,0);
+        validasiWaktuPesanan(order); 
+        lihatPesananUser("Menunggu Pembayaran", order, akun[index_login].id_user);
+
+        int jumlahPesanan = 0;
+        for (const auto& o : order) {
+            if (o.id_user == akun[index_login].id_user && o.status_order == "Menunggu Pembayaran") {
+                jumlahPesanan++;
+            }
+        }
+
+        if (jumlahPesanan == 0) {
+            cout << "\n  Pilih Aksi:\n\n";
+            cout << spasi(20) << BG_PUTIH << HITAM << BOLD << "『   Kembali               』" << RESET << endl;
+            
+            system("pause > nul"); 
+            break; 
+        }
+
+        // Jika ada pesanan, tampilkan menu lengkap
+        string opsiMenu[] = {
+            "『   Bayar Pesanan         』",
+            "『   Batalkan Pesanan      』",
+            "『   Kembali               』"
+        };
+
+        cout << "\n  Pilih Aksi:\n\n";
+        for (int i = 0; i < 3; i++) {
+            if (i == pilihMenu) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << opsiMenu[i] << RESET << endl;
+            else cout << DIM << spasi(20) << opsiMenu[i] << RESET << endl;
+        }
+
+        int hasilMenu = scrollMenu(pilihMenu, 3);
+        
+        if (hasilMenu == -1) {
+            refreshMenu = true; 
+            if (pilihMenu == 2) break; 
+            
+            else if (pilihMenu == 0) {
+                string inputOrder;
+                cout << "\n  Masukkan ID ORDER yang ingin dibayar (Enter untuk batal): ";
+                getline(cin, inputOrder);
                 if (inputOrder.empty()) continue; 
 
                 int idx = -1;
                 for (size_t i = 0; i < order.size(); i++) {
-                    if (order[i].id_user == akun[index_login].id_user && order[i].id_order == inputOrder) {
+                    if (order[i].id_user == akun[index_login].id_user && order[i].id_order == inputOrder && order[i].status_order == "Menunggu Pembayaran") {
                         idx = i; break;
                     }
                 }
 
-                if (idx == -1 || order[idx].status_order != "Menunggu Pembayaran") {
-                    tampilPeringatan(20, "ID Order tidak valid atau sudah dibayar!");
+                if (idx == -1) {
+                    tampilPeringatan(20, "ID Order tidak ditemukan!");
                 } else {
                     if (akun[index_login].saldo >= order[idx].total_harga) {
                         akun[index_login].saldo -= order[idx].total_harga;
@@ -2203,23 +2293,21 @@ void pesananBelumDibayar(vector<Order> &order, vector<Akun> &akun, int index_log
                 }
                 system("pause"); 
             }
-            
             else if (pilihMenu == 1) {
                 string inputOrder;
-                cout << "\n  Masukkan ID ORDER yang ingin dibatalkan (Tekan Enter untuk batal): ";
+                cout << "\n  Masukkan ID ORDER yang ingin dibatalkan (Enter untuk batal): ";
                 getline(cin, inputOrder);
-
                 if (inputOrder.empty()) continue;
 
                 int idx = -1;
                 for (size_t i = 0; i < order.size(); i++) {
-                    if (order[i].id_user == akun[index_login].id_user && order[i].id_order == inputOrder) {
+                    if (order[i].id_user == akun[index_login].id_user && order[i].id_order == inputOrder && order[i].status_order == "Menunggu Pembayaran") {
                         idx = i; break;
                     }
                 }
 
-                if (idx == -1 || order[idx].status_order != "Menunggu Pembayaran") {
-                    tampilPeringatan(20, "ID Order tidak valid atau tidak bisa dibatalkan!");
+                if (idx == -1) {
+                    tampilPeringatan(20, "ID Order tidak ditemukan!");
                 } else {
                     order[idx].status_order = "Dibatalkan";
                     order[idx].status_bayar = "Batal";
@@ -2234,42 +2322,86 @@ void pesananBelumDibayar(vector<Order> &order, vector<Akun> &akun, int index_log
     }
 }
 
-
 void pesananDiproses(vector<Order> &order, string id_user) {
     lihatPesananUser("Diproses Admin", order, id_user);
 }
 
 
 void pesananDikirim(vector<Order> &order, vector<Library> &lib, string id_user, string username) {
-    lihatPesananUser("Dikirim", order, id_user);
-    
-    char pil;
-    cout << "  Apakah ada pesanan yang sudah diterima/selesai? (y/n): ";
-    cin >> pil;
+    int pilihMenu = 0;
+    bool refreshMenu = true;
 
-    if (tolower(pil) == 'y') {
-        string id_selesai;
-        cout << "  Masukkan ID ORDER: "; 
-        cin >> id_selesai;
+    while (true) {
+        if (refreshMenu) { 
+            system("cls"); 
+            refreshMenu = false; 
+        }
+        
+        clsScroll(0,0);
+        lihatPesananUser("Dikirim", order, id_user);
 
-        for (size_t i = 0; i < order.size(); i++) {
-            if (order[i].id_user == id_user && order[i].id_order == id_selesai && order[i].status_order == "Dikirim") {
-                order[i].status_order = "Selesai";
-                
-                Library lBaru;
-                lBaru.id_user    = id_user;
-                lBaru.username   = username;
-                lBaru.buku.kode  = order[i].kode;
-                lBaru.buku.judul = order[i].judul; 
-                lib.push_back(lBaru);
-
-                saveOrder(order);
-                saveLibrary(lib);
-                tampilPesan(45, "Pesanan Selesai! E-Book ditambahkan ke Library.");
-                return;
+        int jumlahPesanan = 0;
+        for (const auto& o : order) {
+            if (o.id_user == id_user && o.status_order == "Dikirim") {
+                jumlahPesanan++;
             }
         }
-        tampilPeringatan(35, "ID Order tidak valid.");
+
+        if (jumlahPesanan == 0) {
+            cout << "\n  Pilih Aksi:\n\n";
+            cout << spasi(20) << BG_PUTIH << HITAM << BOLD << "『   Kembali               』" << RESET << endl;
+            system("pause > nul"); 
+            break;
+        }
+
+        string opsiMenu[] = {
+            "『   Pesanan Diterima      』",
+            "『   Kembali               』"
+        };
+
+        cout << "\n  Pilih Aksi:\n\n";
+        for (int i = 0; i < 2; i++) {
+            if (i == pilihMenu) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << opsiMenu[i] << RESET << endl;
+            else cout << DIM << spasi(20) << opsiMenu[i] << RESET << endl;
+        }
+
+        int hasilMenu = scrollMenu(pilihMenu, 2);
+        
+        if (hasilMenu == -1) {
+            refreshMenu = true; 
+            if (pilihMenu == 1) break; 
+            
+            else if (pilihMenu == 0) {
+                string id_selesai;
+                cout << "\n  Masukkan ID ORDER yang sudah diterima (Enter untuk batal): ";
+                getline(cin, id_selesai);
+
+                if (id_selesai.empty()) continue;
+
+                bool ketemu = false;
+                for (size_t i = 0; i < order.size(); i++) {
+                    if (order[i].id_user == id_user && order[i].id_order == id_selesai && order[i].status_order == "Dikirim") {
+                        order[i].status_order = "Selesai";
+                        
+                        Library lBaru;
+                        lBaru.id_user    = id_user;
+                        lBaru.username   = username;
+                        lBaru.buku.kode  = order[i].kode;
+                        lBaru.buku.judul = order[i].judul; 
+                        lib.push_back(lBaru);
+
+                        saveOrder(order);
+                        saveLibrary(lib);
+                        tampilPesan(45, "Pesanan Selesai! E-Book ditambahkan ke Library.");
+                        ketemu = true;
+                        break;
+                    }
+                }
+                
+                if (!ketemu) tampilPeringatan(35, "ID Order tidak valid.");
+                system("pause"); 
+            }
+        }
     }
 }
 

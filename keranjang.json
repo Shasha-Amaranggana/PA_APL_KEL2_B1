@@ -4,5 +4,11 @@
         "id_user": "U4",
         "judul": "hujan di bul\\ban ju\\nni",
         "kode": "HDBJHDBJ2015002"
+    },
+    {
+        "harga": 60000,
+        "id_user": "U001",
+        "judul": "City of Lost Souls",
+        "kode": "CLS2012001"
     }
 ]
