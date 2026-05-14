@@ -1833,9 +1833,9 @@ void lihatPesananUser(string status, vector<Order> &order, string id_user) {
     for (size_t i = 0; i < order.size(); i++) {
         if (order[i].id_user == id_user && order[i].status_order == status) {
             cout << spasi(15) << "│ " << left << setw(5) << no++ 
-                 << "│ " << setw(13) << order[i].id_order 
-                 << "│ " << setw(25) << (order[i].judul.length() > 22 ? order[i].judul.substr(0, 22) + ".." : order[i].judul)
-                 << "│ " << setw(12) << order[i].status_order << "│" << endl;
+                << "│ " << setw(13) << order[i].id_order 
+                << "│ " << setw(25) << (order[i].judul.length() > 22 ? order[i].judul.substr(0, 22) + ".." : order[i].judul)
+                << "│ " << setw(12) << order[i].status_order << "│" << endl;
             ditemukan = true;}}
 
     if (!ditemukan) {
@@ -2004,10 +2004,10 @@ void lihatDaftarKeranjang(vector<Keranjang> &keranjang, string id_user) {
             cout << "  ";
             if (no % 2 == 0) cout << "\033[48;5;235m";
             cout << "│ " << left << setw(5)  << no
-                 << "│ " << setw(15) << k.kode
-                 << "│ " << setw(35) << k.judul
-                 << "│ Rp" << setw(13) << k.harga 
-                 << "│" << RESET << endl;
+                << "│ " << setw(15) << k.kode
+                << "│ " << setw(35) << k.judul
+                << "│ Rp" << setw(13) << k.harga 
+                << "│" << RESET << endl;
             total += k.harga;
             no++;
             ada = true;}}
@@ -2190,9 +2190,9 @@ void pesananBelumDibayar(vector<Order> &order, vector<Akun> &akun, int index_log
     for (size_t i = 0; i < order.size(); i++) {
         if (order[i].id_user == id_cari && order[i].status_bayar == "Belum Lunas") {
             cout << spasi(15) << "│ " << left << setw(5) << no++ 
-                 << "│ " << setw(13) << order[i].id_order 
-                 << "│ " << setw(25) << (order[i].judul.length() > 22 ? order[i].judul.substr(0, 22) + ".." : order[i].judul)
-                 << "│ Rp" << setw(9) << order[i].harga << "│" << endl;
+                << "│ " << setw(13) << order[i].id_order 
+                << "│ " << setw(25) << (order[i].judul.length() > 22 ? order[i].judul.substr(0, 22) + ".." : order[i].judul)
+                << "│ Rp" << setw(9) << order[i].harga << "│" << endl;
             ditemukan = true;}}
 
     if (!ditemukan) {
@@ -2500,12 +2500,12 @@ void lihatLibraryUser(vector<Library> &lib, string id_user) {
             cout << "  ";
             if (no % 2 == 0) cout << "\033[48;5;235m";
             cout << "│ " << left << setw(5)  << no
-                 << "│ " << setw(15) << lib[i].buku.kode
-                 << "│ " << setw(30) << lib[i].buku.judul
-                 << "│ " << setw(20) << lib[i].buku.penulis
-                 << "│ " << setw(15) << lib[i].buku.genre
-                 << "│ " << setw(6)  << lib[i].buku.tahun
-                 << "│" << RESET << endl;
+                << "│ " << setw(15) << lib[i].buku.kode
+                << "│ " << setw(30) << lib[i].buku.judul
+                << "│ " << setw(20) << lib[i].buku.penulis
+                << "│ " << setw(15) << lib[i].buku.genre
+                << "│ " << setw(6)  << lib[i].buku.tahun
+                << "│" << RESET << endl;
             ada = true;
             no++;}}
 
