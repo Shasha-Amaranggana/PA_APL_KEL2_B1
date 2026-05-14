@@ -1142,36 +1142,34 @@ void urutEbook(vector<Ebook> &ebook) {
         "『  🗓️  Tahun                       』",
         "『  💲 Harga                       』",
         "『  🔑 Kode                        』",
-        "『 ↩   Kembali                     』"};
+        "『 ↩   Kembali                     』"
+    };
     
     int pilih = 0;
-    bool refresh = true;
-
     while (true) {
-        if (refresh) { system("cls"); refresh = false; }
-        clsScroll(0,0); 
-        judul_subjudul("URUTKAN KATALOG"); 
+        system("cls");
+        judul_subjudul("URUTKAN KATALOG");
         cout << endl;
 
         for (int i = 0; i < 7; i++) {
             if (i == pilih) cout << spasi(34) << BG_PUTIH << HITAM << BOLD << menuUrut[i] << RESET << endl;
             else cout << DIM << spasi(34) << menuUrut[i] << RESET << endl;
         }
-        cout << endl; 
-        lihatDaftarEbook(ebook);
+        cout << endl;
+        // INI MENAMPILKAN DATA ASLI
+        lihatDaftarEbook(ebook); 
 
         int hasil = scrollMenu(pilih, 7);
 
         if (hasil == -1) {
-            if (pilih == 6) { 
+            // 1. JIKA PILIH KEMBALI, LANGSUNG PULANG
+            if (pilih == 6) {
                 return; 
             }
-
-            refresh = true;
+            
+            // 2. JIKA PILIH KRITERIA, MASUK KE SUB-MENU
             int pilihJenis = 0;
-            string jenisUrut[] = {
-                "『  ⬆️  Ascending                   』",
-                "『  ⬇️  Descending                  』"};
+            string jenisUrut[] = {"『 ⬆️ Ascending 』", "『 ⬇️ Descending 』"};
 
             while (true) {
                 system("cls");
@@ -1183,22 +1181,24 @@ void urutEbook(vector<Ebook> &ebook) {
                     else cout << DIM << spasi(34) << jenisUrut[i] << RESET << endl;
                 }
                 
-                cout << endl;
-                lihatDaftarEbook(ebook);
-
                 int hasilJenis = scrollMenu(pilihJenis, 2);
+
                 if (hasilJenis == -1) {
-                    bool ascending = (pilihJenis == 0);
-                    vector<Ebook> temp = ebook;
+                    // --- POIN PALING PENTING ---
+                    // Kita buat duplikat/copy data 'ebook' ke variabel 'temp'
+                    vector<Ebook> temp = ebook; 
                     
-                    bubbleSortEbook(temp, pilih, ascending);
+                    // Kita urutkan 'temp'-nya saja, 'ebook' asli JANGAN DISENTUH
+                    bubbleSortEbook(temp, pilih, (pilihJenis == 0));
 
                     system("cls");
-                    judul_subjudul("HASIL PENGURUTAN");
-                    lihatDaftarEbook(temp);
-                    cout << "\n" << spasi(34); system("pause");
-                    break; 
-                } 
+                    judul_subjudul("HASIL PENGURUTAN SEMENTARA");
+                    lihatDaftarEbook(temp); // Tampilkan yang temporary
+                    
+                    cout << "\n" << spasi(34); 
+                    system("pause");
+                    break; // Balik ke menu kriteria, 'temp' akan otomatis dihapus dari memori
+                }
                 else if (hasilJenis == 27) break; 
             }
         }
