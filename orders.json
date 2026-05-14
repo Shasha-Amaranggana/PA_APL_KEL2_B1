@@ -88,5 +88,20 @@
         "tanggal_pesan": 20260512,
         "tanggal_sampai": 0,
         "total_harga": 123
+    },
+    {
+        "alasan": "Batas waktu pembayaran 5 menit telah habis.",
+        "batal_oleh": "Sistem",
+        "harga": 60000,
+        "id_order": "ORD-1778718405CLS2012001",
+        "id_user": "U001",
+        "judul": "City of Lost Souls",
+        "kode": "CLS2012001",
+        "status_bayar": "Gagal",
+        "status_order": "Dibatalkan Otomatis",
+        "tanggal_kirim": 0,
+        "tanggal_pesan": 20260514,
+        "tanggal_sampai": 0,
+        "total_harga": 60000
     }
 ]
