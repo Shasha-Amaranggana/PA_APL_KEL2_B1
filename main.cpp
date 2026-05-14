@@ -1136,147 +1136,168 @@ int hapusEbook(vector<Ebook> &ebook) {
 
 void urutEbook(vector<Ebook> &ebook) {
     string menuUrut[] = {
-        "『  📝 Judul                      』",
-        "『  🪶  Penulis                    』",
-        "『  🏷️  Genre                      』",
-        "『  🗓️  Tahun                      』",
-        "『  💲 Harga                      』",
-        "『  🔑 Kode                       』",
-        "『 ↩   Kembali                    』"};
-    string jenisUrut[] = {
-        "『  ⬆️  Ascending                  』",
-        "『  ⬇️  Descending                 』"}; 
+        "『  📝 Judul                        』",
+        "『  🪶  Penulis                     』",
+        "『  🏷️  Genre                       』",
+        "『  🗓️  Tahun                       』",
+        "『  💲 Harga                       』",
+        "『  🔑 Kode                        』",
+        "『 ↩   Kembali                     』"};
+    
     int pilih = 0;
     bool refresh = true;
 
     while (true) {
-        if (refresh) {
-            system("cls"); refresh = false;}
-        clsScroll(0,0); judul_subjudul("URUTKAN KATALOG"); cout << endl;
+        if (refresh) { system("cls"); refresh = false; }
+        clsScroll(0,0); 
+        judul_subjudul("URUTKAN KATALOG"); 
+        cout << endl;
+
         for (int i = 0; i < 7; i++) {
-            if (i == pilih) cout << spasi(34) << BG_PUTIH << BG_PUTIH << HITAM << BOLD << *(menuUrut + i) << RESET << endl;
-            else cout << DIM << spasi(34) << *(menuUrut + i) << RESET << endl;}
-        cout << endl; lihatDaftarEbook(ebook);
+            if (i == pilih) cout << spasi(34) << BG_PUTIH << HITAM << BOLD << menuUrut[i] << RESET << endl;
+            else cout << DIM << spasi(34) << menuUrut[i] << RESET << endl;
+        }
+        cout << endl; 
+        lihatDaftarEbook(ebook);
+
         int hasil = scrollMenu(pilih, 7);
+
         if (hasil == -1) {
+            if (pilih == 6) { 
+                return; 
+            }
+
             refresh = true;
-
-            // KEMBALI
-            if (pilih == 6) {
-                break;}
-
-            // URUTKAN ASCENDING OR DESCENDING
             int pilihJenis = 0;
-            bool refreshTindakan = true;
-            while(true) {
-                if (refreshTindakan) {
-                    system("cls"); refreshTindakan = false;}
-                clsScroll(0,0); judul_subjudul("JENIS PENGURUTAN"); cout << endl;
-                for (int i = 0; i < 2; i++) {
-                    if (i == pilihJenis) cout << spasi(34) << BG_PUTIH << BG_PUTIH << HITAM << BOLD << *(jenisUrut + i) << RESET << endl;
-                    else cout << DIM << spasi(34) << *(jenisUrut + i) << RESET << endl;}
-                cout << endl; lihatDaftarEbook(ebook);
-                int hasilJenis = scrollMenu(pilihJenis, 2);
+            string jenisUrut[] = {
+                "『  ⬆️  Ascending                   』",
+                "『  ⬇️  Descending                  』"};
 
+            while (true) {
+                system("cls");
+                judul_subjudul("JENIS PENGURUTAN");
+                cout << spasi(34) << "Kategori: " << BOLD << menuUrut[pilih] << RESET << "\n\n";
+
+                for (int i = 0; i < 2; i++) {
+                    if (i == pilihJenis) cout << spasi(34) << BG_PUTIH << HITAM << BOLD << jenisUrut[i] << RESET << endl;
+                    else cout << DIM << spasi(34) << jenisUrut[i] << RESET << endl;
+                }
+                
+                cout << endl;
+                lihatDaftarEbook(ebook);
+
+                int hasilJenis = scrollMenu(pilihJenis, 2);
                 if (hasilJenis == -1) {
-                    refreshTindakan = true;
                     bool ascending = (pilihJenis == 0);
                     vector<Ebook> temp = ebook;
+                    
                     bubbleSortEbook(temp, pilih, ascending);
 
-                    system("cls"); judul_subjudul("HASIL PENGURUTAN"); cout << endl;
+                    system("cls");
+                    judul_subjudul("HASIL PENGURUTAN");
                     lihatDaftarEbook(temp);
-                    system("pause");
-                    break;}}}}}
+                    cout << "\n" << spasi(34); system("pause");
+                    break; 
+                } 
+                else if (hasilJenis == 27) break; 
+            }
+        }
+    }
+}
 
 void cariEbook(vector<Ebook> &ebook) {
     string menuCari[] = {
-        "『  📝 Judul                      』",
-        "『  🪶  Penulis                    』",
-        "『  🏷️  Genre                      』",
-        "『  🗓️  Tahun                      』",
-        "『  💲 Harga                      』",
-        "『  🔑 Kode                       』",
-        "『 ↩   Kembali                    』"};
+        "『  📝 Judul                        』",
+        "『  🪶  Penulis                     』",
+        "『  🏷️  Genre                       』",
+        "『  🗓️  Tahun                       』",
+        "『  💲 Harga                       』",
+        "『  🔑 Kode                        』",
+        "『 ↩   Kembali                     』"};
     int pilih = 0;
     bool refresh = true, error = false;
 
     while (true) {
-        if (refresh) {
-            system("cls"); refresh = false;}
-        clsScroll(0,0); judul_subjudul("CARI E_BOOK"); cout << endl;
+        if (refresh) { system("cls"); refresh = false; }
+        clsScroll(0,0); judul_subjudul("CARI E-BOOK"); cout << endl;
+        
         for (int i = 0; i < 7; i++) {
-            if (i == pilih) cout << spasi(34) << BG_PUTIH << BG_PUTIH << HITAM << BOLD << *(menuCari + i) << RESET << endl;
-            else cout << DIM << spasi(34) << *(menuCari + i) << RESET << endl;}
+            if (i == pilih) cout << spasi(34) << BG_PUTIH << HITAM << BOLD << menuCari[i] << RESET << endl;
+            else cout << DIM << spasi(34) << menuCari[i] << RESET << endl;
+        }
         cout << endl; lihatDaftarEbook(ebook);
-        int hasil = scrollMenu(pilih, 7);
-        if (hasil == -1) {
+        
+        int hasilScroll = scrollMenu(pilih, 7);
+        if (hasilScroll == -1) {
             refresh = true;
-            error = false;
+            if (pilih == 6) break;
 
-            // KEMBALI
-            if (pilih == 6) {
-                break;}
-
+            vector<Ebook> hasilCari;
+            
             // CARI JUDUL, PENULIS, GENRE, KODE
-            vector<Ebook> hasil;
             if (pilih == 0 || pilih == 1 || pilih == 2 || pilih == 5) {
                 system("cls"); judul_subjudul("CARI E-BOOK"); cout << endl;
-                string keyword; cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                string keyword;
+                
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                
                 cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-                cout << spasi(47) << BOLD << "Keyword   : " << RESET; getline(cin, keyword);
+                cout << spasi(47) << BOLD << "Keyword   : " << RESET; 
+                getline(cin, keyword);
                 cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
-                linearSearchEbook(ebook, hasil, pilih + 1, keyword);}
 
+                // VALIDASI: JIKA ENTER SAJA / KOSONG
+                if (keyword.find_first_not_of(' ') == string::npos) {
+                    tampilPeringatan(45, "Keyword tidak boleh kosong!");
+                    system("pause");
+                    continue; 
+                }
+
+                linearSearchEbook(ebook, hasilCari, pilih + 1, keyword);
+            }
             // CARI TAHUN, HARGA
             else {
                 system("cls"); judul_subjudul("CARI E-BOOK"); cout << endl;
-                int min, max;
+                int minVal, maxVal;
                 string inputMin, inputMax;
+                
                 try {
                     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
                     cout << spasi(47) << BOLD << "Min   : " << RESET; cin >> inputMin;
-                    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
-                    for (char c : inputMin) {
-                        if (!isdigit(c)) {
-                            throw "Minimum harus berupa angka!";}}
-                    try {
-                        min = stoi(inputMin);}
-                    catch (...) {
-                        throw "Angka minimum terlalu besar!";}
-                    if (min < 0) {
-                        throw "Minimum tidak boleh negatif!";}
-                    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+                    
+                    // Validasi angka manual
+                    for(char c : inputMin) if(!isdigit(c)) throw "Input Minimum harus angka!";
+                    minVal = stoi(inputMin);
+
+                    cout << spasi(45) << "├────────────────────────────────────────────────┤" << endl;
                     cout << spasi(47) << BOLD << "Max   : " << RESET; cin >> inputMax;
                     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
-                    for (char c : inputMax) {
-                        if (!isdigit(c)) {
-                            throw "Maksimum harus berupa angka!";}}
-                    try {
-                        max = stoi(inputMax);}
-                    catch (...) {
-                        throw "Angka maksimum terlalu besar!";}
-                    if (max < 0) {
-                        throw "Maksimum tidak boleh negatif!";}
-                    if (min > max) {
-                        throw "Minimum tidak boleh lebih besar!";}
-                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                }
-                catch (const char* e) {
-                    cin.clear(); cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                    tampilPeringatan(30, e);
-                    system("pause");
-                    error = true;}
-                if (error) continue;
-                linearSearchEbook(ebook, hasil, pilih + 1, "", min, max);}
+                    
+                    for(char c : inputMax) if(!isdigit(c)) throw "Input Maksimum harus angka!";
+                    maxVal = stoi(inputMax);
 
-            cout << endl;
-            if (!hasil.empty()) {
-                cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
-                cout << HIJAU << BOLD << "\nDaftar Hasil Pencarian:" << endl;
-                lihatDaftarEbook(hasil);}
-            else {tampilPeringatan(22, "Data tidak ditemukan!");}
-            system("pause");}}}
+                    if (minVal > maxVal) throw "Nilai Minimum tidak boleh lebih besar dari Maksimum!";
+                }
+                catch (const char* msg) {
+                    tampilPeringatan(45, msg);
+                    system("pause");
+                    continue;
+                }
+                linearSearchEbook(ebook, hasilCari, pilih + 1, "", minVal, maxVal);
+            }
+
+            // TAMPILKAN HASIL
+            if (!hasilCari.empty()) {
+                system("cls");
+                judul_subjudul("HASIL PENCARIAN");
+                lihatDaftarEbook(hasilCari);
+            } else {
+                tampilPeringatan(45, "Data tidak ditemukan!");
+            }
+            system("pause");
+        }
+    }
+}
 
 
 void lihatDaftarPembelian(vector<Order> &order) {
@@ -1794,185 +1815,196 @@ void validasiWaktuPesanan(vector<Order> &order) {
     if (adaPerubahan) saveOrder(order);
 }
 
-void lihatPesananUser(string jenis, vector<Order> &order, string id_user) {
-    cout << CYAN << BOLD;
-    cout << "  ┌──────┬─────────────────────┬────────────────┬───────────────────────────────┬────────────────┬──────────────────────────┐" << endl;
-    cout << "  │                                              DAFTAR PESANAN USER                                                        │" << endl;
-    cout << "  ├──────┼─────────────────────┼────────────────┼───────────────────────────────┼────────────────┼──────────────────────────┤" << endl;
-    cout << "  │ NO   │ ID ORDER            │ KODE           │ JUDUL                         │ TOTAL HARGA    │ STATUS                   │" << endl;
-    cout << "  ├──────┼─────────────────────┼────────────────┼───────────────────────────────┼────────────────┼──────────────────────────┤" << endl;
-    cout << RESET;
+void lihatPesananUser(string status, vector<Order> &order, string id_user) {
+    system("cls");
+    judul_subjudul("PESANAN: " + status);
     
-    bool ada = false;
+    bool ditemukan = false;
     int no = 1;
-    for (auto &o : order) {
-        if (o.id_user == id_user && o.status_order == jenis) {
-            cout << "  ";
-            if (no % 2 == 0) cout << "\033[48;5;235m";
-            
-            cout << "│ " << left << setw(5)  << no
-                 << "│ " << setw(20) << o.id_order
-                 << "│ " << setw(15) << o.kode
-                 << "│ " << setw(30) << o.judul
-                 << "│ Rp" << setw(13) << o.total_harga
-                 << "│ " << setw(25) << o.status_order
-                 << "│" << RESET << endl;
-            ada = true;
-            no++;
+
+    cout << endl;
+    cout << spasi(15) << "┌──────┬──────────────┬──────────────────────────┬─────────────┐" << endl;
+    cout << spasi(15) << "│ No   │ ID Order     │ Judul E-Book             │ Status      │" << endl;
+    cout << spasi(15) << "├──────┼──────────────┼──────────────────────────┼─────────────┤" << endl;
+
+    for (int i = 0; i < order.size(); i++) {
+        if (order[i].id_user == id_user && order[i].status_order == status) {
+            cout << spasi(15) << "│ " << left << setw(5) << no++ 
+                 << "│ " << setw(13) << order[i].id_order 
+                 << "│ " << setw(25) << (order[i].judul.length() > 22 ? order[i].judul.substr(0, 22) + ".." : order[i].judul)
+                 << "│ " << setw(12) << order[i].status_order << "│" << endl;
+            ditemukan = true;
         }
     }
-    
-    if (!ada) {
-        cout << "  │ " << left << setw(119) << "                              Tidak ada pesanan di kategori ini." << "│\n";
+
+    if (!ditemukan) {
+        system("cls");
+        judul_subjudul("PESANAN: " + status);
+        cout << "\n\n" << spasi(38) << "『 Tidak ada pesanan dengan status " << status << " 』" << endl;
+    } else {
+        cout << spasi(15) << "└──────┴──────────────┴──────────────────────────┴─────────────┘" << endl;
     }
-    
-    cout << CYAN;
-    cout << "  └──────┴─────────────────────┴────────────────┴───────────────────────────────┴────────────────┴──────────────────────────┘" << endl;
-    cout << RESET;
 }
 
-
 void tambahProdukkeKeranjang(vector<Ebook> &ebook, vector<Keranjang> &keranjang, string id_user) {
+    system("cls");
+    judul_subjudul("TAMBAH KE KERANJANG");
     lihatDaftarEbook(ebook);
-    string kodeCari;
-
-    cout << "    Masukkan Kode E-Book yang ingin ditambahkan (Tekan Enter untuk batal): ";
     
-    cin.ignore();
-    getline(cin, kodeCari);
+    string kodeCari;
+    cout << "\n    " << "Masukkan Kode E-Book (Ketik '0' untuk batal): ";
+    
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    
+    cin >> kodeCari;
 
-    if (kodeCari.empty()) {
+    if (kodeCari == "0") {
         tampilPeringatan(40, "Aksi dibatalkan.");
         return;
     }
 
-    try {
-        int indexBuku = -1;
-        for (size_t i = 0; i < ebook.size(); i++) {
-            if (ebook[i].kode == kodeCari) {
-                indexBuku = i; 
-                break;
-            }
+    int indexBuku = -1;
+    for (int i = 0; i < ebook.size(); i++) {
+        // Bandingkan kode
+        if (ebook[i].kode == kodeCari) {
+            indexBuku = i;
+            break;
         }
-        if (indexBuku == -1) throw "Kode E-Book tidak ditemukan!";
-
-        for (auto &k : keranjang) {
-            if (k.id_user == id_user && k.kode == kodeCari) {
-                throw "E-Book sudah ada di keranjang Anda!";
-            }
-        }
-
-        Keranjang kBaru = {id_user, ebook[indexBuku].kode, ebook[indexBuku].judul, ebook[indexBuku].harga};
-        keranjang.push_back(kBaru);
-        saveKeranjang(keranjang);
-        
-        tampilPesan(40, "Berhasil ditambahkan ke Keranjang!");
-    } catch (const char* e) {
-        tampilPeringatan(40, e);
     }
+
+    if (indexBuku == -1) {
+        tampilPeringatan(40, "Kode '" + kodeCari + "' tidak ditemukan! Cek huruf kapital.");
+        return;
+    }
+
+    for (int i = 0; i < keranjang.size(); i++) {
+        if (keranjang[i].id_user == id_user && keranjang[i].kode == kodeCari) {
+            tampilPeringatan(40, "E-Book sudah ada di keranjang!");
+            return;
+        }
+    }
+
+    Keranjang kBaru;
+    kBaru.id_user = id_user;
+    kBaru.kode = ebook[indexBuku].kode;
+    kBaru.judul = ebook[indexBuku].judul;
+    kBaru.harga = ebook[indexBuku].harga;
+
+    keranjang.push_back(kBaru);
+    saveKeranjang(keranjang);
+    tampilPesan(40, "Berhasil masuk keranjang!");
 }
 
 
 void checkoutDariKatalog(vector<Ebook> &ebook, vector<Order> &order, vector<Akun> &akun, int index_login) {
     lihatDaftarEbook(ebook);
     string kodeCari;
-    cout << "    Masukkan Kode E-Book yang ingin langsung dibeli (Ketik '0' untuk batal): ";
-    cin >> kodeCari;
+    
+    cout << "\n    Masukkan Kode E-Book yang ingin langsung dibeli (Ketik '0' untuk batal): ";
+    cin.clear(); 
+    fflush(stdin);
 
-    if (kodeCari == "0") return;
+    // 2. AMBIL INPUT
+    getline(cin >> ws, kodeCari);
 
-    try {
-        int indexBuku = -1;
-        for (size_t i = 0; i < ebook.size(); i++) {
-            if (ebook[i].kode == kodeCari) { 
-                indexBuku = i; 
-                break; 
+    if (kodeCari == "0" || kodeCari.empty()) {
+        tampilPeringatan(40, "Aksi dibatalkan.");
+        return;
+    }
+
+    int indexBuku = -1;
+    for (size_t i = 0; i < ebook.size(); i++) {
+        
+        if (ebook[i].kode == kodeCari) { 
+            indexBuku = i; 
+            break; 
+        }
+    }
+
+    if (indexBuku == -1) {
+    tampilPeringatan(40, "Kode '" + kodeCari + "' tidak ditemukan!");
+    return;
+}
+
+    string pilihanBayar[] = {
+        "【 1 | Bayar Sekarang     】",
+        "【 2 | Bayar Nanti        】",
+        "【 3 | Batal              】"
+    };
+    int pilihBayar = 0;
+
+    while (true) {
+        system("cls");
+        judul_subjudul("PESAN SEKARANG");
+        cout << endl;
+        cout << spasi(40) << "┌───────────────────────────────────────────┐" << endl;
+        cout << spasi(40) << "│  Judul  : " << left << setw(32) << ebook[indexBuku].judul << "│" << endl;
+        cout << spasi(40) << "│  Harga  : Rp" << left << setw(30) << ebook[indexBuku].harga << "│" << endl;
+        cout << spasi(40) << "│  Saldo  : Rp" << left << setw(30) << akun[index_login].saldo << "│" << endl;
+        cout << spasi(40) << "└───────────────────────────────────────────┘" << endl;
+        cout << endl;
+        
+        for (int i = 0; i < 3; i++) {
+            if (i == pilihBayar) cout << spasi(50) << BG_PUTIH << HITAM << BOLD << pilihanBayar[i] << RESET << endl;
+            else cout << DIM << spasi(50) << pilihanBayar[i] << RESET << endl;
+        }
+
+        int hasilBayar = scrollMenu(pilihBayar, 3);
+        if (hasilBayar == -1) {
+            
+            // Pilihan BATAL
+            if (pilihBayar == 2) {
+                tampilPeringatan(40, "Pemesanan dibatalkan.");
+                return;
+            }
+
+            time_t now = time(0); 
+            tm *ltm = localtime(&now);
+            int tgl = (1900 + ltm->tm_year) * 10000 + (1 + ltm->tm_mon) * 100 + ltm->tm_mday;
+
+            Order oBaru;
+            oBaru.id_order       = "ORD" + to_string(now);
+            oBaru.id_user        = akun[index_login].id_user;
+            oBaru.kode           = ebook[indexBuku].kode;
+            oBaru.judul          = ebook[indexBuku].judul;
+            oBaru.harga          = ebook[indexBuku].harga;
+            oBaru.total_harga    = ebook[indexBuku].harga;
+            oBaru.tanggal_pesan  = tgl;
+            oBaru.tanggal_kirim  = 0;
+            oBaru.tanggal_sampai = 0;
+            oBaru.batal_oleh     = "";
+            oBaru.alasan         = "";
+
+            // Pilihan BAYAR SEKARANG
+            if (pilihBayar == 0) {
+                if (akun[index_login].saldo < ebook[indexBuku].harga) {
+                    tampilPeringatan(40, "Saldo tidak mencukupi! Gunakan fitur bayar nanti atau top up saldo.");
+                    system("pause");
+                    continue; // Kembali putar menu pilihan
+                }
+                akun[index_login].saldo -= ebook[indexBuku].harga;
+                oBaru.status_order = "Diproses Admin";
+                oBaru.status_bayar = "Lunas";
+                
+                saveAkun(akun);
+                order.push_back(oBaru);
+                saveOrder(order);
+                tampilPesan(40, "Pembayaran berhasil! Pesanan sedang diproses admin.");
+                break;
+            }
+            
+            // Pilihan BAYAR NANTI
+            else if (pilihBayar == 1) {
+                oBaru.status_order = "Menunggu Pembayaran";
+                oBaru.status_bayar = "Belum Lunas";
+                
+                order.push_back(oBaru);
+                saveOrder(order);
+                tampilPesan(40, "Pesanan disimpan! Bayar melalui menu Daftar Pesanan.");
+                break;
             }
         }
-        if (indexBuku == -1) throw "Kode E-Book tidak ditemukan!";
-
-        string pilihanBayar[] = {
-            "『   Bayar Sekarang   』",
-            "『   Bayar Nanti      』",
-            "『   Batal            』"
-        };
-        int pilihBayar = 0;
-        bool refreshBayar = true;
-
-        while (true) {
-            if (refreshBayar) { system("cls"); refreshBayar = false; }
-            
-            clsScroll(0,0); 
-            judul_subjudul("PESAN SEKARANG");
-            cout << endl;
-            cout << spasi(40) << "┌───────────────────────────────────────────┐" << endl;
-            cout << spasi(40) << "│  Judul  : " << left << setw(32) << ebook[indexBuku].judul << "│" << endl;
-            cout << spasi(40) << "│  Harga  : Rp" << left << setw(30) << ebook[indexBuku].harga << "│" << endl;
-            cout << spasi(40) << "│  Saldo  : Rp" << left << setw(30) << akun[index_login].saldo << "│" << endl;
-            cout << spasi(40) << "└───────────────────────────────────────────┘" << endl;
-            cout << endl;
-            
-            for (int i = 0; i < 3; i++) {
-                if (i == pilihBayar) cout << spasi(50) << BG_PUTIH << HITAM << BOLD << pilihanBayar[i] << RESET << endl;
-                else cout << DIM << spasi(50) << pilihanBayar[i] << RESET << endl;
-            }
-
-            int hasilBayar = scrollMenu(pilihBayar, 3);
-            if (hasilBayar == -1) {
-                refreshBayar = true;
-
-                if (pilihBayar == 2) {
-                    tampilPeringatan("Pemesanan dibatalkan.");
-                    return;
-                }
-
-                time_t now = time(0); 
-                tm *ltm = localtime(&now);
-                int tgl = (1900 + ltm->tm_year) * 10000 + (1 + ltm->tm_mon) * 100 + ltm->tm_mday;
-
-                Order oBaru;
-                oBaru.id_order       = "ORD" + to_string(now);
-                oBaru.id_user        = akun[index_login].id_user;
-                oBaru.kode           = ebook[indexBuku].kode;
-                oBaru.judul          = ebook[indexBuku].judul;
-                oBaru.harga          = ebook[indexBuku].harga;
-                oBaru.total_harga    = ebook[indexBuku].harga;
-                oBaru.tanggal_pesan  = tgl;
-                oBaru.tanggal_kirim  = 0;
-                oBaru.tanggal_sampai = 0;
-                oBaru.batal_oleh     = "";
-                oBaru.alasan         = "";
-
-                if (pilihBayar == 0) {
-                    if (akun[index_login].saldo < ebook[indexBuku].harga) {
-                        tampilPeringatan("Saldo tidak mencukupi! Gunakan bayar nanti.");
-                        system("pause");
-                        continue;
-                    }
-                    akun[index_login].saldo -= ebook[indexBuku].harga;
-                    oBaru.status_order = "Diproses Admin";
-                    oBaru.status_bayar = "Lunas";
-                    
-                    saveAkun(akun);
-                    order.push_back(oBaru);
-                    saveOrder(order);
-                    tampilPesan("Pembayaran berhasil! Pesanan sedang diproses admin.");
-                    break;
-                }
-
-                else {
-                    oBaru.status_order = "Menunggu Pembayaran";
-                    oBaru.status_bayar = "Belum Lunas";
-                    
-                    order.push_back(oBaru);
-                    saveOrder(order);
-                    tampilPesan("Pesanan disimpan! Bayar melalui menu Daftar Pesanan.");
-                    break;
-                }
-            }
-        }
-    } catch (const char* e) {
-        tampilPeringatan(40, e);
     }
 }
 
@@ -2197,106 +2229,105 @@ void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, v
 }
 
 void pesananBelumDibayar(vector<Order> &order, vector<Akun> &akun, int index_login) {
-    int pilihMenu = 0;
-    bool refreshMenu = true;
+    system("cls");
+    judul_subjudul("PESANAN BELUM DIBAYAR");
+    
+    string id_cari = akun[index_login].id_user;
+    bool ditemukan = false;
+    int no = 1;
 
-    while (true) {
-        if (refreshMenu) { system("cls"); refreshMenu = false; }
-        
-        clsScroll(0,0);
-        validasiWaktuPesanan(order); 
-        lihatPesananUser("Menunggu Pembayaran", order, akun[index_login].id_user);
+    cout << endl;
+    cout << spasi(15) << "┌──────┬──────────────┬──────────────────────────┬─────────────┐" << endl;
+    cout << spasi(15) << "│ No   │ ID Order     │ Judul E-Book             │ Total Harga │" << endl;
+    cout << spasi(15) << "├──────┼──────────────┼──────────────────────────┼─────────────┤" << endl;
 
-        int jumlahPesanan = 0;
-        for (const auto& o : order) {
-            if (o.id_user == akun[index_login].id_user && o.status_order == "Menunggu Pembayaran") {
-                jumlahPesanan++;
-            }
-        }
-
-        if (jumlahPesanan == 0) {
-            cout << "\n  Pilih Aksi:\n\n";
-            cout << spasi(20) << BG_PUTIH << HITAM << BOLD << "『   Kembali               』" << RESET << endl;
-            
-            system("pause > nul"); 
-            break; 
-        }
-
-        string opsiMenu[] = {
-            "『   Bayar Pesanan         』",
-            "『   Batalkan Pesanan      』",
-            "『   Kembali               』"
-        };
-
-        cout << "\n  Pilih Aksi:\n\n";
-        for (int i = 0; i < 3; i++) {
-            if (i == pilihMenu) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << opsiMenu[i] << RESET << endl;
-            else cout << DIM << spasi(20) << opsiMenu[i] << RESET << endl;
-        }
-
-        int hasilMenu = scrollMenu(pilihMenu, 3);
-        
-        if (hasilMenu == -1) {
-            refreshMenu = true; 
-            if (pilihMenu == 2) break; 
-            
-            else if (pilihMenu == 0) {
-                string inputOrder;
-                cout << "\n  Masukkan ID ORDER yang ingin dibayar (Ketik '0' untuk batal): ";
-                cin >> inputOrder;
-                if (inputOrder == "0") continue; 
-
-                int idx = -1;
-                for (size_t i = 0; i < order.size(); i++) {
-                    if (order[i].id_user == akun[index_login].id_user && order[i].id_order == inputOrder && order[i].status_order == "Menunggu Pembayaran") {
-                        idx = i; break;
-                    }
-                }
-
-                if (idx == -1) {
-                    tampilPeringatan(20, "ID Order tidak ditemukan!");
-                } else {
-                    if (akun[index_login].saldo >= order[idx].total_harga) {
-                        akun[index_login].saldo -= order[idx].total_harga;
-                        order[idx].status_order = "Diproses Admin";
-                        order[idx].status_bayar = "Lunas";
-                        saveAkun(akun);
-                        saveOrder(order);
-                        tampilPesan(20, "Pembayaran Berhasil!");
-                    } else {
-                        tampilPeringatan(20, "Saldo tidak mencukupi!");
-                    }
-                }
-                system("pause"); 
-            }
-            else if (pilihMenu == 1) {
-                string inputOrder;
-                cout << "\n  Masukkan ID ORDER yang ingin dibatalkan (Ketik '0' untuk batal): ";
-                cin >> inputOrder;
-                if (inputOrder == "0") continue;
-
-                int idx = -1;
-                for (size_t i = 0; i < order.size(); i++) {
-                    if (order[i].id_user == akun[index_login].id_user && order[i].id_order == inputOrder && order[i].status_order == "Menunggu Pembayaran") {
-                        idx = i; break;
-                    }
-                }
-
-                if (idx == -1) {
-                    tampilPeringatan(20, "ID Order tidak ditemukan!");
-                } else {
-                    order[idx].status_order = "Dibatalkan";
-                    order[idx].status_bayar = "Batal";
-                    order[idx].batal_oleh = "User";
-                    order[idx].alasan = "Dibatalkan oleh User";
-                    saveOrder(order);
-                    tampilPesan(20, "Pesanan berhasil dibatalkan!");
-                }
-                system("pause"); 
-            }
+    for (int i = 0; i < order.size(); i++) {
+        if (order[i].id_user == id_cari && order[i].status_bayar == "Belum Lunas") {
+            cout << spasi(15) << "│ " << left << setw(5) << no++ 
+                 << "│ " << setw(13) << order[i].id_order 
+                 << "│ " << setw(25) << (order[i].judul.length() > 22 ? order[i].judul.substr(0, 22) + ".." : order[i].judul)
+                 << "│ Rp" << setw(9) << order[i].total_harga << "│" << endl;
+            ditemukan = true;
         }
     }
-}
+
+    if (!ditemukan) {
+        cout << spasi(15) << "│      Tidak ada pesanan yang perlu dibayar secara lunas       │" << endl;
+        cout << spasi(15) << "└──────────────────────────────────────────────────────────────┘" << endl;
+        cout << "\n" << spasi(45); 
+        system("pause");
+        return; 
+    }
+    
+    cout << spasi(15) << "└──────┴──────────────┴──────────────────────────┴─────────────┘" << endl;
+
+    string pilihanPesanan[] = {
+        "【 1 | Bayar Sekarang     】",
+        "【 2 | Batalkan Pesanan   】",
+        "【 3 | Kembali            】"
+    };
+    int pilih = 0;
+
+    while (true) {
+        for (int i = 0; i < 3; i++) {
+            if (i == pilih) cout << spasi(35) << BG_PUTIH << HITAM << BOLD << pilihanPesanan[i] << RESET << endl;
+            else cout << DIM << spasi(35) << pilihanPesanan[i] << RESET << endl;
+        }
+
+        int hasil = scrollMenu(pilih, 3);
+        if (hasil == -1) {
+            if (pilih == 0) {
+                string idOrder;
+                cout << "\n" << spasi(35) << "Masukkan ID Order: "; 
+                cin >> idOrder;
+                
+                bool orderKetemu = false;
+                for (int i = 0; i < order.size(); i++) {
+                    if (order[i].id_order == idOrder && order[i].id_user == id_cari && order[i].status_bayar == "Belum Lunas") {
+                        orderKetemu = true;
+                        if (akun[index_login].saldo >= order[i].total_harga) {
+                            akun[index_login].saldo -= order[i].total_harga;
+                            order[i].status_bayar = "Lunas";
+                            order[i].status_order = "Diproses Admin";
+                            saveAkun(akun);
+                            saveOrder(order);
+                            tampilPesan(35, "Pembayaran Berhasil!");
+                        } else {
+                            tampilPeringatan(35, "Saldo tidak cukup!");
+                        }
+                        break;
+                    }
+                }
+                if (!orderKetemu) tampilPeringatan(35, "ID Order salah!");
+                system("pause"); 
+                break; 
+            } 
+            else if (pilih == 1) {
+                string idOrder;
+                cout << "\n" << spasi(35) << "Masukkan ID Order: "; 
+                cin >> idOrder;
+                
+                bool orderKetemu = false;
+                for (int i = 0; i < order.size(); i++) {
+                    if (order[i].id_order == idOrder && order[i].id_user == id_cari && order[i].status_bayar == "Belum Lunas") {
+                        orderKetemu = true;
+                        order[i].status_order = "Dibatalkan";
+                        order[i].status_bayar = "Dibatalkan";
+                        order[i].batal_oleh = "User";
+                        saveOrder(order);
+                        tampilPesan(35, "Pesanan Dibatalkan!");
+                        break;
+                    }
+                }
+                if (!orderKetemu) tampilPeringatan(35, "ID Order salah!");
+                system("pause"); 
+                break;
+            } 
+            else break; 
+        }
+        cout << "\033[3A";
+    }
+} 
 
 void pesananDiproses(vector<Order> &order, string id_user) {
     lihatPesananUser("Diproses Admin", order, id_user);
@@ -2429,216 +2460,136 @@ void editSaldo(vector<Akun> &akun, int index_login) {
 
 void kelolaAkunDiri(vector<Akun> &akun, int index_login) {
     string pilihMenuUser[] = {
-        "『   Edit Data Diri   』",
-        "『   Kembali          』",    
+        "【 1 | Edit Data Diri     】",
+        "【 2 | Kembali            】"
     };
     int pilih = 0;
     
     while (true) {
         system("cls"); 
-        judul_subjudul("Kelola Akun Diri"); 
+        judul_subjudul("KELOLA AKUN DIRI"); 
         cout << endl;
         lihatDataDiri(akun, index_login);
         
         for (int i = 0; i < 2; i++) {
-            if (i == pilih) {
-                cout << spasi(20) << BG_PUTIH << HITAM << BOLD << pilihMenuUser[i] << RESET << endl;
-            } else {
-                cout << DIM << spasi(20) << pilihMenuUser[i] << RESET << endl;
-            }
+            if (i == pilih) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << pilihMenuUser[i] << RESET << endl;
+            else cout << DIM << spasi(20) << pilihMenuUser[i] << RESET << endl;
         }
         
         int hasil = scrollMenu(pilih, 2);
         if (hasil == -1) {
-            // EDIT DATA DIRI
             if (pilih == 0) {
-                system("cls"); 
-                judul_subjudul("Edit Data Diri"); 
-                cout << endl;
+                system("cls"); judul_subjudul("EDIT DATA DIRI");
                 editDataDiri(akun, index_login);
                 system("pause");
-            }
-            // KEMBALI
-            else {
-                break;
-            }
+            } else break;
         }
     }
 }
 
-
 void belanjaUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Order> &order, vector<Akun> &akun, int index_login) {
     string pilihMenuUser[] = {
-        "『   Tambah Ke Keranjang   』",
-        "『   Pesan Sekarang        』",
-        "『   Urutkan Katalog       』",
-        "『   Cari E-Book           』",
-        "『   Kembali               』"
+        "【 1 | Tambah Keranjang   】",
+        "【 2 | Pesan Sekarang      】",
+        "【 3 | Urutkan Katalog     】",
+        "【 4 | Cari E-Book         】",
+        "【 5 | Kembali             】"
     };
     int pilih = 0;
-    bool refreshMenu = true;
     
     while (true) {
-        if (refreshMenu) {
-            system("cls"); 
-            refreshMenu = false;
-        }
-
-        clsScroll(0,0);
+        system("cls"); 
         judul_subjudul("MENU PEMESANAN"); 
         cout << endl;
         
         for (int i = 0; i < 5; i++) {
-            if (i == pilih) {
-                cout << spasi(20) << BG_PUTIH << HITAM << BOLD << pilihMenuUser[i] << RESET << endl;
-            } else {
-                cout << DIM << spasi(20) << pilihMenuUser[i] << RESET << endl;
-            }
+            if (i == pilih) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << pilihMenuUser[i] << RESET << endl;
+            else cout << DIM << spasi(20) << pilihMenuUser[i] << RESET << endl;
         }
         
         cout << "\n  DAFTAR KATALOG E-BOOK:\n";
         lihatDaftarEbook(ebook);
 
         int hasil = scrollMenu(pilih, 5);
-        
         if (hasil == -1) {
-            refreshMenu = true;
-
-            // 1. TAMBAH KE KERANJANG
             if (pilih == 0) {
-                system("cls");
-                judul_subjudul("TAMBAH KE KERANJANG");
-                tambahProdukkeKeranjang(ebook, keranjang, akun[index_login].id_user);
+                system("cls"); tambahProdukkeKeranjang(ebook, keranjang, akun[index_login].id_user);
                 system("pause");
-            }
-            
-            // 2. PESAN SEKARANG (CHECKOUT LANGSUNG)
-            else if (pilih == 1) {
-                system("cls");
-                judul_subjudul("PESAN SEKARANG");
-                checkoutDariKatalog(ebook, order, akun, index_login);
+            } else if (pilih == 1) {
+                system("cls"); checkoutDariKatalog(ebook, order, akun, index_login);
                 system("pause");
-            }
-            
-            // 3. URUTKAN E-BOOK
-            else if (pilih == 2) {
-                urutEbook(ebook);
-                tampilPesan(20, "Katalog berhasil diurutkan!");
+            } else if (pilih == 2) {
+                urutEbook(ebook); tampilPesan(20, "Katalog diurutkan!");
                 system("pause");
-            }
-            
-            // 4. CARI E-BOOK
-            else if (pilih == 3) {
-                system("cls");
-                judul_subjudul("CARI E-BOOK");
-                cariEbook(ebook);
+            } else if (pilih == 3) {
+                system("cls"); cariEbook(ebook);
                 system("pause");
-            }
-            
-            // 5. KEMBALI
-            else if (pilih == 4) {
-                break;
-            }
+            } else break;
         }
     }
 }
 
 void keranjangUser(vector<Keranjang> &keranjang, vector<Akun> &akun, vector<Order> &order, int index_login) {
     string pilihMenuUser[] = {
-        "『   Hapus E-Book dari Keranjang   』",
-        "『   Pesan Keranjang               』",
-        "『   Kembali                       』"
+        "【 1 | Hapus E-Book       】",
+        "【 2 | Pesan Keranjang    】",
+        "【 3 | Kembali            】"
     };
     int pilih = 0;
     
     while (true) {
         system("cls"); 
-        judul_subjudul("Menu Kelola Akun Pelanggan"); 
+        judul_subjudul("KERANJANG BELANJA"); 
         cout << endl;
         
         for (int i = 0; i < 3; i++) {
-            if (i == pilih) {
-                cout << spasi(20) << BG_PUTIH << HITAM << BOLD << pilihMenuUser[i] << RESET << endl;
-            } else {
-                cout << DIM << spasi(20) << pilihMenuUser[i] << RESET << endl;
-            }
+            if (i == pilih) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << pilihMenuUser[i] << RESET << endl;
+            else cout << DIM << spasi(20) << pilihMenuUser[i] << RESET << endl;
         }
         
         lihatDaftarKeranjang(keranjang, akun[index_login].id_user);
         int hasil = scrollMenu(pilih, 3);
         if (hasil == -1) {
             if (pilih == 0) {
-                system("cls"); 
-                judul_subjudul("Hapus E-Book dari Keranjang"); 
-                cout << endl;
-                hapusEbookDariKeranjang(keranjang, akun[index_login].id_user);
+                system("cls"); hapusEbookDariKeranjang(keranjang, akun[index_login].id_user);
                 system("pause");
-            }
-
-            else if (pilih == 1) {
-                system("cls"); 
-                judul_subjudul("Pesan Keranjang"); 
-                cout << endl;
-                checkoutDariKeranjang(keranjang, order, akun, index_login);
-                // System pause sudah ada di dalam fungsi checkoutDariKeranjang
-            }
-
-            else {
-                break;
-            }
+            } else if (pilih == 1) {
+                system("cls"); checkoutDariKeranjang(keranjang, order, akun, index_login);
+            } else break;
         }
     }
 }
 
-
 void pesananUser(vector<Order> &order, vector<Akun> &akun, int index_login, vector<Library> &lib) {
     string pilihMenuUser[] = {
-        "『   Daftar Pesanan Belum Dibayar   』",
-        "『   Daftar Pesanan Diproses        』",
-        "『   Daftar Pesanan Dikirim         』",
-        "『   Daftar Pesanan Selesai         』",
-        "『   Daftar Pesanan Dibatalkan      』",
-        "『   Kembali                        』"
+        "【 1 | Belum Dibayar      】",
+        "【 2 | Diproses Admin     】",
+        "【 3 | Dikirim            】",
+        "【 4 | Selesai            】",
+        "【 5 | Dibatalkan         】",
+        "【 6 | Kembali            】"
     };
     int pilih = 0;
     
     while (true) {
         system("cls"); 
-        judul_subjudul("Menu Pemesanan"); 
+        judul_subjudul("DAFTAR PESANAN"); 
         cout << endl;
         
         for (int i = 0; i < 6; i++) {
-            if (i == pilih) {
-                cout << spasi(20) << BG_PUTIH << HITAM << BOLD << pilihMenuUser[i] << RESET << endl;
-            } else {
-                cout << DIM << spasi(20) << pilihMenuUser[i] << RESET << endl;
-            }
+            if (i == pilih) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << pilihMenuUser[i] << RESET << endl;
+            else cout << DIM << spasi(20) << pilihMenuUser[i] << RESET << endl;
         }
         
         int hasil = scrollMenu(pilih, 6);
         if (hasil == -1) {
             system("cls");
-            if (pilih == 0) {
-                pesananBelumDibayar(order, akun, index_login);
-            }
-            else if (pilih == 1) {
-                pesananDiproses(order, akun[index_login].id_user);
-                system("pause");
-            }
-            else if (pilih == 2) {
-                pesananDikirim(order, lib, akun[index_login].id_user, akun[index_login].username);
-            }
-            else if (pilih == 3) {
-                lihatPesananUser("Selesai", order, akun[index_login].id_user);
-                system("pause");
-            }
-            else if (pilih == 4) {
-                lihatPesananUser("Dibatalkan", order, akun[index_login].id_user);
-                system("pause");
-            }
-            else if (pilih == 5) {
-                break;
-            }
+            if (pilih == 0) pesananBelumDibayar(order, akun, index_login);
+            else if (pilih == 1) { pesananDiproses(order, akun[index_login].id_user); system("pause"); }
+            else if (pilih == 2) pesananDikirim(order, lib, akun[index_login].id_user, akun[index_login].username);
+            else if (pilih == 3) { lihatPesananUser("Selesai", order, akun[index_login].id_user); system("pause"); }
+            else if (pilih == 4) { lihatPesananUser("Dibatalkan", order, akun[index_login].id_user); system("pause"); }
+            else break;
         }
     }
 }
@@ -2685,23 +2636,19 @@ void lihatLibraryUser(vector<Library> &lib, string id_user) {
 
 void saldoDanTransaksi(vector<Akun> &akun, int indeksLogin, vector<Transaksi> &transaksi) {
     string pilihMenuUser[] = {
-        "『   Top Up Saldo          』",
-        "『   Riwayat Transaksi     』",
-        "『   Kembali               』"
+        "【 1 | Top Up Saldo       】",
+        "【 2 | Riwayat Transaksi  】",
+        "【 3 | Kembali            】"
     };
     int pilih = 0;
-    bool refreshMenu = true;
     
     while (true) {
-        if (refreshMenu) { system("cls"); refreshMenu = false; }
-        
-        clsScroll(0,0);
-        judul_subjudul("Saldo dan Transaksi"); 
+        system("cls"); 
+        judul_subjudul("SALDO & TRANSAKSI"); 
         cout << endl;
         cout << spasi(48) << "┌────────────────────────────────┐" << endl;
         cout << spasi(48) << "│ Saldo: Rp" << left << setw(22) << akun[indeksLogin].saldo << "│" << endl;
-        cout << spasi(48) << "└────────────────────────────────┘" << endl;
-        cout << endl;
+        cout << spasi(48) << "└────────────────────────────────┘" << endl << endl;
         
         for (int i = 0; i < 3; i++) {
             if (i == pilih) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << pilihMenuUser[i] << RESET << endl;
@@ -2710,56 +2657,32 @@ void saldoDanTransaksi(vector<Akun> &akun, int indeksLogin, vector<Transaksi> &t
         
         int hasil = scrollMenu(pilih, 3);
         if (hasil == -1) {
-            refreshMenu = true;
-
-            // TOPUP
-            if (pilih == 0) {
-                system("cls"); 
-                judul_subjudul("Top Up Saldo"); 
-                cout << endl;
-                editSaldo(akun, indeksLogin);
-                system("pause");
-            }
-            // RIWAYAT TRANSAKSI
-            else if (pilih == 1) {
-                system("cls"); 
-                judul_subjudul("Riwayat Transaksi"); 
-                cout << endl;
-                lihatRiwayatTransaksi(transaksi);
-                system("pause");
-            }
-            // KEMBALI
-            else {
-                break;
-            }
+            if (pilih == 0) { system("cls"); editSaldo(akun, indeksLogin); system("pause"); }
+            else if (pilih == 1) { system("cls"); lihatRiwayatTransaksi(transaksi); system("pause"); }
+            else break;
         }
     }
 }
 
-
 void menuUser(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector<Library> &library, vector<Order> &order, vector<Transaksi> &transaksi, vector<Keranjang> &keranjang) {
     string pilihMenuUser[] = {
-        "『   Kelola Akun Anda      』",
-        "『   Belanja Sekarang      』",
-        "『   Keranjang Belanja     』",
-        "『   Daftar Pesanan        』",
-        "『   Perpustakaan Milikmu  』",
-        "『   Saldo dan Transaksi   』",
-        "『   Logout                』"
+        "【 1 | Kelola Akun Anda   】",
+        "【 2 | Belanja Sekarang   】",
+        "【 3 | Keranjang Belanja  】",
+        "【 4 | Daftar Pesanan     】",
+        "【 5 | Perpustakaan Anda  】",
+        "【 6 | Saldo & Transaksi  】",
+        "【 7 | Logout             】"
     };
     int pilih = 0;
-    bool refreshMenu = true;
     
     while (true) {
-        if (refreshMenu) { system("cls"); refreshMenu = false; }
-
-        clsScroll(0,0);
-        judul_subjudul("Halo, User " + akun[indeksLogin].username);
+        system("cls"); 
+        judul_subjudul("HALO, USER " + akun[indeksLogin].username);
         cout << endl;
         cout << spasi(48) << "┌────────────────────────────────┐" << endl;
         cout << spasi(48) << "│ Saldo: Rp" << left << setw(22) << akun[indeksLogin].saldo << "│" << endl;
-        cout << spasi(48) << "└────────────────────────────────┘" << endl;
-        cout << endl;
+        cout << spasi(48) << "└────────────────────────────────┘" << endl << endl;
         
         for (int i = 0; i < 7; i++) {
             if (i == pilih) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << pilihMenuUser[i] << RESET << endl;
@@ -2768,62 +2691,13 @@ void menuUser(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector<
         
         int hasil = scrollMenu(pilih, 7);
         if (hasil == -1) {
-            refreshMenu = true;
-
-            // KELOLA AKUN DIRI
-            if (pilih == 0) {
-                system("cls"); 
-                judul_subjudul("Kelola Akun Anda"); 
-                cout << endl;
-                kelolaAkunDiri(akun, indeksLogin);
-                system("pause");
-            }
-            // BELANJA SEKARANG
-            else if (pilih == 1) {
-                system("cls"); 
-                judul_subjudul("Belanja Sekarang"); 
-                cout << endl;
-                belanjaUser(ebook, keranjang, order, akun, indeksLogin);
-                system("pause");
-            }
-            // KERANJANG BELANJA
-            else if (pilih == 2) {
-                system("cls"); 
-                judul_subjudul("Keranjang Belanja"); 
-                cout << endl;
-                keranjangUser(keranjang, akun, order, indeksLogin);
-                system("pause");
-            }
-            // DAFTAR PESANAN
-            else if (pilih == 3) {
-                system("cls"); 
-                judul_subjudul("Daftar Pesanan"); 
-                cout << endl;
-                pesananUser(order, akun, indeksLogin, library);
-                system("pause");
-            }
-            // LIBRARY USER
-            else if (pilih == 4) {
-                system("cls"); 
-                judul_subjudul("Perpustakaan Milikmu"); 
-                cout << endl;
-                lihatLibraryUser(library, akun[indeksLogin].id_user);
-                system("pause");
-            }
-            // SALDO & TRANSAKSI
-            else if (pilih == 5) {
-                system("cls"); 
-                judul_subjudul("Saldo dan Transaksi"); 
-                cout << endl;
-                saldoDanTransaksi(akun, indeksLogin, transaksi);
-                system("pause");
-            }
-            // LOGOUT
-            else {
-                tampilPesan(20, "Logout berhasil!");
-                system("pause");
-                break;
-            }
+            if (pilih == 0) kelolaAkunDiri(akun, indeksLogin);
+            else if (pilih == 1) belanjaUser(ebook, keranjang, order, akun, indeksLogin);
+            else if (pilih == 2) keranjangUser(keranjang, akun, order, indeksLogin);
+            else if (pilih == 3) pesananUser(order, akun, indeksLogin, library);
+            else if (pilih == 4) { system("cls"); lihatLibraryUser(library, akun[indeksLogin].id_user); system("pause"); }
+            else if (pilih == 5) saldoDanTransaksi(akun, indeksLogin, transaksi);
+            else { tampilPesan(20, "Logout berhasil!"); system("pause"); break; }
         }
     }
 }

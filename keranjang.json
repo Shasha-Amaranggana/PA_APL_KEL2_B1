@@ -10,5 +10,11 @@
         "id_user": "U001",
         "judul": "1",
         "kode": "20000001"
+    },
+    {
+        "harga": 50000,
+        "id_user": "U001",
+        "judul": "The Trials of Apollo 3",
+        "kode": "TOA32018001"
     }
 ]

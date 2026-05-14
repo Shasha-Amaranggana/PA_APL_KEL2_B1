@@ -103,5 +103,35 @@
         "tanggal_pesan": 20260514,
         "tanggal_sampai": 0,
         "total_harga": 60000
+    },
+    {
+        "alasan": "Batas waktu pembayaran 5 menit telah habis.",
+        "batal_oleh": "Sistem",
+        "harga": 50000,
+        "id_order": "ORD1778722148",
+        "id_user": "U001",
+        "judul": "The Trials of Apollo 3",
+        "kode": "TOA32018001",
+        "status_bayar": "Gagal",
+        "status_order": "Dibatalkan Otomatis",
+        "tanggal_kirim": 0,
+        "tanggal_pesan": 20260514,
+        "tanggal_sampai": 0,
+        "total_harga": 50000
+    },
+    {
+        "alasan": "Batas waktu pembayaran 5 menit telah habis.",
+        "batal_oleh": "Sistem",
+        "harga": 50000,
+        "id_order": "ORD1778722227",
+        "id_user": "U001",
+        "judul": "The Trials of Apollo 3",
+        "kode": "TOA32018001",
+        "status_bayar": "Gagal",
+        "status_order": "Dibatalkan Otomatis",
+        "tanggal_kirim": 0,
+        "tanggal_pesan": 20260514,
+        "tanggal_sampai": 0,
+        "total_harga": 50000
     }
 ]
