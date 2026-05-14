@@ -1,1 +1,9 @@
-[]
+[
+    {
+        "id_order": "ORD9",
+        "id_transaksi": "TRX1",
+        "id_user": "U001",
+        "nominal": 50000,
+        "tanggal_transaksi": 20260514
+    }
+]
