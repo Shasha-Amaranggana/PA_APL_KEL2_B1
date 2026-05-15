@@ -5,5 +5,12 @@
         "id_user": "U001",
         "nominal": 50000,
         "tanggal_transaksi": 20260514
+    },
+    {
+        "id_order": "ORD9",
+        "id_transaksi": "TRX2",
+        "id_user": "U001",
+        "nominal": 60000,
+        "tanggal_transaksi": 20260515
     }
 ]

@@ -1,18 +1,18 @@
 [
     {
-        "genre": "Horror",
-        "harga": 9,
-        "judul": "hujan di bul\\ban ju\\nni",
-        "kode": "HDBJHDBJ2015002",
+        "genre": "Mystery",
+        "harga": 48000,
+        "judul": "The Final Reckoning",
+        "kode": "TFRSB2008001",
         "no": 1,
-        "penulis": "hujan di bul\\ban ju\\nni",
-        "tahun": 2015
+        "penulis": "Sam Bourne",
+        "tahun": 2008
     },
     {
-        "genre": "Drama",
+        "genre": "Romance",
         "harga": 50000,
         "judul": "The Walled City",
-        "kode": "TWC2014001",
+        "kode": "TWCRG2014002",
         "no": 2,
         "penulis": "Ryan Graudin",
         "tahun": 2014
@@ -45,21 +45,57 @@
         "tahun": 2018
     },
     {
-        "genre": "Sci-Fi",
-        "harga": 90200,
-        "judul": "1",
-        "kode": "20000001",
+        "genre": "Fantasy",
+        "harga": 56000,
+        "judul": "The Trials of Apollo 5",
+        "kode": "TTOARR2020001",
         "no": 6,
-        "penulis": "1909",
-        "tahun": 20000
+        "penulis": "Rick Riordan",
+        "tahun": 2020
     },
     {
-        "genre": "Romance",
-        "harga": 123,
-        "judul": "123",
-        "kode": "2003002",
+        "genre": "Adventure",
+        "harga": 61000,
+        "judul": "Magnus Chase and The Gods of Asgard 1",
+        "kode": "MCATGOARR2015001",
         "no": 7,
-        "penulis": "123",
-        "tahun": 2003
+        "penulis": "Rick Riordan",
+        "tahun": 2015
+    },
+    {
+        "genre": "Adventure",
+        "harga": 61000,
+        "judul": "Magnus Chase and The Gods of Asgard 2",
+        "kode": "MCATGOARR2016001",
+        "no": 8,
+        "penulis": "Rick Riordan",
+        "tahun": 2016
+    },
+    {
+        "genre": "Fantasy",
+        "harga": 66000,
+        "judul": "The Heroes of Olympus 1",
+        "kode": "THOORR2012001",
+        "no": 9,
+        "penulis": "Rick Riordan",
+        "tahun": 2012
+    },
+    {
+        "genre": "Fantasy",
+        "harga": 66000,
+        "judul": "The Heroes of Olympus 2",
+        "kode": "THOORR2012001",
+        "no": 10,
+        "penulis": "Rick Riordan",
+        "tahun": 2012
+    },
+    {
+        "genre": "Fantasy",
+        "harga": 56000,
+        "judul": "The Trials of Apollo 4",
+        "kode": "TTOARR2019006",
+        "no": 11,
+        "penulis": "Rick Riordan",
+        "tahun": 2019
     }
 ]
