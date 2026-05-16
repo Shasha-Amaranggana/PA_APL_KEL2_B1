@@ -68,5 +68,12 @@
         "id_user": "U001",
         "nominal": 61000,
         "tanggal_transaksi": 20260516
+    },
+    {
+        "id_order": "ORD8",
+        "id_transaksi": "TRX11",
+        "id_user": "U001",
+        "nominal": 66000,
+        "tanggal_transaksi": 20260516
     }
 ]

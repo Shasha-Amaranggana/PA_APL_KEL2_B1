@@ -2594,6 +2594,7 @@ void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, v
                             if (k.id_user == akun[indeksLogin].id_user) itemDipesan.push_back(k);}
                     } else {
                         int pilihanIdx = scrollKeranjang(keranjang, "PILIH E-BOOK", akun[indeksLogin].id_user);
+                        if (pilihanIdx == -1) continue;
                         itemDipesan.push_back(keranjang[pilihanIdx]);}
 
                     string opsiTindakan[] = {
@@ -2639,10 +2640,15 @@ void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, v
                             o.batal_oleh     = "";
                             o.alasan         = "";
 
-                            if (pilihTindakan == 0) {
-                                if (akun[indeksLogin].saldo < item.buku.harga) {
-                                    tampilPeringatan(52, "Saldo tidak mencukupi untuk item ini, dilewati.");
-                                    continue;}
+                            bool statusBayarSekarang = (pilihTindakan == 0);
+
+                            // Jika user pilih 'Bayar Sekarang' tapi saldo kurang, alihkan otomatis ke 'Bayar Nanti'
+                            if (statusBayarSekarang && akun[indeksLogin].saldo < item.buku.harga) {
+                                tampilPeringatan(45, "Saldo tidak cukup untuk '" + item.buku.judul + "'. Dialihkan ke Bayar Nanti.");
+                                statusBayarSekarang = false; 
+                            }
+
+                            if (statusBayarSekarang) {
                                 o.status_order  = "Diproses";
                                 o.status_bayar  = "Lunas";
                                 o.tanggal_bayar = tgl;
@@ -2663,7 +2669,8 @@ void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, v
                             } else {
                                 o.status_order  = "Ditunggu";
                                 o.status_bayar  = "Belum Bayar";
-                                o.tanggal_bayar = 0;}
+                                o.tanggal_bayar = 0;
+                            }
 
                             order.push_back(o);
                             for (auto it = keranjang.begin(); it != keranjang.end(); ) {

@@ -11,5 +11,31 @@
         },
         "id_user": "U001",
         "username": "2"
+    },
+    {
+        "buku": {
+            "genre": "",
+            "harga": 511,
+            "judul": "The Heroes of Olympus 1",
+            "kode": "THOORR2012001",
+            "no": 0,
+            "penulis": "",
+            "tahun": 100894752
+        },
+        "id_user": "U001",
+        "username": "2"
+    },
+    {
+        "buku": {
+            "genre": "",
+            "harga": 511,
+            "judul": "Magnus Chase and The Gods of Asgard 1",
+            "kode": "MCATGOARR2015001",
+            "no": 0,
+            "penulis": "",
+            "tahun": 100894752
+        },
+        "id_user": "U001",
+        "username": "2"
     }
 ]
