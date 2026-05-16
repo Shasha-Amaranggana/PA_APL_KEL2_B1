@@ -1977,7 +1977,7 @@ void pembelianAdmin(vector<Order> &order) {
             else {
                 break;}}}}
 
-void pemesananAdmin(vector<Order> &order){
+void pemesananAdmin(vector<Order> &order, vector<Akun> &akun){
     string pilihMenuAdmin[] = {
         "『  📋 Daftar Pesanan Belum Dibayar 』",
         "『  📋 Daftar Pesanan Sudah Dibayar 』",
