@@ -2934,38 +2934,55 @@ void pesananDikirim(vector<Order> &order, vector<Akun> &akun, vector<Library> &l
             refreshMenu = true;
             if (pilihMenu == 1) break;
             else if (pilihMenu == 0) {
+                
                 int pilihan = scrollOrder(order, "KONFIRMASI TERIMA", "Dikirim", akun[indeksLogin].id_user);
+                
+                if (pilihan == -1) continue; 
 
                 string tindakan2[] = {
                     "【 1 | Yakin              】",
                     "【 2 | Batalkan           】"};
                 int konfirmasi = 0;
-                system("cls"); judul_subjudul("KONFIRMASI TERIMA"); cout << endl;
-                lihatDetailOrder(order, pilihan, "User", "Dikirim", akun[indeksLogin].id_user);
-                cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
-                cout << endl << spasi(34) << BOLD << KUNING << "Konfirmasi pesanan sudah diterima?" << RESET; cout << endl;
-                for (int i = 0; i < 2; i++) {
-                    if (i == konfirmasi)
-                        cout << spasi(39) << BG_PUTIH << HITAM << BOLD << tindakan2[i] << RESET << endl;
-                    else cout << DIM << spasi(39) << tindakan2[i] << RESET << endl;}
-                int hasil2 = scrollMenu(konfirmasi, 2);
-                if (hasil2 == -1 && konfirmasi == 0) {
-                    time_t now = time(0);
-                    tm *ltm = localtime(&now);
-                    int tgl = (1900 + ltm->tm_year) * 10000 + (1 + ltm->tm_mon) * 100 + ltm->tm_mday;
-                    order[pilihan].tanggal_sampai = tgl;
-                    order[pilihan].status_order = "Selesai";
+                
+                while (true) {
+                    system("cls"); judul_subjudul("KONFIRMASI TERIMA"); cout << endl;
+                    lihatDetailOrder(order, pilihan, "User", "Dikirim", akun[indeksLogin].id_user);
+                    cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
+                    cout << endl << spasi(34) << BOLD << KUNING << "Konfirmasi pesanan sudah diterima?" << RESET; cout << endl;
+                    
+                    for (int i = 0; i < 2; i++) {
+                        if (i == konfirmasi)
+                            cout << spasi(39) << BG_PUTIH << HITAM << BOLD << tindakan2[i] << RESET << endl;
+                        else cout << DIM << spasi(39) << tindakan2[i] << RESET << endl;}
+                    
+                    int hasil2 = scrollMenu(konfirmasi, 2);
+                    if (hasil2 == -1) {
+                        if (konfirmasi == 0) { 
+                            time_t now = time(0);
+                            tm *ltm = localtime(&now);
+                            int tgl = (1900 + ltm->tm_year) * 10000 + (1 + ltm->tm_mon) * 100 + ltm->tm_mday;
+                            order[pilihan].tanggal_sampai = tgl;
+                            order[pilihan].status_order = "Selesai";
 
-                    Library lBaru;
-                    lBaru.id_user    = akun[indeksLogin].id_user;
-                    lBaru.username   = username;
-                    lBaru.buku.kode  = order[pilihan].kode;
-                    lBaru.buku.judul = order[pilihan].judul;
-                    lib.push_back(lBaru);
-                    saveOrder(order);
-                    saveLibrary(lib);
-                    tampilPesan(45, "Pesanan Selesai! E-Book ditambahkan ke Library.");
-                    system("pause");}}}}}
+                            Library lBaru;
+                            lBaru.id_user    = akun[indeksLogin].id_user;
+                            lBaru.username   = username;
+                            lBaru.buku.kode  = order[pilihan].kode;
+                            lBaru.buku.judul = order[pilihan].judul;
+                            lib.push_back(lBaru);
+                            
+                            saveOrder(order);
+                            saveLibrary(lib);
+                            tampilPesan(45, "Pesanan Selesai! E-Book ditambahkan ke Library.");
+                            system("pause");
+                        }
+                        break; 
+                    }
+                }
+            }
+        }
+    }
+}
 
 /*  MENU SALDO DAN TRANSAKSI
 ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════*/

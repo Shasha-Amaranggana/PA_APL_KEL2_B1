@@ -40,5 +40,33 @@
         "id_user": "U002",
         "nominal": 48000,
         "tanggal_transaksi": 20260516
+    },
+    {
+        "id_order": "ORD4",
+        "id_transaksi": "TRX7",
+        "id_user": "U001",
+        "nominal": 48000,
+        "tanggal_transaksi": 20260516
+    },
+    {
+        "id_order": "ORD5",
+        "id_transaksi": "TRX8",
+        "id_user": "U001",
+        "nominal": 50000,
+        "tanggal_transaksi": 20260516
+    },
+    {
+        "id_order": "ORD6",
+        "id_transaksi": "TRX9",
+        "id_user": "U001",
+        "nominal": 50000,
+        "tanggal_transaksi": 20260516
+    },
+    {
+        "id_order": "ORD7",
+        "id_transaksi": "TRX10",
+        "id_user": "U001",
+        "nominal": 61000,
+        "tanggal_transaksi": 20260516
     }
 ]
