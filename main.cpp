@@ -400,8 +400,15 @@ int scrollOrder(vector<Order> &order, string judulMenu, string jenis, string id_
             if (order[i].status_order == "Diproses") indexOrder.push_back(i);}
         if (jenis == "Selesai") {
             if (order[i].status_order == "Selesai") indexOrder.push_back(i);}
+        
+        if (jenis == "Dikirim") {
+            if (order[i].status_order == "Dikirim") indexOrder.push_back(i);}
+
         if (jenis == "Dikirim_Dibatalkan") {
             if (order[i].status_order == "Dikirim" || order[i].status_order == "Dibatalkan") indexOrder.push_back(i);}}
+    
+    if (indexOrder.empty()) return -1;
+
     while (true) {
         if (refresh) {
             system("cls"); refresh = false;}
@@ -418,10 +425,14 @@ int scrollOrder(vector<Order> &order, string judulMenu, string jenis, string id_
                     {cout << spasi(34) << "➠    " << BG_PUTIH << HITAM << BOLD  << setw(18) << order[indexOrder[i]].id_order  <<  "│ " << setw(26) << order[indexOrder[i]].kode  << RESET << endl;}
                 else {
                     cout << DIM << spasi(34) << "     " << setw(18) << order[indexOrder[i]].id_order <<  "│ " << setw(26) << order[indexOrder[i]].kode  << RESET << endl;}}}
+        
         int hasil = scrollMenu(pilih, indexOrder.size());
         if (hasil == -1) {
             refresh = true;
-            return indexOrder[pilih];}}}
+            return indexOrder[pilih];
+        }
+    }
+}
 
 int scrollKeranjang(vector<Keranjang> &keranjang, string judulMenu, string id_user) {
     int pilih = 0;
@@ -2933,17 +2944,19 @@ void pesananDikirim(vector<Order> &order, vector<Akun> &akun, vector<Library> &l
         if (hasilMenu == -1) {
             refreshMenu = true;
             if (pilihMenu == 1) break;
-            else if (pilihMenu == 0) {
+            else if (pilihMenu == 0) { 
                 
                 int pilihan = scrollOrder(order, "KONFIRMASI TERIMA", "Dikirim", akun[indeksLogin].id_user);
-                
-                if (pilihan == -1) continue; 
+
+                if (pilihan == -1) {
+                    continue; 
+                }
 
                 string tindakan2[] = {
                     "【 1 | Yakin              】",
                     "【 2 | Batalkan           】"};
                 int konfirmasi = 0;
-                
+
                 while (true) {
                     system("cls"); judul_subjudul("KONFIRMASI TERIMA"); cout << endl;
                     lihatDetailOrder(order, pilihan, "User", "Dikirim", akun[indeksLogin].id_user);
@@ -2957,7 +2970,7 @@ void pesananDikirim(vector<Order> &order, vector<Akun> &akun, vector<Library> &l
                     
                     int hasil2 = scrollMenu(konfirmasi, 2);
                     if (hasil2 == -1) {
-                        if (konfirmasi == 0) { 
+                        if (konfirmasi == 0) {
                             time_t now = time(0);
                             tm *ltm = localtime(&now);
                             int tgl = (1900 + ltm->tm_year) * 10000 + (1 + ltm->tm_mon) * 100 + ltm->tm_mday;
@@ -2976,7 +2989,7 @@ void pesananDikirim(vector<Order> &order, vector<Akun> &akun, vector<Library> &l
                             tampilPesan(45, "Pesanan Selesai! E-Book ditambahkan ke Library.");
                             system("pause");
                         }
-                        break; 
+                        break;
                     }
                 }
             }
