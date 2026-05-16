@@ -37,5 +37,18 @@
         },
         "id_user": "U001",
         "username": "2"
+    },
+    {
+        "buku": {
+            "genre": "",
+            "harga": 550,
+            "judul": "The Trials of Apollo 3",
+            "kode": "TOA32018001",
+            "no": 0,
+            "penulis": "",
+            "tahun": -345012192
+        },
+        "id_user": "U001",
+        "username": "2"
     }
 ]
