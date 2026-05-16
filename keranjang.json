@@ -1,1 +1,50 @@
-[]
+[
+    {
+        "buku": {
+            "genre": "",
+            "harga": 48000,
+            "judul": "The Final Reckoning",
+            "kode": "TFRSB2008002",
+            "no": 0,
+            "penulis": "",
+            "tahun": 0
+        },
+        "id_user": "U001"
+    },
+    {
+        "buku": {
+            "genre": "",
+            "harga": 50000,
+            "judul": "The Walled City",
+            "kode": "TWCRG2014002",
+            "no": 0,
+            "penulis": "",
+            "tahun": 0
+        },
+        "id_user": "U001"
+    },
+    {
+        "buku": {
+            "genre": "",
+            "harga": 50000,
+            "judul": "The Trials of Apollo 2",
+            "kode": "TOA22017001",
+            "no": 0,
+            "penulis": "",
+            "tahun": 0
+        },
+        "id_user": "U001"
+    },
+    {
+        "buku": {
+            "genre": "",
+            "harga": 60000,
+            "judul": "City of Lost Souls",
+            "kode": "CLS2012001",
+            "no": 0,
+            "penulis": "",
+            "tahun": 0
+        },
+        "id_user": "U001"
+    }
+]

@@ -1,1 +1,15 @@
-[]
+[
+    {
+        "buku": {
+            "genre": "",
+            "harga": 0,
+            "judul": "City of Lost Souls",
+            "kode": "CLS2012001",
+            "no": -65015968,
+            "penulis": "",
+            "tahun": 0
+        },
+        "id_user": "U001",
+        "username": "2"
+    }
+]

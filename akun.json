@@ -12,13 +12,13 @@
         "username": "1"
     },
     {
-        "alamat": "Kukulu",
+        "alamat": "kolo",
         "email": "user1@email.com",
         "id_user": "U001",
         "no_hp": "081348861990",
         "password": "2",
         "role": "User",
-        "saldo": 5000,
+        "saldo": 140000,
         "status_akun": "Aktif",
         "tanggal_daftar": 20260507,
         "username": "2"
@@ -30,7 +30,7 @@
         "no_hp": "083333333333",
         "password": "125",
         "role": "User",
-        "saldo": 100000,
+        "saldo": 52000,
         "status_akun": "Aktif",
         "tanggal_daftar": 20260507,
         "username": "125"
@@ -43,7 +43,7 @@
         "password": "126",
         "role": "User",
         "saldo": 100000,
-        "status_akun": "Aktif",
+        "status_akun": "Nonaktif",
         "tanggal_daftar": 20260507,
         "username": "126"
     },
