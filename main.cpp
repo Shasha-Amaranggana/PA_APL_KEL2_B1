@@ -2967,64 +2967,6 @@ void pesananDikirim(vector<Order> &order, vector<Akun> &akun, vector<Library> &l
                     tampilPesan(45, "Pesanan Selesai! E-Book ditambahkan ke Library.");
                     system("pause");}}}}}
 
-void pesananDiproses(vector<Akun> &akun, vector<Order> &order, int indeksLogin) {
-    lihatPesananUser("Diproses", order, akun[indeksLogin].id_user);}
-
-void pesananDikirim(vector<Order> &order, vector<Akun> &akun, vector<Library> &lib, int indeksLogin, string username) {
-    int pilihMenu = 0;
-    bool refreshMenu = true;
-    while (true) {
-        system("cls"); judul_subjudul("PESANAN DIKIRIM"); cout << endl;
-        lihatPesananUser("Dikirim", order, akun[indeksLogin].id_user);
-
-        int jumlahPesanan = 0;
-        for (const auto& o : order) {
-            if (o.id_user == akun[indeksLogin].id_user && o.status_order == "Dikirim") {
-                jumlahPesanan++;}}
-
-        if (jumlahPesanan == 0) {
-            cout << "\n  Pilih Aksi:\n\n";
-            cout << spasi(20) << BG_PUTIH << HITAM << BOLD << "『   Kembali               』" << RESET << endl;
-            system("pause > nul"); 
-            break;}
-
-        string opsiMenu[] = {
-            "『   Pesanan Diterima      』",
-            "『   Kembali               』"};
-
-        cout << "\n  Pilih Aksi:\n\n";
-        for (int i = 0; i < 2; i++) {
-            if (i == pilihMenu) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << opsiMenu[i] << RESET << endl;
-            else cout << DIM << spasi(20) << opsiMenu[i] << RESET << endl;}
-
-        int hasilMenu = scrollMenu(pilihMenu, 2);
-        if (hasilMenu == -1) {
-            refreshMenu = true;
-            if (pilihMenu == 1) break;
-            else if (pilihMenu == 0) {
-                string id_selesai;
-                cout << "\n  Masukkan ID ORDER yang sudah diterima (Ketik '0' untuk batal): ";
-                cin >> id_selesai;
-                if (id_selesai == "0") continue;
-
-                bool ketemu = false;
-                for (size_t i = 0; i < order.size(); i++) {
-                    if (order[i].id_user == akun[indeksLogin].id_user && order[i].id_order == id_selesai && order[i].status_order == "Dikirim") {
-                        order[i].status_order = "Selesai";
-                        Library lBaru;
-                        lBaru.id_user    = akun[indeksLogin].id_user;
-                        lBaru.username   = username;
-                        lBaru.buku.kode  = order[i].kode;
-                        lBaru.buku.judul = order[i].judul; 
-                        lib.push_back(lBaru);
-                        saveOrder(order);
-                        saveLibrary(lib);
-                        tampilPesan(45, "Pesanan Selesai! E-Book ditambahkan ke Library.");
-                        ketemu = true;
-                        break;}}
-                if (!ketemu) tampilPeringatan(35, "ID Order tidak valid.");
-                system("pause");}}}}
-
 /*  MENU SALDO DAN TRANSAKSI
 ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════*/
 void editSaldo(vector<Akun> &akun, int indeksLogin) {
