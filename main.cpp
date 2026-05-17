@@ -2691,14 +2691,14 @@ void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, v
 
                         if (itemDipesan.size() == 1) {
                             cout << CYAN << BOLD;
-                            cout << spasi(36) << "┌──────────────────────────────────────────────────────────────────────────────────┐" << endl;
-                            cout << spasi(36) << "│                                     DETAIL E-BOOK                                │" << endl;
-                            cout << spasi(36) << "├──────────────────┬───────────────────────────────────────────────────────────────┤" << endl;
-                            cout << spasi(36) << "│ JUDUL            │ " << left << setw(44) << itemDipesan[0].buku.judul  <<       "│" << endl;
-                            cout << spasi(36) << "│ KODE             │ " << left << setw(44) << itemDipesan[0].buku.kode   <<       "│" << endl;
-                            cout << spasi(36) << "│ HARGA            │ Rp" << left << setw(42) << itemDipesan[0].buku.harga <<      "│" << endl;
-                            cout << spasi(36) << "│ SALDO ANDA       │ Rp" << left << setw(42) << akun[indeksLogin].saldo  <<       "│" << endl;
-                            cout << spasi(36) << "└──────────────────┴───────────────────────────────────────────────────────────────┘" << endl;
+                            cout << spasi(36) << "┌────────────────────────────────────────────────────────────────────────────┐" << endl;
+                            cout << spasi(36) << "│                                DETAIL E-BOOK                               │" << endl;
+                            cout << spasi(36) << "├──────────────────┬─────────────────────────────────────────────────────────┤" << endl;
+                            cout << spasi(36) << "│ JUDUL            │ " << left << setw(44) << itemDipesan[0].buku.judul  << "│" << endl;
+                            cout << spasi(36) << "│ KODE             │ " << left << setw(44) << itemDipesan[0].buku.kode   << "│" << endl;
+                            cout << spasi(36) << "│ HARGA            │ Rp" << left << setw(42) << itemDipesan[0].buku.harga <<"│" << endl;
+                            cout << spasi(36) << "│ SALDO ANDA       │ Rp" << left << setw(42) << akun[indeksLogin].saldo  << "│" << endl;
+                            cout << spasi(36) << "└──────────────────┴─────────────────────────────────────────────────────────┘" << endl;
                             cout << RESET << endl;
                         } else {
                             lihatDaftarKeranjang(keranjang, akun[indeksLogin].id_user);}
