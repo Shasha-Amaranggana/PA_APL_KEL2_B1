@@ -6,19 +6,19 @@
         "no_hp": "081111111111",
         "password": "1",
         "role": "Admin",
-        "saldo": 333000,
+        "saldo": 431000,
         "status_akun": "Aktif",
         "tanggal_daftar": 20260507,
         "username": "1"
     },
     {
-        "alamat": "kolo",
+        "alamat": "Sambutan",
         "email": "user1@email.com",
         "id_user": "U001",
-        "no_hp": "081348861990",
+        "no_hp": "083992873737",
         "password": "2",
         "role": "User",
-        "saldo": 620001,
+        "saldo": 599001,
         "status_akun": "Aktif",
         "tanggal_daftar": 20260507,
         "username": "2"
@@ -30,7 +30,7 @@
         "no_hp": "083333333333",
         "password": "125",
         "role": "User",
-        "saldo": 52000,
+        "saldo": 4000,
         "status_akun": "Aktif",
         "tanggal_daftar": 20260507,
         "username": "125"
