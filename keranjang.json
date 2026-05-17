@@ -1,1 +1,50 @@
-[]
+[
+    {
+        "buku": {
+            "genre": "Romance",
+            "harga": 48000,
+            "judul": "The Final Reckoning",
+            "kode": "TFRSB2008002",
+            "no": 1,
+            "penulis": "Sam Bourne",
+            "tahun": 2008
+        },
+        "id_user": "U001"
+    },
+    {
+        "buku": {
+            "genre": "Romance",
+            "harga": 50000,
+            "judul": "The Walled City",
+            "kode": "TWCRG2014002",
+            "no": 2,
+            "penulis": "Ryan Graudin",
+            "tahun": 2014
+        },
+        "id_user": "U001"
+    },
+    {
+        "buku": {
+            "genre": "Romance",
+            "harga": 50000,
+            "judul": "The Walled City",
+            "kode": "TWCRG2014002",
+            "no": 2,
+            "penulis": "Ryan Graudin",
+            "tahun": 2014
+        },
+        "id_user": "U002"
+    },
+    {
+        "buku": {
+            "genre": "Fantasi",
+            "harga": 60000,
+            "judul": "City of Lost Souls",
+            "kode": "CLS2012001",
+            "no": 3,
+            "penulis": "Cassandra Clare",
+            "tahun": 2012
+        },
+        "id_user": "U002"
+    }
+]
