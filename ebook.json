@@ -3,10 +3,10 @@
         "genre": "Romance",
         "harga": 48000,
         "judul": "The Final Reckoning",
-        "kode": "TFRSB2008002",
+        "kode": "TFRSB2009002",
         "no": 1,
         "penulis": "Sam Bourne",
-        "tahun": 2008
+        "tahun": 2009
     },
     {
         "genre": "Romance",
@@ -18,7 +18,7 @@
         "tahun": 2014
     },
     {
-        "genre": "Fantasi",
+        "genre": "Fantasy",
         "harga": 60000,
         "judul": "City of Lost Souls",
         "kode": "CLS2012001",
@@ -27,7 +27,7 @@
         "tahun": 2012
     },
     {
-        "genre": "Fantasi",
+        "genre": "Fantasy",
         "harga": 50000,
         "judul": "The Trials of Apollo 2",
         "kode": "TOA22017001",
@@ -36,7 +36,7 @@
         "tahun": 2017
     },
     {
-        "genre": "Fantasi",
+        "genre": "Fantasy",
         "harga": 50000,
         "judul": "The Trials of Apollo 3",
         "kode": "TOA32018001",

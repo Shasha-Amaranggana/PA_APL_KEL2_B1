@@ -653,20 +653,15 @@ void registrasi(vector<Akun> &akun) {
     cout << spasi(47) << BOLD << "No. HP   : " << RESET; cin >> no_hp;
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << BOLD << "Alamat   : " << RESET; cin >> alamat;
+    cin.ignore(1000, '\n');
+    cout << spasi(47) << BOLD << "Alamat   : " << RESET; getline (cin, alamat);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
 
     regex userRegex("^[a-zA-Z0-9_ ]{5,}$");
     regex passRegex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$");
     regex hpRegex("^08\\d{8,12}$");
-    if (!regex_match(username, userRegex)) {
-        tampilPeringatan(22, "Username tidak valid!"); return;}
-    if (!regex_match(password, passRegex)) {
-        tampilPeringatan(54, "Password harus 8 karakter + huruf besar, kecil, angka!"); return;}
-    if (!regex_match(no_hp, hpRegex)) {
-        tampilPeringatan(18, "No HP tidak valid!"); return;}
-    if (email.find("@gmail.com") == string::npos) {
-        tampilPeringatan(24, "Email harus @gmail.com!");return;}
+    if (!regex_match(username, userRegex) || !regex_match(password, passRegex) || !regex_match(no_hp, hpRegex) || (email.find("@gmail.com") == string::npos)) {
+        tampilPeringatan(36, "Data registrasi harus sesuai syarat!"); return;}
 
     for (auto &a : akun) {
         if (a.username == username) {
