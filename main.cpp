@@ -2637,19 +2637,18 @@ void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, v
 
         string opsiMenu[] = {
             "『   Checkout Barang       』",
-            "『   Hapus dari Keranjang  』",
             "『   Kembali               』"};
 
         cout << "\n  Opsi Keranjang:\n\n";
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             if (i == pilihMenu) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << opsiMenu[i] << RESET << endl;
             else cout << DIM << spasi(20) << opsiMenu[i] << RESET << endl;}
 
-        int hasilMenu = scrollMenu(pilihMenu, 3);
+        int hasilMenu = scrollMenu(pilihMenu, 2);
         if (hasilMenu == -1) {
             refreshMenu = true;
 
-            if (pilihMenu == 2) {
+            if (pilihMenu == 1) {
                 break;}
 
             else if (pilihMenu == 0) {
@@ -2689,7 +2688,21 @@ void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, v
                     while (true) {
                         if (refreshTindakan) { system("cls"); refreshTindakan = false;}
                         clsScroll(0,0); judul_subjudul("CHECKOUT KERANJANG"); cout << endl;
-                        lihatDaftarKeranjang(keranjang, akun[indeksLogin].id_user);
+
+                        if (itemDipesan.size() == 1) {
+                            cout << CYAN << BOLD;
+                            cout << spasi(36) << "┌──────────────────────────────────────────────────────────────────────────────────┐" << endl;
+                            cout << spasi(36) << "│                                     DETAIL E-BOOK                                │" << endl;
+                            cout << spasi(36) << "├──────────────────┬───────────────────────────────────────────────────────────────┤" << endl;
+                            cout << spasi(36) << "│ JUDUL            │ " << left << setw(44) << itemDipesan[0].buku.judul  <<       "│" << endl;
+                            cout << spasi(36) << "│ KODE             │ " << left << setw(44) << itemDipesan[0].buku.kode   <<       "│" << endl;
+                            cout << spasi(36) << "│ HARGA            │ Rp" << left << setw(42) << itemDipesan[0].buku.harga <<      "│" << endl;
+                            cout << spasi(36) << "│ SALDO ANDA       │ Rp" << left << setw(42) << akun[indeksLogin].saldo  <<       "│" << endl;
+                            cout << spasi(36) << "└──────────────────┴───────────────────────────────────────────────────────────────┘" << endl;
+                            cout << RESET << endl;
+                        } else {
+                            lihatDaftarKeranjang(keranjang, akun[indeksLogin].id_user);}
+
                         cout << endl << spasi(34) << BOLD << KUNING << "Pilih metode pembayaran:" << RESET << endl;
                         for (int i = 0; i < 3; i++) {
                             if (i == pilihTindakan) cout << spasi(39) << BG_PUTIH << HITAM << BOLD << opsiTindakan[i] << RESET << endl;
@@ -2702,7 +2715,7 @@ void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, v
                         tm *ltm = localtime(&now);
                         int tgl = (1900 + ltm->tm_year) * 10000 + (1 + ltm->tm_mon) * 100 + ltm->tm_mday;
 
-                        int jumlahBerhasil = 0; 
+                        int jumlahBerhasil = 0;
 
                         for (auto &item : itemDipesan) {
                             bool sudahDipesan = false;
@@ -2728,8 +2741,8 @@ void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, v
                             if (pilihTindakan == 0) {
                                 if (akun[indeksLogin].saldo < item.buku.harga) {
                                     tampilPeringatan(52, "Saldo tidak mencukupi untuk '" + item.buku.judul + "', dilewati.");
-                                    continue;} 
-                                
+                                    continue;}
+
                                 o.status_order  = "Diproses";
                                 o.status_bayar  = "Lunas";
                                 o.tanggal_bayar = tgl;
@@ -2746,7 +2759,6 @@ void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, v
                                 t.id_order = o.id_order;
                                 t.nominal = item.buku.harga;
                                 t.tanggal_transaksi = tgl;
-                                t.jenis = "Pembayaran";
                                 transaksi.push_back(t);
                             } else {
                                 o.status_order  = "Ditunggu";
@@ -2758,42 +2770,19 @@ void checkoutDariKeranjang(vector<Keranjang> &keranjang, vector<Order> &order, v
                                 if (it->buku.kode == item.buku.kode && it->id_user == o.id_user) {
                                     it = keranjang.erase(it);
                                 } else { ++it;}}
-                            
-                            jumlahBerhasil++; 
-                        }
+
+                            jumlahBerhasil++;}
 
                         if (jumlahBerhasil > 0) {
                             saveOrder(order);
                             saveAkun(akun);
                             saveKeranjang(keranjang);
                             saveTransaksi(transaksi);
-                            tampilPesan(40, "Checkout berhasil diproses!");
-                        }
-                        
+                            tampilPesan(40, "Checkout berhasil diproses!");}
+
                         system("pause");
                         break;}
-                    break;}}
-
-            else if (pilihMenu == 1) {
-                string kodeHapus;
-                cout << "\n  Masukkan Kode E-Book yang ingin dihapus (Ketik '0' untuk batal): ";
-                cin >> kodeHapus;
-                if (kodeHapus == "0") continue;
-
-                bool terhapus = false;
-                for (auto it = keranjang.begin(); it != keranjang.end(); ) {
-                    if (it->buku.kode == kodeHapus && it->id_user == akun[indeksLogin].id_user) {
-                        it = keranjang.erase(it);
-                        terhapus = true;
-                        break;
-                    } else { ++it;}}
-
-                if (terhapus) {
-                    saveKeranjang(keranjang);
-                    tampilPesan(40, "Item berhasil dihapus dari keranjang!");
-                } else {
-                    tampilPeringatan(40, "Kode E-Book tidak ditemukan.");}
-                system("pause > nul");}}}}
+                    break;}}}}}
 
 
 /*  MENU PESANAN                                                                                   */
