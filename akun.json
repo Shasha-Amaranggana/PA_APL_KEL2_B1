@@ -6,9 +6,9 @@
         "no_hp": "081111111111",
         "password": "1",
         "role": "Admin",
-        "saldo": 431000,
+        "saldo": 653000,
         "status_akun": "Aktif",
-        "tanggal_daftar": 20260507,
+        "tanggal_daftar": "2026-05-07 00:00:00",
         "username": "1"
     },
     {
@@ -18,69 +18,9 @@
         "no_hp": "083992873737",
         "password": "2",
         "role": "User",
-        "saldo": 599001,
+        "saldo": 412000,
         "status_akun": "Aktif",
-        "tanggal_daftar": 20260507,
+        "tanggal_daftar": "2026-05-07 00:00:00",
         "username": "2"
-    },
-    {
-        "alamat": "Samarinda",
-        "email": "user2@email.com",
-        "id_user": "U002",
-        "no_hp": "083333333333",
-        "password": "125",
-        "role": "User",
-        "saldo": 4000,
-        "status_akun": "Aktif",
-        "tanggal_daftar": 20260507,
-        "username": "125"
-    },
-    {
-        "alamat": "Samarinda",
-        "email": "user3@email.com",
-        "id_user": "U003",
-        "no_hp": "084444444444",
-        "password": "126",
-        "role": "User",
-        "saldo": 100000,
-        "status_akun": "Aktif",
-        "tanggal_daftar": 20260507,
-        "username": "126"
-    },
-    {
-        "alamat": "Samarinda",
-        "email": "dindashasha@gmail.com",
-        "id_user": "U4",
-        "no_hp": "081348861965",
-        "password": "Shasha344",
-        "role": "User",
-        "saldo": 4000,
-        "status_akun": "Aktif",
-        "tanggal_daftar": 20260510,
-        "username": "Shasha34"
-    },
-    {
-        "alamat": "sksk",
-        "email": "gu@gmail.com",
-        "id_user": "U5",
-        "no_hp": "081348861965",
-        "password": "Halohaloo90",
-        "role": "User",
-        "saldo": 0,
-        "status_akun": "Aktif",
-        "tanggal_daftar": 20260513,
-        "username": "Halohaloo90"
-    },
-    {
-        "alamat": "s",
-        "email": "@gmail.com",
-        "id_user": "U0006",
-        "no_hp": "081348861965",
-        "password": "Shasha&&7",
-        "role": "User",
-        "saldo": 0,
-        "status_akun": "Aktif",
-        "tanggal_daftar": 20260517,
-        "username": "Shasha6"
     }
 ]

@@ -97,5 +97,14 @@
         "no": 11,
         "penulis": "Rick Riordan",
         "tahun": 2019
+    },
+    {
+        "genre": "Fantasy",
+        "harga": 80000,
+        "judul": "Kuku",
+        "kode": "KK2001002",
+        "no": 12,
+        "penulis": "Kukuli",
+        "tahun": 2001
     }
 ]
