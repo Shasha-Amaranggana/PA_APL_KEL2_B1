@@ -1,34 +1,34 @@
 [
     {
         "id_order": "-",
-        "id_transaksi": "TRX1",
-        "id_user": "U001",
+        "id_transaksi": "TRX000001",
+        "id_user": "U0002",
         "jenis": "Isi Saldo",
-        "nominal": 40000,
-        "tanggal_transaksi": "2026-05-18 17:06:14"
+        "nominal": 300000,
+        "tanggal_transaksi": "2026-05-18 23:52:43"
     },
     {
-        "id_order": "-",
-        "id_transaksi": "TRX2",
-        "id_user": "U001",
-        "jenis": "Isi Saldo",
-        "nominal": 400000,
-        "tanggal_transaksi": "2026-05-18 17:10:40"
-    },
-    {
-        "id_order": "ORD1",
-        "id_transaksi": "TRX3",
-        "id_user": "U001",
+        "id_order": "ORD00004",
+        "id_transaksi": "TRX000002",
+        "id_user": "U0002",
         "jenis": "Pembayaran",
         "nominal": 48000,
-        "tanggal_transaksi": "2026-05-18 17:10:54"
+        "tanggal_transaksi": "2026-05-18 23:52:52"
     },
     {
-        "id_order": "ORD1",
-        "id_transaksi": "TRX4",
-        "id_user": "U001",
-        "jenis": "Pengembalian",
-        "nominal": 48000,
-        "tanggal_transaksi": "2026-05-18 17:16:09"
+        "id_order": "ORD00005",
+        "id_transaksi": "TRX000003",
+        "id_user": "U0002",
+        "jenis": "Pembayaran",
+        "nominal": 50000,
+        "tanggal_transaksi": "2026-05-18 23:52:59"
+    },
+    {
+        "id_order": "ORD00006",
+        "id_transaksi": "TRX000004",
+        "id_user": "U0002",
+        "jenis": "Pembayaran",
+        "nominal": 60000,
+        "tanggal_transaksi": "2026-05-18 23:53:03"
     }
 ]

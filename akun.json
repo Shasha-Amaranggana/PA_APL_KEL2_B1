@@ -6,7 +6,7 @@
         "no_hp": "081111111111",
         "password": "1",
         "role": "Admin",
-        "saldo": 653000,
+        "saldo": 919000,
         "status_akun": "Aktif",
         "tanggal_daftar": "2026-05-07 00:00:00",
         "username": "1"
@@ -18,9 +18,21 @@
         "no_hp": "083992873737",
         "password": "2",
         "role": "User",
-        "saldo": 412000,
+        "saldo": 104000,
         "status_akun": "Aktif",
         "tanggal_daftar": "2026-05-07 00:00:00",
         "username": "2"
+    },
+    {
+        "alamat": "Kulu",
+        "email": "kk@gmail.com",
+        "id_user": "U0002",
+        "no_hp": "081111111111",
+        "password": "Shasha111",
+        "role": "User",
+        "saldo": 142000,
+        "status_akun": "Aktif",
+        "tanggal_daftar": "2026-05-18 23:51:08",
+        "username": "Shasha111"
     }
 ]
