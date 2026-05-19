@@ -1,26 +1,26 @@
 [
     {
         "alamat": "Samarinda",
-        "email": "admin@email.com",
+        "email": "admin@gmail.com",
         "id_user": "A000",
         "no_hp": "081111111111",
-        "password": "Admin123",
+        "password": "AdminKita123",
         "role": "Admin",
-        "saldo": 1752000,
+        "saldo": 2039000,
         "status_akun": "Aktif",
         "tanggal_daftar": "2026-05-07 00:00:00",
-        "username": "Admin"
+        "username": "HaloAdmin"
     },
     {
         "alamat": "Sambutan",
-        "email": "user1@email.com",
+        "email": "user1@gmail.com",
         "id_user": "U001",
         "no_hp": "083992873737",
-        "password": "User123",
+        "password": "UserSape123",
         "role": "User",
-        "saldo": 261000,
+        "saldo": 174000,
         "status_akun": "Aktif",
         "tanggal_daftar": "2026-05-07 00:00:00",
-        "username": "User"
+        "username": "HaloUser1"
     }
 ]

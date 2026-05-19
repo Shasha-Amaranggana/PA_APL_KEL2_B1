@@ -10,5 +10,17 @@
             "tahun": 2012
         },
         "id_user": "U002"
+    },
+    {
+        "buku": {
+            "genre": "Adventure",
+            "harga": 61000,
+            "judul": "Magnus Chase 1",
+            "kode": "MCATGOARR2015001",
+            "no": 7,
+            "penulis": "Rick Riordan",
+            "tahun": 2015
+        },
+        "id_user": "U001"
     }
 ]

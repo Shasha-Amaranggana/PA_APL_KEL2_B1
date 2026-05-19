@@ -56,7 +56,7 @@
     {
         "genre": "Adventure",
         "harga": 61000,
-        "judul": "Magnus Chase and The Gods of Asgard 1",
+        "judul": "Magnus Chase 1",
         "kode": "MCATGOARR2015001",
         "no": 7,
         "penulis": "Rick Riordan",
@@ -65,7 +65,7 @@
     {
         "genre": "Adventure",
         "harga": 61000,
-        "judul": "Magnus Chase and The Gods of Asgard 2",
+        "judul": "Magnus Chase 2",
         "kode": "MCATGOARR2016001",
         "no": 8,
         "penulis": "Rick Riordan",
@@ -99,13 +99,13 @@
         "tahun": 2019
     },
     {
-        "genre": "Fantasy",
-        "harga": 80000,
-        "judul": "Kuku",
-        "kode": "KK2001002",
+        "genre": "Adventure",
+        "harga": 35000,
+        "judul": "9 Misi Sang Penjaga",
+        "kode": "MSPC2015001",
         "no": 12,
-        "penulis": "Kukuli",
-        "tahun": 2001
+        "penulis": "Charon",
+        "tahun": 2015
     },
     {
         "genre": "Sci-Fi",
@@ -160,5 +160,23 @@
         "no": 18,
         "penulis": "Stephen King",
         "tahun": 1978
+    },
+    {
+        "genre": "Romance",
+        "harga": 66000,
+        "judul": "Anne and The French Kiss",
+        "kode": "AATFKSP2010001",
+        "no": 19,
+        "penulis": "Stephanie Perkins",
+        "tahun": 2010
+    },
+    {
+        "genre": "Romance",
+        "harga": 22000,
+        "judul": "Online Wedding",
+        "kode": "OWV2017001",
+        "no": 20,
+        "penulis": "Vicantika",
+        "tahun": 2017
     }
 ]

@@ -282,7 +282,6 @@ void saveKeranjang(vector<Keranjang> &ker) {
 //═════════════════════════════════════════════════════════════════════════════════════════════════════════════//
 void judul_subjudul(string subjudul) {
     string spasiPesan = string(((140 - subjudul.length())) / 2, ' ');
-    cout << "+=========+=========+=========+=========+=========+=========+========++========+=========+=========+=========+=========+=========+=========+" << endl;
     cout << BIRU << BOLD << "╔══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╗" << endl;
     cout << "║" << KUNING << BOLD << "                                                       ☕📓   E-BOOKIE STORE   📓☕                                                       " << BIRU << BOLD << "║" << endl;
     cout << "╚══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════╝" << endl;
@@ -622,9 +621,11 @@ int login(vector<Akun> &akun) {
     cout << spasi(47) << BOLD << "Username: " << RESET; getline(cin, jawabNama);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << BOLD << "Password: " << RESET; cin >> jawabPassword;
+    cout << spasi(47) << BOLD << "Password: " << RESET; getline(cin, jawabPassword);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
-
+    if (jawabNama.empty() || jawabPassword.empty()) {
+        tampilPeringatan(40, "Username dan password tidak boleh kosong!"); system("pause");
+        return -3;}
     for (size_t i = 0; i < akun.size(); i++) {
         if(akun[i].username == jawabNama && akun[i].password == jawabPassword) {
             if (akun[i].status_akun == "Nonaktif") {
@@ -635,7 +636,7 @@ int login(vector<Akun> &akun) {
             system("pause");
             return i;}}
     return -1;}
-    
+   
 void registrasi(vector<Akun> &akun) {
     string username, password, email, no_hp, alamat;
 
@@ -650,20 +651,22 @@ void registrasi(vector<Akun> &akun) {
     cout << spasi(47) << BOLD << "Username : " << RESET; getline(cin, username);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << BOLD << "Password : " << RESET; cin >> password;
+    cout << spasi(47) << BOLD << "Password : " << RESET; getline(cin, password);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << BOLD << "Email    : " << RESET; cin >> email;
+    cout << spasi(47) << BOLD << "Email    : " << RESET; getline(cin, email);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << BOLD << "No. HP   : " << RESET; cin >> no_hp;
+    cout << spasi(47) << BOLD << "No. HP   : " << RESET; getline(cin, no_hp);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cin.ignore(1000, '\n');
     cout << spasi(47) << BOLD << "Alamat   : " << RESET; getline (cin, alamat);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
 
     // VALIDASI INPUT REGISTRASI
+    if (password.find(' ') != string::npos || email.find(' ') != string::npos || no_hp.find(' ') != string::npos) {
+        tampilPeringatan(56, "Password, Email, dan No. HP tidak boleh mengandung spasi!");
+        return;}
     regex userRegex("^[a-zA-Z0-9_ ]{5,}$");
     regex passRegex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$");
     regex hpRegex("^08\\d{8,12}$");
@@ -695,7 +698,7 @@ void registrasi(vector<Akun> &akun) {
     saveAkun(akun);
 
     tampilPesan(20, "Registrasi berhasil!");}
-
+   
 
 
 //═════════════════════════════════════════════════════════════════════════════════════════════════════════════//
@@ -903,12 +906,21 @@ void tambahEbook(vector<Ebook> &ebook) {
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
     cout << spasi(47) << BOLD << "Judul   : " << RESET; getline(cin, baru.judul);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    if (baru.judul.empty()) {
+        tampilPeringatan(24, "Judul tidak boleh kosong!");
+        return;}
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
     cout << spasi(47) << BOLD << "Penulis : " << RESET; getline(cin, baru.penulis);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    if (baru.penulis.empty()) {
+        tampilPeringatan(26, "Penulis tidak boleh kosong!");
+        return;}
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << BOLD << "Tahun   : " << RESET; cin >> inputTahun;
+    cout << spasi(47) << BOLD << "Tahun   : " << RESET; getline(cin, inputTahun);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    if (inputTahun.empty()) {
+        tampilPeringatan(24, "Tahun tidak boleh kosong!");
+        return;}
     for (char c : inputTahun) {
         if (!isdigit(c)) {
             tampilPeringatan(24, "Tahun harus berupa angka!");
@@ -965,8 +977,11 @@ void tambahEbook(vector<Ebook> &ebook) {
     cout << spasi(47) << BOLD << "Genre   : " << RESET << baru.genre << endl;
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << BOLD << "Harga   : " << RESET; cin >> inputHarga;
+    cout << spasi(47) << BOLD << "Harga   : " << RESET; getline(cin, inputHarga);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
+    if (inputHarga.empty()) {
+        tampilPeringatan(24, "Harga tidak boleh kosong!");
+        return;}
     for (char c : inputHarga) {
         if (!isdigit(c)) {
             tampilPeringatan(24, "Harga harus berupa angka!");
@@ -1014,6 +1029,11 @@ void tambahEbook(vector<Ebook> &ebook) {
 
             // SIMPAN
             if (pilihTindakan == 0) {
+                // CEK DUPLIKAT E-BOOK DI KATALOG
+                for (auto &e : ebook) {
+                    if (e.judul == baru.judul && e.penulis == baru.penulis && e.tahun == baru.tahun) {
+                        tampilPeringatan(28, "E-book sudah ada di katalog!");
+                        return;}}
                 baru.no = generateNo(ebook);
                 baru.kode = generateKode(ebook, baru.judul, baru.penulis, baru.tahun);
                 ebook.push_back(baru);
@@ -1864,7 +1884,7 @@ void lihatRiwayatTransaksi(vector<Transaksi> &transaksi, string jenis, string id
                 cout << "-Rp" << setw(8) << t.nominal;
             else
                 cout << "+Rp" << setw(8) << t.nominal;
-            cout << "│ " << setw(13) << t.tanggal_transaksi << "│ ";
+            cout << "│ " << setw(21) << t.tanggal_transaksi << "│ ";
             if (t.jenis == "Pembayaran")
                 cout << HIJAU << BOLD << setw(14) << t.jenis << RESET;
             else if (t.jenis == "Pengembalian")
@@ -2157,7 +2177,7 @@ void menuAdmin(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector
             else {
                 tampilPesan(16, "Logout berhasil!"); system("pause");
                 break;}}}}
-
+   
 
 
 //═════════════════════════════════════════════════════════════════════════════════════════════════════════════//
@@ -2318,7 +2338,7 @@ void tambahProdukkeKeranjang(vector<Ebook> &ebook, vector<Keranjang> &keranjang,
             else {
                 tampilPeringatan(22, "Penambahan dibatalkan!");
                 break;}}}}
-    
+
 void checkoutDariKatalog(vector<Ebook> &ebook, vector<Order> &order, vector<Akun> &akun, int indeksLogin, vector<Transaksi> &transaksi, vector<Keranjang> &keranjang, vector<Library> &lib) {
     string tindakan[] = {
         "【 1 | Bayar Sekarang     】",
@@ -3515,7 +3535,7 @@ void keranjangUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Ak
 void pesananUser(vector<Ebook> &ebook, vector<Order> &order, vector<Akun> &akun, int indeksLogin, vector<Library> &lib, vector<Transaksi> &transaksi) {
     // CEK KETERSEDIAAN PESANAN
     if (order.empty()) {
-        tampilPeringatan(30, "Belum ada Pesanan yang dibuat!");
+        tampilPeringatan(30, "Belum ada Pesanan yang dibuat!"); system("pause");
         return;}
     bool ada = false;
     for (const auto &o : order) {
@@ -3523,7 +3543,7 @@ void pesananUser(vector<Ebook> &ebook, vector<Order> &order, vector<Akun> &akun,
             ada = true;
             break;}}
     if (!ada) {
-        tampilPeringatan(18, "Belum ada pesanan!");
+        tampilPeringatan(18, "Belum ada pesanan!"); system("pause");
         return;}
 
     // MENU PESANAN
@@ -3729,7 +3749,6 @@ void menuUser(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector<
                 break;}}}}
 
 
-
 //═════════════════════════════════════════════════════════════════════════════════════════════════════════════//
 /*                     MAIN PROGRAM                                                                            */
 //═════════════════════════════════════════════════════════════════════════════════════════════════════════════//
@@ -3775,25 +3794,31 @@ int main() {
                 system("cls"); judul_subjudul("LOG IN AKUN ANDA");
                 int indeksLogin = login(akun);
 
-                // LOGIN GAGAL
-                if (indeksLogin == -1) {
-                    percobaan++;
-                    if (percobaan > 0 && percobaan < 3) {
-                        tampilPeringatan(54, "Username atau password salah atau akun tidak terdaftar.");
-                        tampilPeringatan(20, "Sisa kesempatan: " + to_string(3 - percobaan));
-                        system("pause");}
-                    else {
-                        system("cls"); judul_subjudul("TERIMA KASIH"); cout << endl;
-                        tampilPesan("Terlalu banyak percobaan login. Program ditutup.");
-                        break;}
-                    refresh = true;}
-
                 // LOGIN BERHASIL
-                else if (indeksLogin >= 0) {
+                if (indeksLogin >= 0) {
+                    percobaan = 0;
                     if (akun[indeksLogin].role == "Admin") {
                         menuAdmin(akun, indeksLogin, ebook, order, transaksi);}
                     else {
-                        menuUser(akun, indeksLogin, ebook, library, order, transaksi, keranjang);}}}
+                        menuUser(akun, indeksLogin, ebook, library, order, transaksi, keranjang);}}
+
+                // LOGIN GAGAL
+                else if (indeksLogin < 0) {
+                    // USERNAME ATAU PASSWORD SALAH
+                    if (indeksLogin == -1) {
+                        percobaan++;
+                        if (percobaan < 3) {
+                            tampilPeringatan(54, "Username atau password salah atau akun tidak terdaftar.");
+                            tampilPeringatan(20, "Sisa kesempatan: " + to_string(3 - percobaan));
+                            system("pause");}
+                        else {
+                            system("cls"); judul_subjudul("TERIMA KASIH"); cout << endl;
+                            tampilPesan("Terlalu banyak percobaan login. Program ditutup.");
+                            break;}
+                        refresh = true;}
+                    // INPUT KOSONG ATAU AKUN NONAKTIF
+                    else {
+                        refresh = true;}}}
 
             /* 2. REGISTRASI
             ════════════════════════════════════════════════════*/
