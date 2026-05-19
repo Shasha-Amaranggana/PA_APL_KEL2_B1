@@ -11,5 +11,18 @@
         },
         "id_user": "U001",
         "username": "2"
+    },
+    {
+        "buku": {
+            "genre": "Romance",
+            "harga": 48000,
+            "judul": "The Final Reckoning",
+            "kode": "TFRSB2009002",
+            "no": 1,
+            "penulis": "Sam Bourne",
+            "tahun": 2009
+        },
+        "id_user": "U001",
+        "username": "2"
     }
 ]
