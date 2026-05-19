@@ -106,5 +106,59 @@
         "no": 12,
         "penulis": "Kukuli",
         "tahun": 2001
+    },
+    {
+        "genre": "Sci-Fi",
+        "harga": 70000,
+        "judul": "Dune",
+        "kode": "DFH1965001",
+        "no": 13,
+        "penulis": "Frank Herbert",
+        "tahun": 1965
+    },
+    {
+        "genre": "Adventure",
+        "harga": 45000,
+        "judul": "The Hunger Games",
+        "kode": "THGSC2008001",
+        "no": 14,
+        "penulis": "Suzanne Collins",
+        "tahun": 2008
+    },
+    {
+        "genre": "Adventure",
+        "harga": 60000,
+        "judul": "Catching Fire",
+        "kode": "CFSC2009001",
+        "no": 15,
+        "penulis": "Suzanne Collins",
+        "tahun": 2009
+    },
+    {
+        "genre": "Adventure",
+        "harga": 50000,
+        "judul": "Mockingjay",
+        "kode": "MSC2010001",
+        "no": 16,
+        "penulis": "Suzanne Collins",
+        "tahun": 2010
+    },
+    {
+        "genre": "Horror",
+        "harga": 65000,
+        "judul": "IT",
+        "kode": "ISK1986001",
+        "no": 17,
+        "penulis": "Stephen King",
+        "tahun": 1986
+    },
+    {
+        "genre": "Sci-Fi",
+        "harga": 55000,
+        "judul": "The Stand",
+        "kode": "TSSK1978001",
+        "no": 18,
+        "penulis": "Stephen King",
+        "tahun": 1978
     }
 ]
