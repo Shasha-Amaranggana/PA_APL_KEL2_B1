@@ -617,9 +617,9 @@ int linearSearchOrder(vector<Order> &order, vector<Order> &hasil, string keyword
 int login(vector<Akun> &akun) {
     string jawabNama, jawabPassword;
 
-    cout << endl;
+    cin.ignore(1000, '\n'); cout << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << BOLD << "Username: " << RESET; cin >> jawabNama;
+    cout << spasi(47) << BOLD << "Username: " << RESET; getline(cin, jawabNama);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
     cout << spasi(47) << BOLD << "Password: " << RESET; cin >> jawabPassword;
@@ -639,15 +639,15 @@ int login(vector<Akun> &akun) {
 void registrasi(vector<Akun> &akun) {
     string username, password, email, no_hp, alamat;
 
-    cout << KUNING << endl;
+    cout << KUNING << endl; cin.ignore(1000, '\n');
     cout << spasi(30) << "☞    Username min 5 karakter, mengandung huruf/angka, tidak mengandung simbol/" << endl;
     cout << spasi(30) << "     karakter spesial kecuali spasi/underscroe" << endl;
     cout << spasi(30) << "☞    Password min 8 karakter, mengandung huruf besar & kecil & angka, simbol" << endl;
-    cout << spasi(30) << "     diperbolehkan" << endl;
+    cout << spasi(30) << "     diperbolehkan kecuali spasi" << endl;
     cout << spasi(30) << "☞    Email harus valid dan berakhiran '@gmail.com'" << endl;
     cout << spasi(30) << "☞    No. HP harus valid, berawalan '08', min 10 angka" << RESET << endl << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-    cout << spasi(47) << BOLD << "Username : " << RESET; cin >> username;
+    cout << spasi(47) << BOLD << "Username : " << RESET; getline(cin, username);
     cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
     cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
     cout << spasi(47) << BOLD << "Password : " << RESET; cin >> password;
@@ -1707,7 +1707,8 @@ void editStatusPesanan(vector<Order> &order, vector<Akun> &akun, vector<Transaks
                 cout << spasi(47) << BOLD << "Alasan : " << RESET; getline(cin, order[pilihan].alasan);
                 cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
                 if (order[pilihan].alasan.empty()) {
-                    tampilPeringatan(26, "Alasan tidak boleh kosong!"); system("pause"); continue;}
+                    tampilPeringatan(26, "Alasan tidak boleh kosong!"); system("pause");
+                    continue;}
 
                 // UBAH SALDO USER DAN ADMIN
                 for (auto &a : akun) {
@@ -1768,7 +1769,8 @@ void RiwayatPesanan(vector<Order> &order) {
             system("cls"); refresh = false;}
         clsScroll(0,0); judul_subjudul("RIWAYAT PESANAN"); cout << endl;
         for (int i = 0; i < 2; i++) {
-            if (i == pilih) cout << spasi(34)  << BG_PUTIH << BG_PUTIH << HITAM << BOLD << *(menuPemesanan + i) << RESET << endl;
+            if (i == pilih)
+                cout << spasi(34)  << BG_PUTIH << BG_PUTIH << HITAM << BOLD << *(menuPemesanan + i) << RESET << endl;
             else cout << DIM << spasi(34)  << *(menuPemesanan + i) << RESET << endl;}
         cout << endl; lihatRiwayatPesanan(order);
         int hasil = scrollMenu(pilih, 2);
@@ -1843,18 +1845,18 @@ void lihatRiwayatTransaksi(vector<Transaksi> &transaksi, string jenis, string id
 
     else {
         cout << CYAN << BOLD;
-        cout << spasi(26) << "┌──────────────────────────────────────────────────────────────────────────────────────┐" << endl;
-        cout << spasi(26) << "│                                  RIWAYAT TRANSAKSI                                   │" << endl;
-        cout << spasi(26) << "├──────┬──────────────────┬──────────────────┬────────────┬────────────┬───────────────┤" << endl;
-        cout << spasi(26) << "│ NO   │ ID TRANSAKSI     │ ID ORDER         │ NOMINAL    │ TANGGAL    │ JENIS         │" << endl;
-        cout << spasi(26) << "├──────┼──────────────────┼──────────────────┼────────────┼────────────┼───────────────┤" << endl;
+        cout << spasi(21) << "┌────────────────────────────────────────────────────────────────────────────────────────────────┐" << endl;
+        cout << spasi(21) << "│                                       RIWAYAT TRANSAKSI                                        │" << endl;
+        cout << spasi(21) << "├──────┬──────────────────┬──────────────────┬────────────┬──────────────────────┬───────────────┤" << endl;
+        cout << spasi(21) << "│ NO   │ ID TRANSAKSI     │ ID ORDER         │ NOMINAL    │ TANGGAL TRANSAKSI    │ JENIS         │" << endl;
+        cout << spasi(21) << "├──────┼──────────────────┼──────────────────┼────────────┼──────────────────────┼───────────────┤" << endl;
         cout  << RESET;
         int no = 1;
         for (const auto &t : transaksi) {
             if (jenis != "Admin" && t.id_user != id_user)
                 continue;
-            cout << spasi(26);
-            if (no % 2 == 0) cout << "\033[48;5;235m";
+            cout << spasi(21);
+            if (no % 2 == 0) cout << BG_ABU;
             cout << "│ " << left << setw(5)  << no++
                 << "│ " << setw(17) << t.id_transaksi
                 << "│ " << setw(17) << t.id_order << "│ ";
@@ -1862,7 +1864,7 @@ void lihatRiwayatTransaksi(vector<Transaksi> &transaksi, string jenis, string id
                 cout << "-Rp" << setw(8) << t.nominal;
             else
                 cout << "+Rp" << setw(8) << t.nominal;
-            cout << "│ " << setw(11) << t.tanggal_transaksi << "│ ";
+            cout << "│ " << setw(13) << t.tanggal_transaksi << "│ ";
             if (t.jenis == "Pembayaran")
                 cout << HIJAU << BOLD << setw(14) << t.jenis << RESET;
             else if (t.jenis == "Pengembalian")
@@ -1871,7 +1873,7 @@ void lihatRiwayatTransaksi(vector<Transaksi> &transaksi, string jenis, string id
                 cout << BIRU << BOLD << setw(14) << t.jenis << RESET;
             cout << "│" << RESET << endl;}
         cout << CYAN;
-        cout << spasi(26) << "└──────┴──────────────────┴──────────────────┴────────────┴────────────┴───────────────┘" << endl;
+        cout << spasi(21) << "└──────┴──────────────────┴──────────────────┴────────────┴──────────────────────┴───────────────┘" << endl;
         cout << RESET << endl;}}
 
 void kelolaAkunPelanggan(vector<Akun> &akun) {
@@ -2261,7 +2263,7 @@ void editDataDiri(vector<Akun> &akun, int indeksLogin) {
     
 /*  MENU BELANJA                                                                                   */
 //═════════════════════════════════════════════════════════════════════════════════════════════════//
-void tambahProdukkeKeranjang(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Order> &order, string id_user) {
+void tambahProdukkeKeranjang(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Order> &order, vector<Library> &lib, string id_user) {
     Keranjang baru;
     string tindakan[] = {
         "【 1 | Simpan        】",
@@ -2270,16 +2272,22 @@ void tambahProdukkeKeranjang(vector<Ebook> &ebook, vector<Keranjang> &keranjang,
     int pilihan = scrollBuku(ebook, "TAMBAH KE KERANJANG");
  
     // CEK KETERSEDIAAN PRODUK DI KERANJANG
-    for (size_t i = 0; i < keranjang.size(); i++) {
-        if (keranjang[i].id_user == id_user && keranjang[i].buku.kode == ebook[pilihan].kode) {
+    for (const auto &k : keranjang) {
+        if (k.id_user == id_user && k.buku.kode == ebook[pilihan].kode) {
             tampilPeringatan(30, "E-Book sudah ada di keranjang!");
             return;}}
  
-    // CEK KETERSEDIAAN PESANAN DENGAN STATUS YANG AKTIF (BELUM DIBAYAR, LUNAS/DIPROSES, DIKIRIM)
-    for (size_t i = 0; i < order.size(); i++) {
-        if (order[i].id_user == id_user && order[i].kode == ebook[pilihan].kode && order[i].status_order != "Dibatalkan") {
+    // CEK KETERSEDIAAN PESANAN DENGAN STATUS YANG AKTIF (BELUM DIBAYAR, LUNAS/DIPROSES, DIKIRIM, SELESAI)
+    for (const auto &o : order) {
+        if (o.id_user == id_user && o.kode == ebook[pilihan].kode && o.status_order != "Dibatalkan") {
             tampilPeringatan(52, "Anda sudah memiliki pesanan aktif untuk E-book ini!");
             return;}}
+
+    // CEK KETERSEDIAAN PESANAN DI LIBRARY
+    for (const auto &l : lib) {
+    if (l.id_user == id_user && l.buku.kode == ebook[pilihan].kode) {
+        tampilPeringatan(42, "E-book ini sudah ada di perpustakaan Anda!");
+        return;}}
  
     int pilihTindakan = 0; bool refreshTindakan = true;
     while (true) {
@@ -2311,19 +2319,25 @@ void tambahProdukkeKeranjang(vector<Ebook> &ebook, vector<Keranjang> &keranjang,
                 tampilPeringatan(22, "Penambahan dibatalkan!");
                 break;}}}}
     
-void checkoutDariKatalog(vector<Ebook> &ebook, vector<Order> &order, vector<Akun> &akun, int indeksLogin, vector<Transaksi> &transaksi, vector<Keranjang> &keranjang) {
+void checkoutDariKatalog(vector<Ebook> &ebook, vector<Order> &order, vector<Akun> &akun, int indeksLogin, vector<Transaksi> &transaksi, vector<Keranjang> &keranjang, vector<Library> &lib) {
     string tindakan[] = {
         "【 1 | Bayar Sekarang     】",
         "【 2 | Bayar Nanti        】",
         "【 3 | Batalkan           】"};
 
-    int pilihan = scrollBuku(ebook, "CHECKOUT E-BOOKDARI KATALOG");
+    int pilihan = scrollBuku(ebook, "CHECKOUT E-BOOK DARI KATALOG");
 
-    // CEK KETERSEDIAAN PESANAN DENGAN STATUS YANG AKTIF (BELUM DIBAYAR, LUNAS/DIPROSES, DIKIRIM)
+    // CEK KETERSEDIAAN PESANAN DENGAN STATUS YANG AKTIF (BELUM DIBAYAR, LUNAS/DIPROSES, DIKIRIM, SELESAI)
     for (size_t i = 0; i < order.size(); i++) {
         if (order[i].id_user == akun[indeksLogin].id_user && order[i].kode == ebook[pilihan].kode && order[i].status_order != "Dibatalkan") {
             tampilPeringatan(52, "Anda sudah memiliki pesanan aktif untuk E-book ini!");
-            system("pause"); return;}}
+            return;}}
+
+    // CEK KETERSEDIAAN PESANAN DI LIBRARY
+    for (const auto &l : lib) {
+    if (l.id_user == akun[indeksLogin].id_user && l.buku.kode == ebook[pilihan].kode) {
+        tampilPeringatan(42, "E-book ini sudah ada di perpustakaan Anda!");
+        return;}}
 
     // KONFIRMASI TINDAKAN
     int pilihTindakan = 0; bool refreshTindakan = true;
@@ -2674,7 +2688,8 @@ void checkoutDariKeranjang(vector<Ebook> &ebook, vector<Keranjang> &keranjang, v
         cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
         cout << endl << spasi(34) << BOLD << KUNING << "Checkout semua atau pilih salah satu?" << RESET; cout << endl;
         for (int i = 0; i < 3; i++) {
-            if (i == pilihJenis) cout << spasi(39) << BG_PUTIH << HITAM << BOLD << jenis[i] << RESET << endl;
+            if (i == pilihJenis)
+                cout << spasi(39) << BG_PUTIH << HITAM << BOLD << jenis[i] << RESET << endl;
             else cout << DIM << spasi(39) << jenis[i] << RESET << endl;}
         int hasilJenis = scrollMenu(pilihJenis, 3);
         if (hasilJenis == -1) {
@@ -2825,52 +2840,60 @@ void pesananBelumDibayar(vector<Order> &order, vector<Akun> &akun, int indeksLog
         "【 1 | Bayar Sekarang     】",
         "【 2 | Batalkan Pesanan   】",
         "【 3 | Kembali            】"};
-    string tindakan2[] = {
+    string konfirmasi[] = {
         "【 1 | Yakin              】",
         "【 2 | Batalkan           】"};
-    bool ada = false;
-    for (const auto &o : order) {
-        if (o.id_user == akun[indeksLogin].id_user && o.status_order == "Ditunggu") {
-            ada = true;
-            break;}}
-    if (!ada) {
-        system("cls"); judul_subjudul("PESANAN BELUM DIBAYAR"); cout << endl;
-        tampilPeringatan(38, "Tidak ada pesanan yang belum dibayar!"); system("pause");
-        return;}
 
-    int pilih = 0;
-    bool refresh = true;
+    int pilih = 0; bool refreshTindakan = true;
     while (true) {
-        if (refresh) {
-            system("cls"); refresh = false;}
-        clsScroll(0,0); judul_subjudul("PESANAN BELUM DIBAYAR"); cout << endl;
+        if (refreshTindakan) {
+            system("cls"); refreshTindakan = false;}
+        clsScroll(0,0); judul_subjudul("DAFTAR PESANAN BELUM DIBAYAR"); cout << endl;
+
+        // CEK KETERSEDIAAN PESANAN   
+        bool ada = false;
+        for (const auto &o : order) {
+            if (o.id_user == akun[indeksLogin].id_user && o.status_order == "Ditunggu") {
+                ada = true;
+                break;}}
+        if (!ada) {
+            tampilPeringatan(38, "Tidak ada pesanan yang belum dibayar!"); system("pause");
+            return;}
+
+        // UBAH STATUS PESANAN (TINDAKAN)
         for (int i = 0; i < 3; i++) {
             if (i == pilih) cout << spasi(35) << BG_PUTIH << HITAM << BOLD << tindakan[i] << RESET << endl;
             else cout << DIM << spasi(35) << tindakan[i] << RESET << endl;}
         cout << endl; lihatPesananUser("Belum Bayar", order, akun[indeksLogin].id_user);
         int hasil = scrollMenu(pilih, 3);
         if (hasil == -1) {
-            refresh = true;
+            refreshTindakan = true;
 
             // BAYAR SEKARANG         
             if (pilih == 0) {
-                int konfirmasi = 0;
-                int pilihan = scrollOrder(order, "PESANAN BELUM DIBAYAR", "Ditunggu", akun[indeksLogin].id_user);
+
+                int pilihan = scrollOrder(order, "DAFTAR PESANAN BELUM DIBAYAR", "Ditunggu", akun[indeksLogin].id_user);
+                
+                // KONFIRMASI PEMBAYARAN
+                int pilihKonfirmasi = 0; bool refreshKonfirmasi = true;
                 while (true) {
-                    if (refresh) {
-                        system("cls"); refresh = false;}
+                    if (refreshKonfirmasi) {
+                        system("cls"); refreshKonfirmasi = false;}
                     clsScroll(0,0); judul_subjudul("BAYAR PESANAN"); cout << endl;
                     lihatDetailOrder(order, pilihan, "User", "Ditunggu");
                     cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
                     cout << endl << spasi(34) << BOLD << KUNING << "Yakin ingin melakukan pembayaran?" << RESET; cout << endl;
                     for (int i = 0; i < 2; i++) {
-                        if (i == konfirmasi)
-                            cout << spasi(39) << BG_PUTIH << HITAM << BOLD << tindakan2[i] << RESET << endl;
-                        else cout << DIM << spasi(39) << tindakan2[i] << RESET << endl;}
-                    int hasil2 = scrollMenu(konfirmasi, 2);
+                        if (i == pilihKonfirmasi)
+                            cout << spasi(39) << BG_PUTIH << HITAM << BOLD << konfirmasi[i] << RESET << endl;
+                        else cout << DIM << spasi(39) << konfirmasi[i] << RESET << endl;}
+                    int hasil2 = scrollMenu(pilihKonfirmasi, 2);
                     if (hasil2 == -1) {
-                        refresh = true;
-                        if (konfirmasi == 0) {     
+                        refreshKonfirmasi = true;
+
+                        // KONFIRMASI "YAKIN"
+                        if (pilihKonfirmasi == 0) {
+                            // SALDO CUKUP, SALDO ADMIN BERTAMBAH, SALDO USER BERKURANG
                             if (akun[indeksLogin].saldo >= order[pilihan].harga) {
                                 akun[indeksLogin].saldo -= order[pilihan].harga;
                                 for (size_t i = 0; i < akun.size(); i++) {
@@ -2878,13 +2901,12 @@ void pesananBelumDibayar(vector<Order> &order, vector<Akun> &akun, int indeksLog
                                         akun[i].saldo += order[pilihan].harga;
                                         break;}}
 
+                                // DETAIL PESANAN DIPERBARUI
                                 order[pilihan].status_bayar = "Lunas";
                                 order[pilihan].status_order = "Diproses";
                                 order[pilihan].tanggal_bayar = tanggalWaktuSekarang();
 
-                                saveAkun(akun);
-                                saveOrder(order);
-
+                                // CATAT TRANSAKSI
                                 Transaksi t;
                                 t.id_transaksi = generateID("TRX", transaksi.size() + 1, 6);
                                 t.id_user = akun[indeksLogin].id_user;
@@ -2893,58 +2915,75 @@ void pesananBelumDibayar(vector<Order> &order, vector<Akun> &akun, int indeksLog
                                 t.tanggal_transaksi = tanggalWaktuSekarang();
                                 t.jenis = "Pembayaran";
                                 transaksi.push_back(t);
-                                saveTransaksi(transaksi);
 
-                                tampilPesan(20, "Pembayaran Berhasil!"); system("pause");
-                                return;}
+                                saveTransaksi(transaksi);
+                                saveAkun(akun);
+                                saveOrder(order);
+                                tampilPesan(50, "Pembayaran Berhasil! Pesanan sedang diproses admin."); system("pause");
+                                break;}
+                            // SALDO TIDAK CUKUP
                             else {
-                                tampilPeringatan(18, "Saldo tidak cukup!"); system("pause");
+                                tampilPeringatan(32, "Saldo anda masih tidak mencukupi!"); system("pause");
                                 break;}}
+
+                        // KONFIRMASI "BATALKAN"
                         else {
+                            tampilPeringatan(22, "Pembayaran dibatalkan."); system("pause");
                             break;}}}}
 
             // BATALKAN PESANAN
             else if (pilih == 1) {
-                int pilihan = scrollOrder(order, "PESANAN BELUM DIBAYAR", "Ditunggu", akun[indeksLogin].id_user);
+
+                int pilihan = scrollOrder(order, "BATALKAN PESANAN BELUM DIBAYAR", "Ditunggu", akun[indeksLogin].id_user);
 
                 string alasan;
-                system("cls"); judul_subjudul("BATALKAN PESANAN"); cout << endl;
+                system("cls"); judul_subjudul("BATALKAN PESANAN BELUM DIBAYAR"); cout << endl;
                 lihatDetailOrder(order, pilihan, "User", "Ditunggu");
                 cin.ignore(1000, '\n');
                 cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-                cout << spasi(47) << BOLD << "Alasan membatalkan : " << RESET; getline(cin, alasan);
+                cout << spasi(47) << BOLD << "Alasan : " << RESET; getline(cin, alasan);
                 cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
                 if (alasan.empty()) {
                     tampilPeringatan(26, "Alasan tidak boleh kosong!"); system("pause");
                     continue;}
 
-                int konfirmasi = 0;
+                // KONFIRMASI PEMBATALAN
+                int pilihKonfirmasi = 0; bool refreshKonfirmasi = true;
                 while (true) {
-                    if (refresh) {
-                        system("cls"); refresh = false;}
-                    clsScroll(0,0); judul_subjudul("BATALKAN PESANAN"); cout << endl;
+                    if (refreshKonfirmasi) {
+                        system("cls"); refreshKonfirmasi = false;}
+                    clsScroll(0,0); judul_subjudul("BATALKAN PESANAN BELUM DIBAYAR"); cout << endl;
                     lihatDetailOrder(order, pilihan, "User", "Ditunggu");
+                    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+                    cout << spasi(47) << BOLD << "Alasan : " << RESET << alasan << endl;
+                    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl << endl;
                     cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
                     cout << endl << spasi(34) << BOLD << KUNING << "Yakin ingin membatalkan?" << RESET; cout << endl;
                     for (int i = 0; i < 2; i++) {
-                        if (i == konfirmasi)
-                            cout << spasi(39) << BG_PUTIH << HITAM << BOLD << tindakan2[i] << RESET << endl;
-                        else cout << DIM << spasi(39) << tindakan2[i] << RESET << endl;}
-                    int hasil2 = scrollMenu(konfirmasi, 2);
+                        if (i == pilihKonfirmasi)
+                            cout << spasi(39) << BG_PUTIH << HITAM << BOLD << konfirmasi[i] << RESET << endl;
+                        else cout << DIM << spasi(39) << konfirmasi[i] << RESET << endl;}
+                    int hasil2 = scrollMenu(pilihKonfirmasi, 2);
                     if (hasil2 == -1) {
-                        refresh = true;
-                        if (konfirmasi == 0) {
-                            /* pesanan Ditunggu belum bayar, tidak perlu refund */
+                        refreshKonfirmasi = true;
+
+                        // KONFIRMASI "YAKIN"
+                        if (pilihKonfirmasi == 0) {
+                            // DETAIL PESANAN DIPERBARUI
                             order[pilihan].status_order = "Dibatalkan";
                             order[pilihan].status_bayar = "Belum Bayar";
                             order[pilihan].batal_oleh = "User";
                             order[pilihan].alasan = alasan;
                             saveOrder(order);
                             tampilPesan(18, "Pesanan Dibatalkan!"); system("pause");
-                            return;}
+                            break;}
+
+                        // KONFIRMASI "BATALKAN"
                         else {
+                            tampilPeringatan(22, "Pembatalan dibatalkan."); system("pause");
                             break;}}}}
 
+            // KEMBALI
             else {
                 break;}}}}
 
@@ -2952,77 +2991,88 @@ void pesananDiproses(vector<Akun> &akun, vector<Order> &order, int indeksLogin, 
     string tindakan[] = {
         "【 1 | Batalkan Pesanan   】",
         "【 2 | Kembali            】"};
-    string tindakan2[] = {
+    string konfirmasi[] = {
         "【 1 | Yakin              】",
-        "【 2 | Tidak              】"};
+        "【 2 | Batalkan           】"};
 
-    if (order.empty()) {
-        tampilPeringatan(30, "Belum ada Pesanan yang dibuat!");
-        return;}
-    bool ada = false;
-    for (const auto &o : order) {
-        if (o.id_user == akun[indeksLogin].id_user && o.status_order == "Diproses") {
-            ada = true;
-            break;}}
-    if (!ada) {
-        tampilPeringatan(34, "Belum ada daftar pesanan diproses!"); return;}
-
-    int pilih = 0;
-    bool refresh = true;
+    int pilih = 0;  bool refreshTindakan = true;
     while (true) {
-        if (refresh) {
-            system("cls"); refresh = false;}
-        clsScroll(0,0); judul_subjudul("PESANAN DIPROSES"); cout << endl;
+        if (refreshTindakan) {
+            system("cls"); refreshTindakan = false;}
+        clsScroll(0,0); judul_subjudul("DAFTAR PESANAN DIPROSES"); cout << endl;
 
+        // CEK KETERSEDIAAN PESANAN   
+        bool ada = false;
+        for (const auto &o : order) {
+            if (o.id_user == akun[indeksLogin].id_user && o.status_order == "Diproses") {
+                ada = true;
+                break;}}
         if (!ada) {
-            lihatPesananUser("Diproses", order, akun[indeksLogin].id_user);
-            system("pause"); return;}
+            tampilPeringatan(34, "Belum ada daftar pesanan diproses!"); system("pause");
+            return;}
 
+        // UBAH STATUS PESANAN (TINDAKAN)
         for (int i = 0; i < 2; i++) {
-            if (i == pilih) cout << spasi(35) << BG_PUTIH << HITAM << BOLD << tindakan[i] << RESET << endl;
+            if (i == pilih)
+                cout << spasi(35) << BG_PUTIH << HITAM << BOLD << tindakan[i] << RESET << endl;
             else cout << DIM << spasi(35) << tindakan[i] << RESET << endl;}
         cout << endl; lihatPesananUser("Diproses", order, akun[indeksLogin].id_user);
         int hasil = scrollMenu(pilih, 2);
         if (hasil == -1) {
-            refresh = true;
+            refreshTindakan = true;
 
+            // BATALKAN PESANAN  
             if (pilih == 0) {
+
                 int pilihan = scrollOrder(order, "BATALKAN PESANAN DIPROSES", "Diproses", akun[indeksLogin].id_user);
 
                 string alasan;
-                system("cls"); judul_subjudul("BATALKAN PESANAN"); cout << endl;
+                system("cls"); judul_subjudul("BATALKAN PESANAN DIPROSES"); cout << endl;
                 lihatDetailOrder(order, pilihan, "User", "Diproses");
                 cin.ignore(1000, '\n');
                 cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
-                cout << spasi(47) << BOLD << "Alasan membatalkan : " << RESET; getline(cin, alasan);
+                cout << spasi(47) << BOLD << "Alasan : " << RESET; getline(cin, alasan);
                 cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl;
                 if (alasan.empty()) {
                     tampilPeringatan(26, "Alasan tidak boleh kosong!"); system("pause");
                     continue;}
 
-                int konfirmasi = 0;
+                // KONFIRMASI PEMBATALAN
+                int pilihKonfirmasi = 0; bool refreshKonfirmasi = true;
                 while (true) {
-                    system("cls"); judul_subjudul("BATALKAN PESANAN"); cout << endl;
+                    if (refreshKonfirmasi) {
+                        system("cls"); refreshKonfirmasi = false;}
+                    clsScroll(0,0); judul_subjudul("BATALKAN PESANAN DIPROSES"); cout << endl;
                     lihatDetailOrder(order, pilihan, "User", "Diproses");
+                    cout << spasi(45) << "┌────────────────────────────────────────────────┐" << endl;
+                    cout << spasi(47) << BOLD << "Alasan : " << RESET << alasan << endl;
+                    cout << spasi(45) << "└────────────────────────────────────────────────┘" << endl << endl;
                     cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
-                    cout << endl << spasi(34) << BOLD << KUNING << "Yakin? Dana akan dikembalikan." << RESET; cout << endl;
+                    cout << endl << spasi(34) << BOLD << KUNING << "Yakin ingin membatalkan?" << RESET; cout << endl;
                     for (int i = 0; i < 2; i++) {
-                        if (i == konfirmasi)
-                            cout << spasi(39) << BG_PUTIH << HITAM << BOLD << tindakan2[i] << RESET << endl;
-                        else cout << DIM << spasi(39) << tindakan2[i] << RESET << endl;}
-                    int hasil2 = scrollMenu(konfirmasi, 2);
+                        if (i == pilihKonfirmasi)
+                            cout << spasi(39) << BG_PUTIH << HITAM << BOLD << konfirmasi[i] << RESET << endl;
+                        else cout << DIM << spasi(39) << konfirmasi[i] << RESET << endl;}
+                    int hasil2 = scrollMenu(pilihKonfirmasi, 2);
                     if (hasil2 == -1) {
-                        if (konfirmasi == 0) {
+                        refreshKonfirmasi = true;
+
+                        // KONFIRMASI "YAKIN"
+                        if (pilihKonfirmasi == 0) {
+                            //SALDO ADMIN BERKURANG, SALDO USER BERTAMBAH
                             akun[indeksLogin].saldo += order[pilihan].harga;
                             for (size_t i = 0; i < akun.size(); i++) {
                                 if (akun[i].role == "Admin") {
                                     akun[i].saldo -= order[pilihan].harga;
                                     break;}}
+
+                            // DETAIL PESANAN DIPERBARUI
                             order[pilihan].status_order = "Dibatalkan";
                             order[pilihan].status_bayar = "Dana Dikembalikan";
                             order[pilihan].batal_oleh = "User";
                             order[pilihan].alasan = alasan;
 
+                            // CATAT TRANSAKSI
                             Transaksi t;
                             t.id_transaksi = generateID("TRX", transaksi.size() + 1, 6);
                             t.id_user = akun[indeksLogin].id_user;
@@ -3035,88 +3085,81 @@ void pesananDiproses(vector<Akun> &akun, vector<Order> &order, int indeksLogin, 
                             saveTransaksi(transaksi);
                             saveOrder(order);
                             saveAkun(akun);
-                            tampilPesan(40, "Pesanan dibatalkan. Dana telah dikembalikan!");
-                            system("pause");
-                            return;}
-                        else { break;}}}
+                            tampilPesan(44, "Pesanan dibatalkan. Dana telah dikembalikan!"); system("pause");
+                            break;}
 
-            } else {
+                        // KONFIRMASI "BATALKAN"
+                        else {
+                            tampilPeringatan(22, "Pembatalan dibatalkan."); system("pause");
+                            break;}}}}
+
+            // KEMBALI
+            else {
                 break;}}}}
 
 void pesananDikirim(vector<Order> &order, vector<Akun> &akun, vector<Library> &lib, vector<Ebook> &ebook, int indeksLogin, string username) {
-    int pilihMenu = 0;
-    bool refreshMenu = true;
+    string tindakan[] = {
+        "『 1 | Pesanan Diterima   』",
+        "『 2 | Kembali            』"};
+    string konfirmasi[] = {
+        "【 1 | Yakin              】",
+        "【 2 | Batalkan           】"};
 
-    if (order.empty()) {
-        tampilPeringatan(30, "Belum ada Pesanan yang dibuat!");
-        return;}
-    bool ada = false;;
-    for (const auto &o : order) {
-        if (o.id_user == akun[indeksLogin].id_user && o.status_order == "Dikirim") {
-            ada = true;
-            break;}}
-    if (!ada) {
-        tampilPeringatan(32, "Belum ada daftar pesanan dikirim!");
-        return;}
-
+    int pilih = 0;  bool refreshTindakan = true;
     while (true) {
-        system("cls"); judul_subjudul("PESANAN DIKIRIM"); cout << endl;
-        lihatPesananUser("Dikirim", order, akun[indeksLogin].id_user);
+        if (refreshTindakan) {
+            system("cls"); refreshTindakan = false;}
+        clsScroll(0,0); judul_subjudul("DAFTAR PESANAN DIKIRIM"); cout << endl;
 
-        int jumlahPesanan = 0;
-        for (const auto& o : order) {
+        // CEK KETERSEDIAAN PESANAN  
+        bool ada = false;;
+        for (const auto &o : order) {
             if (o.id_user == akun[indeksLogin].id_user && o.status_order == "Dikirim") {
-                jumlahPesanan++;}}
+                ada = true;
+                break;}}
+        if (!ada) {
+            tampilPeringatan(32, "Belum ada daftar pesanan dikirim!");  system("pause");
+            return;}
 
-        if (jumlahPesanan == 0) {
-            cout << "\n  Pilih Aksi:\n\n";
-            cout << spasi(20) << BG_PUTIH << HITAM << BOLD << "『   Kembali               』" << RESET << endl;
-            system("pause > nul"); 
-            break;}
-
-        string opsiMenu[] = {
-            "『   Pesanan Diterima      』",
-            "『   Kembali               』"};
-
-        cout << "\n  Pilih Aksi:\n\n";
+        // UBAH STATUS PESANAN (TINDAKAN)
         for (int i = 0; i < 2; i++) {
-            if (i == pilihMenu) cout << spasi(20) << BG_PUTIH << HITAM << BOLD << opsiMenu[i] << RESET << endl;
-            else cout << DIM << spasi(20) << opsiMenu[i] << RESET << endl;}
-
-        int hasilMenu = scrollMenu(pilihMenu, 2);
+            if (i == pilih)
+                cout << spasi(35) << BG_PUTIH << HITAM << BOLD << tindakan[i] << RESET << endl;
+            else cout << DIM << spasi(35) << tindakan[i] << RESET << endl;}
+        cout << endl; lihatPesananUser("Dikirim", order, akun[indeksLogin].id_user);
+        int hasilMenu = scrollMenu(pilih, 2);
         if (hasilMenu == -1) {
-            refreshMenu = true;
-            if (pilihMenu == 1) break;
-            else if (pilihMenu == 0) { 
+            refreshTindakan = true;
+
+            // TERIMA PESANAN
+            if (pilih == 0) { 
                 
-                int pilihan = scrollOrder(order, "KONFIRMASI TERIMA", "Dikirim", akun[indeksLogin].id_user);
+                int pilihan = scrollOrder(order, "TERIMA PESANAN", "Dikirim", akun[indeksLogin].id_user);
 
-                if (pilihan == -1) {
-                    continue; 
-                }
-
-                string tindakan2[] = {
-                    "【 1 | Yakin              】",
-                    "【 2 | Batalkan           】"};
-                int konfirmasi = 0;
-
+                // KONFIRMASI PEMBATALAN
+                int pilihKonfirmasi = 0; bool refreshKonfirmasi = true;
                 while (true) {
-                    system("cls"); judul_subjudul("KONFIRMASI TERIMA"); cout << endl;
+                    if (refreshKonfirmasi) {
+                        system("cls"); refreshKonfirmasi = false;}
+                    clsScroll(0,0); judul_subjudul("TERIMA PESANAN"); cout << endl;
                     lihatDetailOrder(order, pilihan, "User", "Dikirim");
                     cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
-                    cout << endl << spasi(34) << BOLD << KUNING << "Konfirmasi pesanan sudah diterima?" << RESET; cout << endl;
-                    
+                    cout << endl << spasi(34) << BOLD << KUNING << "Yakin pesanan diterima?" << RESET; cout << endl;
                     for (int i = 0; i < 2; i++) {
-                        if (i == konfirmasi)
-                            cout << spasi(39) << BG_PUTIH << HITAM << BOLD << tindakan2[i] << RESET << endl;
-                        else cout << DIM << spasi(39) << tindakan2[i] << RESET << endl;}
-                    
-                    int hasil2 = scrollMenu(konfirmasi, 2);
+                        if (i == pilihKonfirmasi)
+                            cout << spasi(39) << BG_PUTIH << HITAM << BOLD << konfirmasi[i] << RESET << endl;
+                        else cout << DIM << spasi(39) << konfirmasi[i] << RESET << endl;}
+                    int hasil2 = scrollMenu(pilihKonfirmasi, 2);
                     if (hasil2 == -1) {
-                        if (konfirmasi == 0) {
+                        refreshKonfirmasi = true;
+
+                        // KONFIRMASI "YAKIN"
+                        if (pilihKonfirmasi == 0) {
+                            // DETAIL PESANAN DIPERBARUI
                             order[pilihan].tanggal_sampai = tanggalWaktuSekarang();
                             order[pilihan].status_order = "Selesai";
 
+                            // TAMBAHKAN E-BOOK KE LIBRARY
                             Library lBaru;
                             lBaru.id_user    = akun[indeksLogin].id_user;
                             lBaru.username   = username;
@@ -3134,67 +3177,158 @@ void pesananDikirim(vector<Order> &order, vector<Akun> &akun, vector<Library> &l
                                 lBaru.buku.penulis = "-";
                                 lBaru.buku.genre   = "-";
                                 lBaru.buku.tahun   = 0;}
-                            bool sudahAdaDiLib = false;
-                            for (size_t i = 0; i < lib.size(); i++) {
-                                if (lib[i].id_user == akun[indeksLogin].id_user &&
-                                    lib[i].buku.kode == order[pilihan].kode) {
-                                    sudahAdaDiLib = true;
-                                    break;}}
-                            if (!sudahAdaDiLib) {
-                                lib.push_back(lBaru);
-                                saveLibrary(lib);}
-                            
+                            lib.push_back(lBaru);
+
+                            saveLibrary(lib);
                             saveOrder(order);
-                            tampilPesan(45, "Pesanan Selesai! E-Book ditambahkan ke Library.");
-                            system("pause");}
-                        break;}}}}}}
+                            tampilPesan(46, "Pesanan Selesai! E-Book ditambahkan ke Library."); system("pause");
+                            break;}
+
+                        // KONFIRMASI "BATALKAN"
+                        else {
+                            tampilPeringatan(22, "Penerimaan dibatalkan."); system("pause");
+                            break;}}}}
+
+            // KEMBALI
+            else {
+                break;}}}}
+
+void pesananSelesai(vector<Akun> &akun, vector<Order> &order, int indeksLogin) {
+    // CEK KETERSEDIAAN PEMBELIAN
+    bool ada = false;
+    for (const auto &o : order) {
+        if (o.id_user == akun[indeksLogin].id_user && o.status_order == "Selesai") {
+            ada = true;
+            break;}}
+    if (!ada) {
+        tampilPeringatan(32, "Belum ada daftar pesanan selesai!"); system("pause");
+        return;}
+
+    // PESANAN SELESAI
+    string pilihMenuUser[] = {
+        "『  📋 Lihat Detail Pesanan Selesai 』",
+        "『 ↩   Kembali                      』"};
+
+    int pilih = 0; bool refresh = true;
+    while (true) {
+        if (refresh) {
+            system("cls"); refresh = false;}
+        clsScroll(0,0); judul_subjudul("DAFTAR PESANAN SELESAI"); cout << endl;
+        for (int i = 0; i < 2; i++) {
+            if (i == pilih)
+                cout << spasi(34) << BG_PUTIH << BG_PUTIH << HITAM << BOLD << *(pilihMenuUser + i) << RESET << endl;
+            else cout << DIM << spasi(34) << *(pilihMenuUser + i) << RESET << endl;}
+        cout << endl; lihatPesananUser("Selesai", order, akun[indeksLogin].id_user);
+        int hasil = scrollMenu(pilih, 2);
+        if (hasil == -1) {
+            refresh = true;
+    
+            /* a. LIHAT DETAIL DATA PESANAN SELESAI
+            ════════════════════════════════════════════════════*/
+            if (pilih == 0) {
+                system("cls"); judul_subjudul("LIHAT DETAIL PESANAN SELESAI"); cout << endl;
+                int pilihan = scrollOrder(order, "LIHAT DETAIL PESANAN SELESAI", "Selesai", akun[indeksLogin].id_user);
+                system("cls"); judul_subjudul("LIHAT DETAIL PESANAN SELESAI"); cout << endl;
+                lihatDetailOrder(order, pilihan, "User", "Selesai");
+                system("pause");}
+
+            /* b. KEMBALI
+            ════════════════════════════════════════════════════*/
+            else {
+                break;}}}}
+
+void pesananDibatalkan(vector<Akun> &akun, vector<Order> &order, int indeksLogin) {
+    // CEK KETERSEDIAAN PEMBELIAN
+    if (order.empty()) {
+        tampilPeringatan(30, "Belum ada Pesanan yang dibuat!"); system("pause");
+        return;}
+    bool ada = false;
+    for (const auto &o : order) {
+        if (o.id_user == akun[indeksLogin].id_user && o.status_order == "Dibatalkan") {
+            ada = true;
+            break;}}
+    if (!ada) {
+        tampilPeringatan(36, "Belum ada daftar pesanan dibatalkan!"); system("pause");
+        return;}
+
+    // PESANAN DIBATALKAN
+    string pilihMenuUser[] = {
+        "『  📋 Lihat Detail Pesanan Dibatalkan 』",
+        "『 ↩   Kembali                         』"};
+
+    int pilih = 0; bool refresh = true;
+    while (true) {
+        if (refresh) {
+            system("cls"); refresh = false;}
+        clsScroll(0,0); judul_subjudul("DAFTAR PESANAN DIBATALKAN"); cout << endl;
+        for (int i = 0; i < 2; i++) {
+            if (i == pilih) cout << spasi(34) << BG_PUTIH << BG_PUTIH << HITAM << BOLD << *(pilihMenuUser + i) << RESET << endl;
+            else cout << DIM << spasi(34) << *(pilihMenuUser + i) << RESET << endl;}
+        cout << endl; lihatPesananUser("Dibatalkan", order, akun[indeksLogin].id_user);
+        int hasil = scrollMenu(pilih, 2);
+        if (hasil == -1) {
+            refresh = true;
+    
+            /* a. LIHAT DETAIL DATA PESANAN DIBATALKAN
+            ════════════════════════════════════════════════════*/
+            if (pilih == 0) {
+                system("cls"); judul_subjudul("LIHAT DETAIL PESANAN DIBATALKAN"); cout << endl;
+                int pilihan = scrollOrder(order, "LIHAT DETAIL PESANAN DIBATALKAN", "Dibatalkan", akun[indeksLogin].id_user);
+                system("cls"); judul_subjudul("LIHAT DETAIL PESANAN DIBATALKAN"); cout << endl;
+                lihatDetailOrder(order, pilihan, "User", "Dibatalkan");
+                system("pause");}
+
+            /* b. KEMBALI
+            ════════════════════════════════════════════════════*/
+            else {
+                break;}}}}
 
 
 /*  MENU SALDO DAN TRANSAKSI                                                                       */
 //═════════════════════════════════════════════════════════════════════════════════════════════════//
 void editSaldo(vector<Akun> &akun, int indeksLogin, vector<Transaksi> &transaksi) {
+    string inputNominal;
     string tindakan[] = {
         "【 1 | Simpan        】",
         "【 2 | Batalkan      】"};
 
     system("cls"); judul_subjudul("TOP UP SALDO"); cout << endl;
-    cout << spasi(50) << "┌────────────────────────────────────┐" << endl;
-    cout << spasi(50) << "│            TOP UP SALDO            │" << endl;
-    cout << spasi(50) << "├────────────────────────────────────┤" << endl;
-    cout << spasi(50) << "│ Saldo Saat Ini : Rp" << left << setw(16) << akun[indeksLogin].saldo << "│" << endl;
-    cout << spasi(50) << "├────────────────────────────────────┤" << endl;
-    cout << spasi(50) << "│ Nominal Top Up : Rp";
+    cout << HIJAU << BOLD << spasi(56) << "┌──────────────────────────┐" << RESET << endl;
+    cout << spasi(58) << HIJAU << BOLD << BG_HIJAU << "  Saldo: " << akun[indeksLogin].saldo << " " << RESET << endl;
+    cout << HIJAU << BOLD << spasi(56) << "└──────────────────────────┘" << RESET << endl;
+    cout << endl;
+    cout << spasi(54) << "┌──────────────────────────────┐" << RESET << endl;
+    cout << spasi(56) << BOLD << "Nominal Top Up: Rp" << RESET; cin >> inputNominal;
+    cout << spasi(54) << "└──────────────────────────────┘" << RESET << endl;
 
-    string inputNominal; cin >> inputNominal;
-    cout << spasi(50) << "└────────────────────────────────────┘" << endl;
-
+    // VALIDASI INPUT NOMINAL TOP UP
     for (char c : inputNominal) {
         if (!isdigit(c)) {
-            tampilPeringatan(26, "Nominal harus berupa angka!");
+            tampilPeringatan(36, "Nominal harus berupa angka dan jelas!");
             return;}}
     int nominal;
     try {
         nominal = stoi(inputNominal);}
     catch (...) {
-        tampilPeringatan("Nominal terlalu besar atau tidak valid!");
+        tampilPeringatan("Nominal terlalu besar!");
         return;}
     if (nominal < 10000 || nominal > 1000000) {
         tampilPeringatan("Top Up minimal Rp10.000 dan maksimal Rp1.000.000");
         return;}
 
-    int pilihTindakan = 0;
-    bool refreshTindakan = true;
+    // KONFIRMASI TINDAKAN
+    int pilihTindakan = 0; bool refreshTindakan = true;
     while (true) {
         if (refreshTindakan) {
             system("cls"); refreshTindakan = false;}
         clsScroll(0,0); judul_subjudul("TOP UP SALDO"); cout << endl;
-        cout << spasi(50) << "┌────────────────────────────────────┐" << endl;
-        cout << spasi(50) << "│            TOP UP SALDO            │" << endl;
-        cout << spasi(50) << "├────────────────────────────────────┤" << endl;
-        cout << spasi(50) << "│ Saldo Saat Ini : Rp" << left << setw(16) << akun[indeksLogin].saldo << "│" << endl;
-        cout << spasi(50) << "├────────────────────────────────────┤" << endl;
-        cout << spasi(50) << "│ Nominal Top Up : Rp" << inputNominal << endl;
-        cout << spasi(50) << "└────────────────────────────────────┘" << endl;
+        cout << HIJAU << BOLD << spasi(56) << "┌──────────────────────────┐" << RESET << endl;
+        cout << spasi(58) << HIJAU << BOLD << BG_HIJAU << "  Saldo: " << akun[indeksLogin].saldo << " " << RESET << endl;
+        cout << HIJAU << BOLD << spasi(56) << "└──────────────────────────┘" << RESET << endl;
+        cout << endl;
+        cout << spasi(54) << "┌──────────────────────────────┐" << RESET << endl;
+        cout << spasi(56) << BOLD << "Nominal Top Up: Rp" << RESET << nominal << endl;
+        cout << spasi(54) << "└──────────────────────────────┘" << RESET << endl;
         cout << endl;
         cout << spasi(34) << "════════════════════════════════════════════════════════════════════════" << endl;
         cout << endl << spasi(34) << BOLD << KUNING << "Top Up dilakukan?" << RESET; cout << endl;
@@ -3208,11 +3342,14 @@ void editSaldo(vector<Akun> &akun, int indeksLogin, vector<Transaksi> &transaksi
 
             // SIMPAN
             if (pilihTindakan == 0) {
+                // TERNYATA SALDO USER SUDAH MAKSIMAL
                 if (akun[indeksLogin].saldo + nominal > 5000000) {
                     tampilPeringatan(32, "Batas maksimum saldo Rp5.000.000!");
                     break;}
+                // SALDO USER DITAMBAH
                 akun[indeksLogin].saldo += (int)nominal;
 
+                // CATAT TRANSAKSI
                 Transaksi t;
                 t.id_transaksi = generateID("TRX", transaksi.size() + 1, 6);
                 t.id_user = akun[indeksLogin].id_user;
@@ -3223,15 +3360,18 @@ void editSaldo(vector<Akun> &akun, int indeksLogin, vector<Transaksi> &transaksi
                 transaksi.push_back(t);
                 saveTransaksi(transaksi);
                 saveAkun(akun);
+
                 cout << endl;
-                cout << spasi(50) << "Saldo sekarang : Rp" << akun[indeksLogin].saldo << endl;
+                cout << HIJAU << BOLD << spasi(56) << "┌──────────────────────────┐" << RESET << endl;
+                cout << spasi(58) << HIJAU << BOLD << BG_HIJAU << "  Saldo baru : " << akun[indeksLogin].saldo << " " << RESET << endl;
+                cout << HIJAU << BOLD << spasi(56) << "└──────────────────────────┘" << RESET << endl;
                 tampilPesan("Top Up Berhasil!");
                 break;}
 
+            // BATALKAN
             else {
-                tampilPeringatan(20, "Top Up dibatalkan!");
-                break;}}}
-    return;}
+                tampilPeringatan(18, "Top Up dibatalkan!");
+                break;}}}}
 
 
 /*  MENU-MENU UTAMA USER                                                                           */
@@ -3264,7 +3404,7 @@ void kelolaAkunDiri(vector<Akun> &akun, int indeksLogin) {
             else {
                 break;}}}}
 
-void belanjaUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Order> &order, vector<Akun> &akun, int indeksLogin, vector<Transaksi> &transaksi) {
+void belanjaUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Order> &order, vector<Akun> &akun, int indeksLogin, vector<Transaksi> &transaksi, vector<Library> &lib) {
     // CEK KETERSEDIAAN E-BOOK
     if (ebook.empty()) {
         tampilPeringatan(28, "Katalog E-book belum terisi."); system("pause");
@@ -3294,13 +3434,13 @@ void belanjaUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Orde
             /* a. TAMBAH E-BOOK KE KERANJANG
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
-                tambahProdukkeKeranjang(ebook, keranjang, order, akun[indeksLogin].id_user);
+                tambahProdukkeKeranjang(ebook, keranjang, order, lib, akun[indeksLogin].id_user);
                 system("pause");}
 
             /* b. PESAN LANGSUNG E-BOOK DARI KATALOG
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
-                checkoutDariKatalog(ebook, order, akun, indeksLogin, transaksi, keranjang);
+                checkoutDariKatalog(ebook, order, akun, indeksLogin, transaksi, keranjang, lib);
                 system("pause");}
 
             /* c. URUT E-BOOK
@@ -3320,21 +3460,7 @@ void belanjaUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Orde
             else {
                 break;}}}}
 
-void keranjangUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Akun> &akun, vector<Order> &order, int indeksLogin, vector<Transaksi> &transaksi) {
-    // CEK KETERSEDIAAN E-BOOK
-    if (keranjang.empty()) {
-        tampilPeringatan(30, "Keranjang belanja masih kosong."); system("pause");
-        return;}
-        bool ada = false;
-    for (const auto &k : keranjang) {
-        if (k.id_user == akun[indeksLogin].id_user) {
-            ada = true;
-            break;}}
-    if (!ada) {
-        tampilPeringatan(22, "Keranjang anda kosong!"); system("pause");
-        return;}
-
-    // MENU BELANJA    
+void keranjangUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Akun> &akun, vector<Order> &order, int indeksLogin, vector<Transaksi> &transaksi) {   
     string pilihMenuUser[] = {
         "『  ➕ Pesan Keranjang            』",
         "『  🗑️  Hapus E-Book Di Keranjang  』",
@@ -3345,6 +3471,20 @@ void keranjangUser(vector<Ebook> &ebook, vector<Keranjang> &keranjang, vector<Ak
         if (refresh) {
             system("cls"); refresh = false;}
         clsScroll(0,0); judul_subjudul("MENU KERANJANG BELANJA"); cout << endl;
+
+        // CEK KETERSEDIAAN KERANJANG
+        if (keranjang.empty()) {
+            tampilPeringatan(22, "Keranjang belum terisi!"); system("pause");
+            return;}
+        bool ada = false;
+        for (const auto &k : keranjang) {
+            if (k.id_user == akun[indeksLogin].id_user) {
+                ada = true;
+                break;}}
+        if (!ada) {
+            tampilPeringatan(22, "Keranjang anda kosong!"); system("pause");
+            return;}
+
         for (int i = 0; i < 3; i++) {
             if (i == pilih) cout << spasi(34) << BG_PUTIH << HITAM << BOLD << pilihMenuUser[i] << RESET << endl;
             else cout << DIM << spasi(34) << pilihMenuUser[i] << RESET << endl;}
@@ -3410,34 +3550,29 @@ void pesananUser(vector<Ebook> &ebook, vector<Order> &order, vector<Akun> &akun,
             /* a. DAFTAR PESANAN BELUM DIBAYAR
             ════════════════════════════════════════════════════*/
             if (pilih == 0) {
-                system("cls"); judul_subjudul("DAFTAR PESANAN BELUM DIBAYAR"); cout << endl;
                 pesananBelumDibayar(order, akun, indeksLogin, transaksi);}
 
             /* b. DAFTAR PESANAN DIPROSES
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
-                system("cls"); judul_subjudul("DAFTAR PESANAN DIPROSES"); cout << endl;
-                pesananDiproses(akun, order, indeksLogin, transaksi); system("pause");}
+                pesananDiproses(akun, order, indeksLogin, transaksi);}
 
             /* c. DAFTAR PESANAN DIKIRIM
             ════════════════════════════════════════════════════*/
             else if (pilih == 2) {
-                system("cls"); judul_subjudul("DAFTAR PESANAN DIKIRIM"); cout << endl;
-                pesananDikirim(order, akun, lib, ebook, indeksLogin, akun[indeksLogin].username); system("pause");}
+                pesananDikirim(order, akun, lib, ebook, indeksLogin, akun[indeksLogin].username);}
 
             /* d. DAFTAR PESANAN SELESAI
             ════════════════════════════════════════════════════*/
             else if (pilih == 3) {
                 system("cls"); judul_subjudul("DAFTAR PESANAN SELESAI"); cout << endl;
-                lihatPesananUser("Selesai", order, akun[indeksLogin].id_user);
-                system("pause");}
+                pesananSelesai(akun, order, indeksLogin);}
 
             /* e. DAFTAR PESANAN DIBATALKAN
             ════════════════════════════════════════════════════*/
             else if (pilih == 4) {
                 system("cls"); judul_subjudul("DAFTAR PESANAN DIBATALKAN"); cout << endl;
-                lihatPesananUser("Dibatalkan", order, akun[indeksLogin].id_user);
-                system("pause");}
+                pesananDibatalkan(akun, order, indeksLogin);}
 
             /* f. KEMBALI
             ════════════════════════════════════════════════════*/
@@ -3445,36 +3580,40 @@ void pesananUser(vector<Ebook> &ebook, vector<Order> &order, vector<Akun> &akun,
                 break;}}}}
 
 void lihatLibraryUser(vector<Library> &lib, string id_user) {
+    // CEK KETERSEDIAAN PERPUSTAKAAN
     if (lib.empty()) {
         tampilPeringatan(36, "Belum ada perpustakaan yang dibuat!");
         return;}
     bool ada = false;
-    for (size_t i = 0; i < lib.size(); i++) {
-        if (lib[i].id_user == id_user) {
+    for (const auto &l : lib) {
+        if (l.id_user == id_user) {
             ada = true;
             break;}}
     if (!ada) {
         tampilPeringatan(26, "Kamu belum memiliki E-Book!");
         return;}
 
+    // DAFTAR PERPUSTAKAAN
     cout << CYAN << BOLD;
-    cout << spasi(28) << "┌──────────────────────────────────────────────────────────────────────────────────┐" << endl;
-    cout << spasi(28) << "│                           PERPUSTAKAAN E-BOOK MILIKMU                            │" << endl;
-    cout << spasi(28) << "├──────┬──────────────────────┬────────────────────────────────────────────────────┤" << endl;
-    cout << spasi(28) << "│ NO   │ KODE                 │ JUDUL                                              │" << endl;
-    cout << spasi(28) << "├──────┼──────────────────────┼────────────────────────────────────────────────────┤" << endl;
+    cout << spasi(10) << "┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐" << endl;
+    cout << spasi(10) << "│                                             PERPUSTAKAAN E-BOOK MILIKMU                                             │" << endl;
+    cout << spasi(10) << "├──────┬──────────────────────┬──────────────────────────────────────────┬──────────────────────┬─────────────────────┤" << endl;
+    cout << spasi(10) << "│ NO   │ KODE                 │ JUDUL                                    │ PENULIS              │ GENRE               │" << endl;
+    cout << spasi(10) << "├──────┼──────────────────────┼──────────────────────────────────────────┼──────────────────────┼─────────────────────┤" << endl;
     cout << RESET;
     int no = 1;
-    for (size_t i = 0; i < lib.size(); i++) {
-        if (lib[i].id_user == id_user) {
-            cout << spasi(28);
-            if (no % 2 == 0) cout << "\033[48;5;235m";
+    for (const auto &l : lib) {
+        if (l.id_user == id_user) {
+            cout << spasi(10);
+            if (no % 2 == 0) cout << BG_ABU;
             cout << "│ " << left << setw(5)  << no++
-                << "│ " << setw(21) << lib[i].buku.kode
-                << "│ " << setw(51) << lib[i].buku.judul
+                << "│ " << setw(21) << l.buku.kode
+                << "│ " << setw(41) << l.buku.judul
+                << "│ " << setw(21) << l.buku.penulis
+                << "│ " << setw(20) << l.buku.genre
                 << "│" << RESET << endl;}}
     cout << CYAN;
-    cout << spasi(28) << "└──────┴──────────────────────┴────────────────────────────────────────────────────┘" << endl;
+    cout << spasi(10) << "└──────┴──────────────────────┴──────────────────────────────────────────┴──────────────────────┴─────────────────────┘" << endl;
     cout << RESET << endl;}
 
 void saldoDanTransaksi(vector<Akun> &akun, int indeksLogin, vector<Transaksi> &transaksi) {
@@ -3558,12 +3697,11 @@ void menuUser(vector<Akun> &akun, int indeksLogin, vector<Ebook> &ebook, vector<
             ════════════════════════════════════════════════════*/
             else if (pilih == 1) {
                 system("cls"); judul_subjudul("MENU BELANJA SEKARANG"); cout << endl;
-                belanjaUser(ebook, keranjang, order, akun, indeksLogin, transaksi);}
+                belanjaUser(ebook, keranjang, order, akun, indeksLogin, transaksi, library);}
 
             /* 3. MENU USER KERANJANG BELANJA
             ════════════════════════════════════════════════════*/
             else if (pilih == 2) {
-                system("cls"); judul_subjudul("MENU KERANJANG BELANJA"); cout << endl;
                 keranjangUser(ebook, keranjang, akun, order, indeksLogin, transaksi);}
 
             /* 4. MENU USER DAFTAR PESANAN
