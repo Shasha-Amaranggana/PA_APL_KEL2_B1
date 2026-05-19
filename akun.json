@@ -4,23 +4,23 @@
         "email": "admin@email.com",
         "id_user": "A000",
         "no_hp": "081111111111",
-        "password": "1",
+        "password": "Admin123",
         "role": "Admin",
-        "saldo": 1696000,
+        "saldo": 1752000,
         "status_akun": "Aktif",
         "tanggal_daftar": "2026-05-07 00:00:00",
-        "username": "1 Shasha"
+        "username": "Admin"
     },
     {
         "alamat": "Sambutan",
         "email": "user1@email.com",
         "id_user": "U001",
         "no_hp": "083992873737",
-        "password": "2",
+        "password": "User123",
         "role": "User",
-        "saldo": 317000,
+        "saldo": 261000,
         "status_akun": "Aktif",
         "tanggal_daftar": "2026-05-07 00:00:00",
-        "username": "2"
+        "username": "User"
     }
 ]
